@@ -14,3 +14,7 @@ This work is based on several reads :
   * ThickLines geometry shader
 * Grid-based environment
 * A* pathfinder
+
+##Work of the moment
+
+* Pathfinder acceleration
