@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D796FB1E-D304-485A-AA20-0CADEEC93E5B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>AEAcrossEngine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\Out\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;AEACROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\External\glew.1.9.0.w32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>false</ExceptionHandling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>..\..\External\glew.1.9.0.w32\\lib\glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;AEACROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="..\..\Code\Shaders\blur.fs" />
+    <None Include="..\..\Code\Shaders\blur.vs" />
+    <None Include="..\..\Code\Shaders\color.fs" />
+    <None Include="..\..\Code\Shaders\color.vs" />
+    <None Include="..\..\Code\Shaders\FXAA.fs" />
+    <None Include="..\..\Code\Shaders\thickLines.fs" />
+    <None Include="..\..\Code\Shaders\thickLines.gs" />
+    <None Include="..\..\Code\Shaders\thickLines.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Code\GlobalDebug.h" />
+    <ClInclude Include="..\..\Code\GUI\GUI.h" />
+    <ClInclude Include="..\..\Code\GUI\ImGUI\imgui.h" />
+    <ClInclude Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.h" />
+    <ClInclude Include="..\..\Code\GUI\ImGUI\stb_truetype.h" />
+    <ClInclude Include="..\..\Code\XboxController.h" />
+    <ClInclude Include="..\..\Code\GridBBox.h" />
+    <ClInclude Include="..\..\Code\Actor.h" />
+    <ClInclude Include="..\..\Code\Camera.h" />
+    <ClInclude Include="..\..\Code\Controller.h" />
+    <ClInclude Include="..\..\Code\Engine.h" />
+    <ClInclude Include="..\..\Code\Pathfinder.h" />
+    <ClInclude Include="..\..\Code\Renderer.h" />
+    <ClInclude Include="..\..\Code\RObject.h" />
+    <ClInclude Include="..\..\Code\RObject_Static_Memory.h" />
+    <ClInclude Include="..\..\Code\Scene.h" />
+    <ClInclude Include="..\..\Code\Shader.h" />
+    <ClInclude Include="..\..\Code\Shaders.h" />
+    <ClInclude Include="..\..\Code\Tools\Timer.h" />
+    <ClInclude Include="..\..\Code\Window.h" />
+    <ClInclude Include="..\..\Code\World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
+    <ClCompile Include="..\..\Code\GridBBox.cpp" />
+    <ClCompile Include="..\..\Code\Actor.cpp" />
+    <ClCompile Include="..\..\Code\Camera.cpp" />
+    <ClCompile Include="..\..\Code\Controller.cpp" />
+    <ClCompile Include="..\..\Code\GUI\GUI.cpp" />
+    <ClCompile Include="..\..\Code\GUI\ImGUI\imgui.cpp" />
+    <ClCompile Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.cpp" />
+    <ClCompile Include="..\..\Code\Pathfinder.cpp" />
+    <ClCompile Include="..\..\Code\Renderer.cpp" />
+    <ClCompile Include="..\..\Code\RObject.cpp" />
+    <ClCompile Include="..\..\Code\Scene.cpp" />
+    <ClCompile Include="..\..\Code\Shader.cpp" />
+    <ClCompile Include="..\..\Code\Shaders.cpp" />
+    <ClCompile Include="..\..\Code\Window.cpp" />
+    <ClCompile Include="..\..\Code\World.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

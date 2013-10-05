@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{5a7ab3e9-c05e-4f57-ba66-4dd3d173b39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{ecd386a0-42ce-470c-a5ee-3a38e15c4c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{2b03e04b-32b8-4589-b74c-31d4eacad57e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\ImGUi">
+      <UniqueIdentifier>{24c5b688-8180-463f-9acc-2a6a463c5962}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Code\Shaders\blur.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Shaders\blur.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Shaders\FXAA.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Shaders\color.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Shaders\color.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Shaders\thickLines.gs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Shaders\thickLines.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Shaders\thickLines.fs">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Code\Tools\Timer.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Camera.h" />
+    <ClInclude Include="..\..\Code\Controller.h" />
+    <ClInclude Include="..\..\Code\Renderer.h" />
+    <ClInclude Include="..\..\Code\RObject.h" />
+    <ClInclude Include="..\..\Code\RObject_Static_Memory.h" />
+    <ClInclude Include="..\..\Code\Scene.h" />
+    <ClInclude Include="..\..\Code\Shader.h" />
+    <ClInclude Include="..\..\Code\Shaders.h" />
+    <ClInclude Include="..\..\Code\Window.h" />
+    <ClInclude Include="..\..\Code\World.h" />
+    <ClInclude Include="..\..\Code\Engine.h" />
+    <ClInclude Include="..\..\Code\Pathfinder.h" />
+    <ClInclude Include="..\..\Code\Actor.h" />
+    <ClInclude Include="..\..\Code\GridBBox.h" />
+    <ClInclude Include="..\..\Code\XboxController.h" />
+    <ClInclude Include="..\..\Code\GlobalDebug.h" />
+    <ClInclude Include="..\..\Code\GUI\ImGUI\imgui.h">
+      <Filter>GUI\ImGUi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.h">
+      <Filter>GUI\ImGUi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\GUI\ImGUI\stb_truetype.h">
+      <Filter>GUI\ImGUi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\GUI\GUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Code\Camera.cpp" />
+    <ClCompile Include="..\..\Code\Controller.cpp" />
+    <ClCompile Include="..\..\Code\Renderer.cpp" />
+    <ClCompile Include="..\..\Code\RObject.cpp" />
+    <ClCompile Include="..\..\Code\Scene.cpp" />
+    <ClCompile Include="..\..\Code\Shader.cpp" />
+    <ClCompile Include="..\..\Code\Shaders.cpp" />
+    <ClCompile Include="..\..\Code\Window.cpp" />
+    <ClCompile Include="..\..\Code\World.cpp" />
+    <ClCompile Include="..\..\Code\Pathfinder.cpp" />
+    <ClCompile Include="..\..\Code\Actor.cpp" />
+    <ClCompile Include="..\..\Code\GridBBox.cpp" />
+    <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
+    <ClCompile Include="..\..\Code\GUI\ImGUI\imgui.cpp">
+      <Filter>GUI\ImGUi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.cpp">
+      <Filter>GUI\ImGUi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\GUI\GUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
