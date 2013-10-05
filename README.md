@@ -12,6 +12,7 @@ This work is based on several reads :
 ##Project implemented list
 * Basic rendering OpenGL dependant structure
   * ThickLines geometry shader
+  * FXAA
 * Grid-based environment
 * A* pathfinder
 
