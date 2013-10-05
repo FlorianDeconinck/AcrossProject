@@ -57,7 +57,7 @@ namespace AE{
 			case WM_SIZE:
 				RECT Rect;
 				GetClientRect(hWnd, &Rect);
-				glViewport(0, 0, (GLsizei)Rect.right, Rect.bottom);
+				glViewport(0, 0, RENDERER::WIDTH, RENDERER::HEIGHT);
 				break;
 			case WM_KEYDOWN:
 				pController->OnKeyboardCallback(pController->ConvertKeyCodeFromWin32ToAcrossKey(wParam), true);
@@ -129,7 +129,7 @@ namespace AE{
 			return FALSE;
 		}
 
-		hWnd = CreateWindowEx(NULL, MAKEINTATOM(ClassAtom), (LPCSTR)szWdwTitle, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, (LPVOID)this);
+		hWnd = CreateWindowEx(NULL, MAKEINTATOM(ClassAtom), (LPCSTR)szWdwTitle, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, 0, 0, RENDERER::WIDTH, RENDERER::HEIGHT, NULL, NULL, hInstance, (LPVOID)this);
 		if(!hWnd){
 			DWORD err = GetLastError();
 			Break();

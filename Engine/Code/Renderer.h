@@ -52,8 +52,8 @@ namespace AE{
 		GLuint				m_texScreenShaderColorBuffer;
 		SHADER_ABC*			m_ShadersAttached[MAX_SHADERS_ATTACHED];
 		AT::I32				m_ShaderAttachedCount;
-		static const		AT::I32 WIDTH = 800;
-		static const		AT::I32 HEIGHT = 600;
+		static const		AT::I32 WIDTH = 1280;
+		static const		AT::I32 HEIGHT = 720;
 		SCENE				m_Scene;
 		ZELDA_CAMERA		m_MainCamera;
 		AT::I32				m_iPostProcess; //0 : nothin - 1 : blur - 2 :fxaa

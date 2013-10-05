@@ -153,8 +153,9 @@ namespace AE{
 		glGetIntegerv(GL_MAJOR_VERSION, &OpenGLVersion[0]);
 		glGetIntegerv(GL_MINOR_VERSION, &OpenGLVersion[1]);
  
-		if(!m_hGLRC) return false;
-		glViewport(0,0,(GLsizei)WIDTH,(GLsizei)HEIGHT);
+		if(!m_hGLRC)
+			return false;
+		glViewport(0, 0, WIDTH, HEIGHT);
 		//---
 		return true;
 	}

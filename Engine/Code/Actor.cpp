@@ -21,7 +21,7 @@ namespace AE{
 	const AT::VEC2Di ACTOR_ABC::m_Dir_West(-1, 0);
 	const AT::VEC2Di ACTOR_ABC::m_Dir_North_West(-1, 1);
 	//-----------------------------------------------------------------------------
-	ACTOR_ABC::ACTOR_ABC():m_Position(13,32),m_MeshsCount(0),m_Speed(1.0),m_Direction(NO_DIRECTION),m_InnerTilePosition(0,0),m_PreviousInnerTilePosition(0,0){
+	ACTOR_ABC::ACTOR_ABC():m_Position(13,32),m_MeshsCount(0),m_Speed(1.0),m_Direction(NO_DIRECTION),m_InnerTilePosition(0,0),m_PreviousInnerTilePosition(0,0),m_AnimationAngle(0.f){
 	}
 	//-----------------------------------------------------------------------------
 	void ACTOR_ABC::LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA/*=NULL*/){
@@ -59,8 +59,14 @@ namespace AE{
 			R_OBJECT* pObject = m_Meshs[iRO];
 			//Update RObject model from Actor position
 			AT::VEC3Df T = pObject->m_trfModel.GetT();
-			T.x = m_Position.x * TileSize + m_InnerTilePosition.x;
+			T.x = m_Position.x * TileSize + m_InnerTilePosition.x; 
 			T.z = m_Position.y * TileSize + m_InnerTilePosition.y;
+			//--
+			T.y = 1.f + cos(m_AnimationAngle)/6.f;
+			m_AnimationAngle += 0.005f;
+			if(m_AnimationAngle > 6.28f)
+				m_AnimationAngle = 0.f;
+			//--
 			pObject->m_trfModel = T;
 			//--
 			pObject->Draw(R);
@@ -110,6 +116,7 @@ namespace AE{
 		DirRealWorld.Normalize();
 		m_PreviousInnerTilePosition = m_InnerTilePosition;
 		m_InnerTilePosition		+=  DirRealWorld*(AT::I32F)(m_Speed*(elapsedTime_ms/1000.0));
+		//--
 		//--
 		AT::VEC2Di PreviousPosition(-1, -1);
 		if(m_InnerTilePosition.x >= tileSize || m_InnerTilePosition.x < 0){

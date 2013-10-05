@@ -59,6 +59,7 @@ namespace AE{
 		AT::VEC2Df			 m_InnerTilePosition; // Vector between 0 - 1
 		AT::VEC2Df			 m_PreviousInnerTilePosition; // Vector between 0 - 1
 		AT::VEC2Di			 m_Position;
+		AT::I32F			 m_AnimationAngle;
 	};
 	//---------------------------------------------------------------------------
 	class NPC:public ACTOR_ABC{

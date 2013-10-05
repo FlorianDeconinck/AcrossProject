@@ -121,15 +121,15 @@ namespace AE{
 		GridVertices = new AT::I32F[VerticesCount*Renderer.m_Scene.GetVertexSize()];
 		Idx = 0;
 		for(AT::I32 iW = 0  ; iW <= m_nMapWidth ; iW++){
-			SCENE::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, 0.f, 0.f, 0.f, 0.f, 1.f);
+			SCENE::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, 0.f, 0.f, 0.f, 0.f, 0.8f);
 			Idx++;
-			SCENE::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, m_nMapHeight*m_TileSize, 0.f, 0.f, 0.f, 1.f);
+			SCENE::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, m_nMapHeight*m_TileSize, 0.2f, 0.2f, 0.2f, 0.8f);
 			Idx++;
 		}
 		for(AT::I32 iH = 0  ; iH <= m_nMapHeight ; iH++){
 			SCENE::SetVertexData(GridVertices, Idx, 0.f, 0.f, iH*m_TileSize, 0.f, 0.f, 0.f, 1.f);
 			Idx++;
-			SCENE::SetVertexData(GridVertices, Idx, m_nMapWidth*m_TileSize, 0.f, iH*m_TileSize, 0.f, 0.f, 0.f, 1.f);
+			SCENE::SetVertexData(GridVertices, Idx, m_nMapWidth*m_TileSize, 0.f, iH*m_TileSize, 0.2f, 0.2f, 0.2f, 0.8f);
 			Idx++;
 		}
 		if(m_pRGridLines)

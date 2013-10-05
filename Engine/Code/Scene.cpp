@@ -110,16 +110,17 @@ namespace AE{
 		VerticesCount = 8;
 		VerticesData = new AT::I32F[VerticesCount*StaticObjectPool.VertexMemSize];
 		AT::I32F HalfSize = Size/2.f;
+		AT::I32F Color[] = { 0.8f, 0.8f, 0.8f, 0.8f };
 		//Bottom face
-		SetVertexData(VerticesData, 0,	-HalfSize, -HalfSize, -HalfSize, 1.0f, 1.0f, 1.0f, 0.8f); //bottom left
-		SetVertexData(VerticesData, 1,	 HalfSize, -HalfSize, -HalfSize, 1.0f, 1.0f, 1.0f, 0.8f); //bottom right
-		SetVertexData(VerticesData, 2,	 HalfSize, -HalfSize,  HalfSize, 1.0f, 1.0f, 1.0f, 0.8f); //top right
-		SetVertexData(VerticesData, 3,	-HalfSize, -HalfSize,  HalfSize, 1.0f, 1.0f, 1.0f, 0.8f); //top left
+		SetVertexData(VerticesData, 0,	-HalfSize, -HalfSize, -HalfSize, Color[0], Color[1], Color[2], Color[3]); //bottom left
+		SetVertexData(VerticesData, 1,	 HalfSize, -HalfSize, -HalfSize, Color[0], Color[1], Color[2], Color[3]); //bottom right
+		SetVertexData(VerticesData, 2,	 HalfSize, -HalfSize,  HalfSize, Color[0], Color[1], Color[2], Color[3]); //top right
+		SetVertexData(VerticesData, 3,	-HalfSize, -HalfSize,  HalfSize, Color[0], Color[1], Color[2], Color[3]); //top left
 		//Top face											 
-		SetVertexData(VerticesData, 4,	-HalfSize,  HalfSize, -HalfSize, 1.0f, 1.0f, 1.0f, 0.8f); //bottom left
-		SetVertexData(VerticesData, 5,	 HalfSize,  HalfSize, -HalfSize, 1.0f, 1.0f, 1.0f, 0.8f); //bottom right
-		SetVertexData(VerticesData, 6,	 HalfSize,  HalfSize,  HalfSize, 1.0f, 1.0f, 1.0f, 0.8f); //top right
-		SetVertexData(VerticesData, 7,	-HalfSize,  HalfSize,  HalfSize, 1.0f, 1.0f, 1.0f, 0.8f); //top left
+		SetVertexData(VerticesData, 4,	-HalfSize,  HalfSize, -HalfSize, Color[0], Color[1], Color[2], Color[3]); //bottom left
+		SetVertexData(VerticesData, 5,	 HalfSize,  HalfSize, -HalfSize, Color[0], Color[1], Color[2], Color[3]); //bottom right
+		SetVertexData(VerticesData, 6,	 HalfSize,  HalfSize,  HalfSize, Color[0], Color[1], Color[2], Color[3]); //top right
+		SetVertexData(VerticesData, 7,	-HalfSize,  HalfSize,  HalfSize, Color[0], Color[1], Color[2], Color[3]); //top left
 		//---
 		ElementsCount = 32;
 		ElementsData = new GLuint[ElementsCount];

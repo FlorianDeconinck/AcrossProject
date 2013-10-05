@@ -48,6 +48,7 @@ namespace AE{
 		imguiBeginScrollArea("--- Debug Log ---", 10, 10, 200, 100, &m_DebugLogScrollArea);
 		imguiSeparatorLine();
 		//--
+		//imguiRenderGLDraw(RENDERER::WIDTH, RENDERER::HEIGHT);
 		imguiRenderGLDraw(RENDERER::WIDTH, RENDERER::HEIGHT);
 	}
 	//-----------------------------------------------------------------------------
