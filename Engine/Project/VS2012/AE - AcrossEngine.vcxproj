@@ -106,6 +106,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Code\AI\Pathfinder.cpp" />
     <ClCompile Include="..\..\Code\Controller\Controller.cpp" />
+    <ClCompile Include="..\..\Code\Engine.cpp" />
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
     <ClCompile Include="..\..\Code\GridBBox.cpp" />
     <ClCompile Include="..\..\Code\Actor.cpp" />

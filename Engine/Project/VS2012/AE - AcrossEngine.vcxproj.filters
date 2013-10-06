@@ -107,6 +107,7 @@
     <ClCompile Include="..\..\Code\Rendering\Shaders.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Code\Engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Code\Rendering\Shaders\blur.fs">

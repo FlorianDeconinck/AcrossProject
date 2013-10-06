@@ -3,6 +3,8 @@
 //-----------------------------------------------------------------------------
 //Tool
 #include <CommonTypes.h>
+//STD
+#include <vector>
 //-----------------------------------------------------------------------------
 namespace AE{
 	class CONTROLLER;
@@ -17,8 +19,23 @@ namespace AE{
 		//--
 		AT::I8 m_bDraw;
 		//--
+		struct GUI_PERF_LOG{
+			enum GUI_PERF_LOG_INDEX{
+				GUI_PERF_LOG_INDEX_PATHFIND_MEAN=0,
+				GUI_PERF_LOG_INDEX_PATHFIND_MAX,
+				//--
+				GUI_PERF_LOG_INDEX_COUNT,
+			};
+			AT::I8				m_sText[128];
+			AT::U32				m_ImGuiColor;
+			//--
+								GUI_PERF_LOG(){ SetColor(255, 255, 255, 128); }
+			void				SetColor(AT::U8 R, AT::U8 G, AT::U8 B, AT::U8 A){ m_ImGuiColor = R | (G << 8) | (B << 16) | (A << 24); }
+		}; 
+		//--
+		static GUI_PERF_LOG		m_PerfLogContent[GUI_PERF_LOG::GUI_PERF_LOG_INDEX_COUNT];
 	private:
-		AT::I32 m_DebugLogScrollArea;
+		AT::I32					m_PerfLogScrollArea;
 	};
 }//namespace AE
 //-----------------------------------------------------------------------------

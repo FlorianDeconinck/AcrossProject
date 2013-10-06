@@ -9,6 +9,7 @@
 #include <CodeTools.h>
 //-----------------------------------------------------------------------------
 namespace AE{
+	GUI::GUI_PERF_LOG	GUI::m_PerfLogContent[GUI::GUI_PERF_LOG::GUI_PERF_LOG_INDEX_COUNT];
 	//-----------------------------------------------------------------------------
 	GUI::GUI():m_bDraw(true){
 
@@ -45,10 +46,11 @@ namespace AE{
 		//--
 		imguiBeginFrame(C.m_MouseX, C.m_MouseY, MouseButton, C.m_Scroll);
 		//--
-		imguiBeginScrollArea("--- Debug Log ---", 10, 10, 200, 100, &m_DebugLogScrollArea);
-		imguiSeparatorLine();
+		AT::I32 PerfLogHeight = 100;
+		imguiBeginScrollArea("--- Perf Log ---", 10, 10, 250, PerfLogHeight, &m_PerfLogScrollArea);
+		for(AT::I32 iDebugLog = 0 ; iDebugLog < GUI_PERF_LOG::GUI_PERF_LOG_INDEX_COUNT ; ++iDebugLog)
+			imguiDrawText(20, PerfLogHeight-30-iDebugLog*15, IMGUI_ALIGN_LEFT, m_PerfLogContent[iDebugLog].m_sText, m_PerfLogContent[iDebugLog].m_ImGuiColor);
 		//--
-		//imguiRenderGLDraw(RENDERER::WIDTH, RENDERER::HEIGHT);
 		imguiRenderGLDraw(RENDERER::WIDTH, RENDERER::HEIGHT);
 	}
 	//-----------------------------------------------------------------------------

@@ -3,6 +3,9 @@
 #include "Pathfinder.h"
 #include "../World.h"
 #include "../GlobalDebug.h"
+#ifdef _DEBUG
+	#include "../Engine.h"
+#endif
 //STD
 #include <cstdlib>
 #include <assert.h>
@@ -86,6 +89,10 @@ namespace AE{
 	//	 * nOutBufferSize contains the number of int (and not the number of "position" x/y)
 	AT::I32 PATHFINDER::FindPath_8Way(const GRID& Grid, const ACTOR_ABC& Actor ,const AT::VEC2Di& Start, const AT::VEC2Di& Target,  AT::VEC2Di* pOutBuffer, const int nOutBufferSize){
 		//-----
+#ifdef _DEBUG
+		AT::I64F startTime = ENGINE::m_Timer.GetTime();
+#endif
+		//-----
 		//Check that destination is attainable
 		if(!Actor.IsCollisionFree(Grid, Start, Target))
 			return -1;
@@ -102,7 +109,6 @@ namespace AE{
 		while(OpenNodes.size()){
 			//----
 			//Choose best node to build upon
-//			std::sort(ToSearchNodesVector.begin(), ToSearchNodesVector.end(), compTracks_f);
 			const NODE* pBestTrack = OpenNodes.front();
 			pop_heap(OpenNodes.begin(), OpenNodes.end(), compTracks_f);
 			OpenNodes.pop_back();
@@ -185,6 +191,19 @@ namespace AE{
 		int TrackPoolCount = ClosedNodes.size();
 		for(int iTrack = 0 ; iTrack < TrackPoolCount ; ++iTrack)
 			delete ClosedNodes[iTrack];
+#ifdef _DEBUG
+		AT::I64F pathfinderProcesTime = ENGINE::m_Timer.GetTime() - startTime;
+		if(pathfinderProcesTime > g_PathfinderDebug_MaxProcessTime)
+			g_PathfinderDebug_MaxProcessTime = pathfinderProcesTime;
+		if(g_PathfinderDebug_MeanProcessTime < 0)
+			g_PathfinderDebug_MeanProcessTime = pathfinderProcesTime;
+		else
+			g_PathfinderDebug_MeanProcessTime = (g_PathfinderDebug_MaxProcessTime + pathfinderProcesTime) / 2.0;
+		GUI::GUI_PERF_LOG& PathfinderLogMean = GUI::m_PerfLogContent[GUI::GUI_PERF_LOG::GUI_PERF_LOG_INDEX_PATHFIND_MEAN];
+		sprintf(PathfinderLogMean.m_sText, "Pathfinder mean : %.2lf ms", g_PathfinderDebug_MeanProcessTime);
+		GUI::GUI_PERF_LOG& PathfinderLogMax = GUI::m_PerfLogContent[GUI::GUI_PERF_LOG::GUI_PERF_LOG_INDEX_PATHFIND_MAX];
+		sprintf(PathfinderLogMax.m_sText, "Pathfinder max : %.2lf ms", g_PathfinderDebug_MaxProcessTime);
+#endif
 		return Result;
 	}
 	//-----------------------------------------------------------------------------
