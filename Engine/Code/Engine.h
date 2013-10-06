@@ -2,14 +2,14 @@
 #pragma once
 //---------------------------------------------------------------------------
 //Project
-#include "Renderer.h"
-#include "Controller.h"
+#include "./Rendering/Renderer.h"
+#include "./Controller/Controller.h"
 #include "World.h"
-#include "GUI/GUI.h"
+#include "./GUI/GUI.h"
 #include "Window.h"
 #include "GlobalDebug.h"
 //TOOLS
-#include "Tools/Timer.h"
+#include "./Tools/Timer.h"
 //WIN32
 #include <Windows.h>
 //STD

@@ -1,11 +1,11 @@
 //---------------
 //Project
 #include "World.h"
-#include "Renderer.h"
-#include "Controller.h"
-#include "RObject.h"
+#include "./Rendering/Renderer.h"
+#include "./Controller/Controller.h"
+#include "./Rendering/RObject.h"
 #include "Actor.h"
-#include "Shaders.h"
+#include "./Rendering/Shaders.h"
 //AT
 #include <CodeTools.h>
 #include "Vec3D.h"

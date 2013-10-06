@@ -2,9 +2,9 @@
 //Tools
 #include <CodeTools.h>
 //Project
-#include "Renderer.h"
+#include "./Rendering/Renderer.h"
 #include "Window.h"
-#include "Controller.h"
+#include "./Controller/Controller.h"
 #include "GlobalDebug.h"
 //STD
 #include <string.h>

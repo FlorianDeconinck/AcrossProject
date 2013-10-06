@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "GUI.h"
-#include "../Renderer.h"
-#include "../Controller.h"
-#include "ImGUI/imgui.h"
-#include "ImGUI/imguiRenderGL3.h"
+#include "../Rendering/Renderer.h"
+#include "../Controller/Controller.h"
+#include "./ImGUI/imgui.h"
+#include "./ImGUI/imguiRenderGL3.h"
 //Tool
 #include <CodeTools.h>
 //-----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #ifndef __GLOBAL_DEBUG_H__
 #define __GLOBAL_DEBUG_H__
 #ifdef _DEBUG
-#include "Renderer.h"
+#include "./Rendering/Renderer.h"
 #include "World.h"
 namespace AE{
 	extern RENDERER*	g_pRenderer;

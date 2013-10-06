@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{5a7ab3e9-c05e-4f57-ba66-4dd3d173b39d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Tools">
       <UniqueIdentifier>{ecd386a0-42ce-470c-a5ee-3a38e15c4c18}</UniqueIdentifier>
     </Filter>
@@ -13,52 +10,30 @@
     <Filter Include="GUI\ImGUi">
       <UniqueIdentifier>{24c5b688-8180-463f-9acc-2a6a463c5962}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Code\Shaders\blur.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Code\Shaders\blur.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Code\Shaders\FXAA.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Code\Shaders\color.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Code\Shaders\color.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Code\Shaders\thickLines.gs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Code\Shaders\thickLines.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Code\Shaders\thickLines.fs">
-      <Filter>Shaders</Filter>
-    </None>
+    <Filter Include="AI">
+      <UniqueIdentifier>{821d74e3-490d-4933-921b-b4866fac02e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{de443f16-c637-40f9-8dbb-cca1143460d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Shaders">
+      <UniqueIdentifier>{5a7ab3e9-c05e-4f57-ba66-4dd3d173b39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{53506eea-e11a-4a43-b498-1a283d77c61d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\Tools\Timer.h">
       <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Code\Camera.h" />
-    <ClInclude Include="..\..\Code\Controller.h" />
-    <ClInclude Include="..\..\Code\Renderer.h" />
-    <ClInclude Include="..\..\Code\RObject.h" />
-    <ClInclude Include="..\..\Code\RObject_Static_Memory.h" />
     <ClInclude Include="..\..\Code\Scene.h" />
-    <ClInclude Include="..\..\Code\Shader.h" />
-    <ClInclude Include="..\..\Code\Shaders.h" />
     <ClInclude Include="..\..\Code\Window.h" />
     <ClInclude Include="..\..\Code\World.h" />
     <ClInclude Include="..\..\Code\Engine.h" />
-    <ClInclude Include="..\..\Code\Pathfinder.h" />
     <ClInclude Include="..\..\Code\Actor.h" />
     <ClInclude Include="..\..\Code\GridBBox.h" />
-    <ClInclude Include="..\..\Code\XboxController.h" />
     <ClInclude Include="..\..\Code\GlobalDebug.h" />
     <ClInclude Include="..\..\Code\GUI\ImGUI\imgui.h">
       <Filter>GUI\ImGUi</Filter>
@@ -72,18 +47,36 @@
     <ClInclude Include="..\..\Code\GUI\GUI.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Code\AI\Pathfinder.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Controller\Controller.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Controller\XboxController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\Renderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\RObject.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\RObject_Static_Memory.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\Shader.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\Shaders.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Camera.cpp" />
-    <ClCompile Include="..\..\Code\Controller.cpp" />
-    <ClCompile Include="..\..\Code\Renderer.cpp" />
-    <ClCompile Include="..\..\Code\RObject.cpp" />
     <ClCompile Include="..\..\Code\Scene.cpp" />
-    <ClCompile Include="..\..\Code\Shader.cpp" />
-    <ClCompile Include="..\..\Code\Shaders.cpp" />
     <ClCompile Include="..\..\Code\Window.cpp" />
     <ClCompile Include="..\..\Code\World.cpp" />
-    <ClCompile Include="..\..\Code\Pathfinder.cpp" />
     <ClCompile Include="..\..\Code\Actor.cpp" />
     <ClCompile Include="..\..\Code\GridBBox.cpp" />
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
@@ -96,5 +89,49 @@
     <ClCompile Include="..\..\Code\GUI\GUI.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Code\AI\Pathfinder.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Controller\Controller.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\Renderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\RObject.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\Shader.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\Shaders.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Code\Rendering\Shaders\blur.fs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\blur.vs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\color.fs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\color.vs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\FXAA.fs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\thickLines.fs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\thickLines.gs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\thickLines.vs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #pragma once
 //---------------------------------------------------------------------------
 //Project
-#include "RObject_Static_Memory.h"
+#include "./Rendering/RObject_Static_Memory.h"
 //GL
 #include <GL/glew.h>
 #include <GL/gl.h>

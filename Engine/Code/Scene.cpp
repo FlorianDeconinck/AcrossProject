@@ -1,7 +1,7 @@
 //Project
 #include "Scene.h"
-#include "Shader.h"
-#include "RObject.h"
+#include "./Rendering/Shader.h"
+#include "./Rendering/RObject.h"
 //Tool
 #include <CodeTools.h>
 //STD
