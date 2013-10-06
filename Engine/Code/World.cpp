@@ -68,7 +68,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	//WORLD
 	//---------------------------------------------------------------------------
-	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize){
+	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Player0(NULL){
 #ifdef _DEBUG
 		m_pRGridQuad	= NULL;
 		m_pRGridLines	= NULL;
@@ -153,7 +153,8 @@ namespace AE{
 		DebugRendererLoad(R);
 #endif
 		//Load Player 0
-		m_Player0.LoadMeshs(*this, R);
+// 		m_Player0 = new PLAYER();
+// 		m_Player0->LoadMeshs(*this, R);
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
@@ -165,10 +166,12 @@ namespace AE{
 			Npc.Update(*this, elapsedTime_ms, m_TileSize);
 		}
 		//Update input
-		m_Player0.m_DirectonInput.x = -C.m_Xbox.m_leftStick.x;
-		m_Player0.m_DirectonInput.y = C.m_Xbox.m_leftStick.y;
-		//Update player
-		m_Player0.Update(*this, elapsedTime_ms, m_TileSize);
+		if(m_Player0){
+			m_Player0->m_DirectonInput.x = -C.m_Xbox.m_leftStick.x;
+			m_Player0->m_DirectonInput.y = C.m_Xbox.m_leftStick.y;
+			//Update player
+			m_Player0->Update(*this, elapsedTime_ms, m_TileSize);
+		}
 	}
 	//--------------------------------------------------------------------------
 	void WORLD::RenderNPC(RENDERER& R, int NPCIdx){
@@ -178,7 +181,9 @@ namespace AE{
 	}
 	//--------------------------------------------------------------------------
 	void WORLD::RenderPlayer(RENDERER& R){
-		m_Player0.Draw(R, m_TileSize);
+		if(!m_Player0)
+			return;
+		m_Player0->Draw(R, m_TileSize);
 		GL_TOOL::CheckGLError();
 	}
 	//--------------------------------------------------------------------------

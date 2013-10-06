@@ -1,9 +1,9 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "Actor.h"
-#include "Renderer.h"
+#include "./Rendering/Renderer.h"
 #include "World.h"
-#include "Pathfinder.h"
+#include "./AI/Pathfinder.h"
 //STD
 #include <cmath>
 #include <random>
@@ -84,6 +84,10 @@ namespace AE{
 	AT::I8 ACTOR_ABC::IsCollisionFree(const GRID& Grid, const AT::VEC2Di Pos) const{
 		return m_BBox.IsCollisionFree(Grid, Pos);
 	}
+	//---------------------------------------------------------------------------
+	AT::I8 ACTOR_ABC::IsInsideBBox(const GRID& Grid, const AT::VEC2Di Pos) const{
+		return m_BBox.IsInside(m_Position, Pos);
+	}
 	//-----------------------------------------------------------------------------
 	// NPC
 	//-----------------------------------------------------------------------------
@@ -146,7 +150,7 @@ namespace AE{
 		//------
 		//Update grid occupation if needed
 		if(PreviousPosition.x>=0)
-			m_BBox.UpdateGridOccupation(Grid, m_Position, PreviousPosition);
+			m_BBox.UpdateGridOccupation(Grid, PreviousPosition, m_Position);
 	}
 	//-----------------------------------------------------------------------------
 	// PLAYER
@@ -191,7 +195,7 @@ namespace AE{
 		//------
 		//Update grid occupation if needed
 		if(PreviousPosition.x>=0)
-			m_BBox.UpdateGridOccupation(Grid, m_Position, PreviousPosition);
+			m_BBox.UpdateGridOccupation(Grid, PreviousPosition, m_Position);
 	}
 	//-----------------------------------------------------------------------------
 }//namespace AE

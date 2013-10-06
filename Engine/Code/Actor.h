@@ -20,6 +20,9 @@ namespace AE{
 		AT::I8				IsCollisionFreeFromSelf(const GRID& Grid, const AT::VEC2Di PosToTest) const;
 		AT::I8				IsCollisionFree(const GRID& Grid, const AT::VEC2Di From, const AT::VEC2Di To) const;
 		AT::I8				IsCollisionFree(const GRID& Grid, const AT::VEC2Di Pos) const;
+		AT::I8				IsInsideBBox(const GRID& Grid, const AT::VEC2Di Pos) const;
+		void				EraseFromGrid(GRID& Grid)const{ m_BBox.EraseGridOccupation(Grid, m_Position); }
+		void				AddToGrid(GRID& Grid)const{ m_BBox.BuildGridOccupation(Grid, m_Position); }
 		//---
 		void				LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA=NULL);
 		//---
@@ -68,7 +71,7 @@ namespace AE{
 		//---
 		/*virtual*/ void		Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize);
 		/*virtual*/ void		SetPosition(GRID& Grid, AT::I32 X, AT::I32 Y){ m_BBox.UpdateGridOccupation(Grid, m_Position, AT::VEC2Di(X, Y)) ; m_Position.x = m_NextMove.x = X; m_Position.y = m_NextMove.y = Y; }
-		/*virtual*/ void		SetPosition(GRID& Grid, const AT::VEC2Di& Position){ m_BBox.UpdateGridOccupation(Grid, m_Position, Position); m_Position = m_NextMove = Position; }
+		/*virtual*/ void		SetPosition(GRID& Grid, const AT::VEC2Di& NewPosition){ m_BBox.UpdateGridOccupation(Grid, m_Position, NewPosition); m_Position = m_NextMove = NewPosition; }
 		//---
 		void		SetDestination(const AT::VEC2Di& Destination){ m_Destination = Destination; m_bRecomputePath = true; }
 					AT::I8		IsAtDestination(){ return m_Position == m_Destination; }
@@ -89,7 +92,7 @@ namespace AE{
 								PLAYER();
 		/*virtual*/ void		Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize);
 		/*virtual*/ void		SetPosition(GRID& Grid, AT::I32 X, AT::I32 Y){ m_BBox.UpdateGridOccupation(Grid, m_Position, AT::VEC2Di(X, Y)) ; m_Position.x = X; m_Position.y = Y; }
-		/*virtual*/ void		SetPosition(GRID& Grid, const AT::VEC2Di& Position){ m_BBox.UpdateGridOccupation(Grid, m_Position, Position); m_Position = Position; }
+		/*virtual*/ void		SetPosition(GRID& Grid, const AT::VEC2Di& NewPosition){ m_BBox.UpdateGridOccupation(Grid, m_Position, NewPosition); m_Position = NewPosition; }
 		//---
 		AT::VEC2Df				m_DirectonInput;
 	};

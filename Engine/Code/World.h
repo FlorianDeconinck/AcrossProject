@@ -80,7 +80,7 @@ namespace AE{
 		AT::I32F			m_TileSize; //size of a single tile in meter
 		std::vector<NPC*>	m_NPCArrays;
 		STATUS				m_Status;
-		PLAYER				m_Player0;
+		PLAYER*				m_Player0;
 		//--
 		RENDERER*			m_pRenderer;			
 	};

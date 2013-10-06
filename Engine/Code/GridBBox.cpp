@@ -59,7 +59,7 @@ namespace AE{
 		}
 
 	}
-	void GRID_BBOX::UpdateGridOccupation(GRID& Grid, const AT::VEC2Di& NewBBoxCenter, const AT::VEC2Di& PreviousBBoxCenter) const{
+	void GRID_BBOX::UpdateGridOccupation(GRID& Grid, const AT::VEC2Di& PreviousBBoxCenter, const AT::VEC2Di& NewBBoxCenter) const{
 	//-----------------------------------------------------------------------
 #if 1 //Brute force : wipe old position, fill new one
 		for(AT::I32 iH = -m_HalfHeight ; iH <= m_HalfHeight; iH++){
@@ -100,6 +100,32 @@ namespace AE{
 #endif
 	}
 	//-----------------------------------------------------------------------
+	void GRID_BBOX::EraseGridOccupation(GRID& Grid, const AT::VEC2Di& BBoxCenter) const{
+		for(AT::I32 iH = -m_HalfHeight ; iH <= m_HalfHeight; iH++){
+			for(AT::I32 iW = -m_HalfWidth ; iW <= m_HalfWidth; iW++){
+				AT::I32 X = BBoxCenter.x+iW;
+				X = X < 0 ? 0 : X >= Grid.m_nMapWidth ? Grid.m_nMapWidth-1 : X ;
+				AT::I32 Y = BBoxCenter.y+iH;
+				Y = Y < 0 ? 0 : Y >= Grid.m_nMapHeight ? Grid.m_nMapHeight-1 : Y;
+				if(Grid.GetTile(X, Y) == GRID::STATIC_OBSTACLE)
+					Grid.SetTile(X, Y, GRID::WALKABLE);
+			}
+		}
+	}
+	//-----------------------------------------------------------------------
+	void GRID_BBOX::BuildGridOccupation(GRID& Grid, const AT::VEC2Di& BBoxCenter) const{
+		for(AT::I32 iH = -m_HalfHeight ; iH <= m_HalfHeight; iH++){
+			for(AT::I32 iW = -m_HalfWidth ; iW <= m_HalfWidth; iW++){
+				AT::I32 X = BBoxCenter.x+iW;
+				X = X < 0 ? 0 : X >= Grid.m_nMapWidth ? Grid.m_nMapWidth-1 : X ;
+				AT::I32 Y = BBoxCenter.y+iH;
+				Y = Y < 0 ? 0 : Y >= Grid.m_nMapHeight ? Grid.m_nMapHeight-1 : Y;
+				if(Grid.GetTile(X, Y) == GRID::WALKABLE)
+					Grid.SetTile(X, Y, GRID::STATIC_OBSTACLE);
+			}
+		}
+	}	
+	//-----------------------------------------------------------------------
 	AT::I8 GRID_BBOX::IsCollisionFree(const GRID& Grid, const AT::VEC2Di& NewBBoxCenter) const{
 		for(AT::I32 iH = -(AT::I32)m_HalfHeight ; iH <= (AT::I32)m_HalfHeight; iH++){
 			for(AT::I32 iW = -(AT::I32)m_HalfWidth ; iW <= (AT::I32)m_HalfWidth; iW++){
@@ -120,11 +146,12 @@ namespace AE{
 		return true;
 	}
 	//-----------------------------------------------------------------------
-	inline AT::I8 GRID_BBOX::IsInside(const AT::VEC2Di& BBoxCenter, const AT::I32& TileX, const AT::I32& TileY) const{
+	AT::I8 GRID_BBOX::IsInside(const AT::VEC2Di& BBoxCenter, const AT::I32& TileX, const AT::I32& TileY) const{
 		return BBoxCenter.x-m_HalfWidth <= TileX && BBoxCenter.x+m_HalfWidth >= TileX && BBoxCenter.y-m_HalfHeight <= TileY && BBoxCenter.y+m_HalfHeight >= TileY;
 	}
-	inline AT::I8 GRID_BBOX::IsInside(const AT::VEC2Di& BBoxCenter, const AT::VEC2Di& Tile) const{
-		IsInside(BBoxCenter, Tile.x, Tile.y);
+	//-----------------------------------------------------------------------
+	AT::I8 GRID_BBOX::IsInside(const AT::VEC2Di& BBoxCenter, const AT::VEC2Di& Tile) const{
+		return IsInside(BBoxCenter, Tile.x, Tile.y);
 	}
 	//-----------------------------------------------------------------------
 }//namespace AE
