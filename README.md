@@ -1,7 +1,6 @@
-AcrossProject
+The Across Project
 =============
 The Across Project, is a 2.5 engine sandbox. The goal is to develop a flexible architecture to test different algorithm in many different fields (rendering, A.I., gameplay...). Speed and efficiency isn't the goal here, but could be the subject of futur development 
-=============
 ##Sources
 
 ###Reads
