@@ -9,7 +9,7 @@ This work is based on several reads :
   * Jason Gregory's *Game Engine Architecture*
   * #AltDevBlog [(link)](http://www.altdevblogaday.com/)
 * For A.I. 
-  * Pathfinder - JPS : algorithm by Daniel Harabor and Alban Grastien [(paper)](http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-socs12.pdf)
+  * Pathfinder - JPS : pruning algorithm for grid-based pathfinder by Daniel Harabor and Alban Grastien [(paper)](http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-socs12.pdf)
   * AiGameDev [(link)](http://aigamedev.com/)
 
 ###Libraries
