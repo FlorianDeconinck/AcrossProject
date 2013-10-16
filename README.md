@@ -25,4 +25,4 @@ This work is based on several reads :
 
 ##Work of the moment
 
-* Pathfinder acceleration : JPS
+* Putting down the next "episodes"
