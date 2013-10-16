@@ -22,6 +22,7 @@ This work is based on several reads :
   * FXAA
 * Grid-based environment
 * A* pathfinder
+  * Pruning acceleration : JPS
 
 ##Work of the moment
 
