@@ -9,10 +9,10 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World){
 	//--
 	AT::I32 H = World.GetWorldHeight();
 	AT::I32 W = World.GetWorldWidth();
-	AT::I32 NPC_COUNT = 2;
+	AT::I32 NPC_COUNT = 16;
 	for(AT::I32 iNPC = 0 ; iNPC < NPC_COUNT ; ++iNPC){
 		AT::I32F Color[] = { (AT::I32F)E.RollRealDice(), (AT::I32F)E.RollRealDice(), (AT::I32F)E.RollRealDice(), 0.8f };
-		World.SpawnNPC(AT::VEC2Di((AT::I32)(E.RollRealDice()*(W-1)), (AT::I32)(E.RollRealDice()*(H-1))), Color);
+		while(!World.SpawnNPC(AT::VEC2Di((AT::I32)(E.RollRealDice()*(W-1)), (AT::I32)(E.RollRealDice()*(H-1))), Color)){}
 	}
 	for(AT::I32 iNPC = 0 ; iNPC < NPC_COUNT ; ++iNPC){
 		AE::NPC* Npc = World.GetNPC(iNPC);

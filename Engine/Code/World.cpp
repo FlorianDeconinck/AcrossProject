@@ -225,11 +225,16 @@ namespace AE{
 	//--------------------------------------------------------------------------
 	// WORLD : Game interface
 	//--------------------------------------------------------------------------
-	void WORLD::SpawnNPC(const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
+	AT::I8 WORLD::SpawnNPC(const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
 		NPC* pNpc0 = new NPC();
 		pNpc0->LoadMeshs(*this, *m_pRenderer, ColorRGBA);
+		if(!pNpc0->IsCollisionFree(*this, Position)){
+			delete pNpc0;
+			return false;
+		}
 		pNpc0->SetPosition(*this, Position);
 		m_NPCArrays.push_back(pNpc0);
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S){

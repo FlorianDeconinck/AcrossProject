@@ -75,7 +75,7 @@ namespace AE{
 		AT::I32 GetNPCCount()			{ return m_NPCArrays.size(); }
 		NPC*	GetNPC(AT::I32 index)	{ return m_NPCArrays[index]; }
 		//--
-		void SpawnNPC(const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
+		AT::I8 SpawnNPC(const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
 		void SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S);
 	protected:
 		//--
