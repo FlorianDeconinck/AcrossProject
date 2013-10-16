@@ -47,25 +47,6 @@ namespace AE{
 		fclose(GridFile);
 	}
 	//---------------------------------------------------------------------------
-	grid_tile_t GRID::GetTile(AT::I32 x, AT::I32 y) const{
-		if(x > m_nMapWidth || x < 0)
-			return STATIC_OBSTACLE;
-		if(y > m_nMapHeight || y < 0)
-			return STATIC_OBSTACLE;
-		return m_nMap[y*m_nMapWidth + x];
-	}
-	//---------------------------------------------------------------------------
-	AT::I8 GRID::IsTileWalkable(AT::I32 x, AT::I32 y) const{
-		if(x > m_nMapWidth || x < 0 || y > m_nMapHeight || y < 0)
-			return false;
-		grid_tile_t T = m_nMap[y*m_nMapWidth + x];
-#ifdef _DEBUG
-		return T==WALKABLE || T==DEBUG_PATHFIND;
-#else
-		return T==WALKABLE;
-#endif
-	}
-	//---------------------------------------------------------------------------
 	//WORLD
 	//---------------------------------------------------------------------------
 	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Player0(NULL){
@@ -198,8 +179,10 @@ namespace AE{
 				AT::I32F Red[] = {0.8f, 0.f, 0.f, 1.f};
 				AT::I32F Green[] = {0.f, 0.8f, 0.f, 1.f};
 				AT::I32F LightBlue[] = {0.11f, 0.56f, 1.f, 1.f}; //30 144 255
+				AT::I32F LightPurple[] = {0.8f, 0.2f, 1.f, 1.f};//204 51 255
 				AT::I32F Black[] = {0.f, 0.f, 0.f, 1.f};
 				AT::I32 Idx = 0;
+				AT::I32F iPathFindDebugCount=0;
 				for(AT::I32 iH = m_nMapHeight-1  ; iH >=0 ; iH--){
 					for(AT::I32 iW = 0 ; iW < m_nMapWidth ; iW++){
 						switch( GetTile(iW, iH) ){
@@ -211,6 +194,11 @@ namespace AE{
 							break;
 						case DEBUG_PATHFIND :
 							pColor = LightBlue;
+							pColor[1] = (1.f - LightBlue[1])*iPathFindDebugCount + LightBlue[1];
+							iPathFindDebugCount+=0.01f;
+							break;
+						case PATH:
+							pColor = LightPurple;
 							break;
 						default:
 							pColor = Black;

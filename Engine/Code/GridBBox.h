@@ -12,7 +12,8 @@ namespace AE{
 		// Grid aligned
 		// Defined by it's half-width & half-height
 		//-------
-	private :
+		friend class ACTOR_ABC;
+	protected :
 		AT::I32 m_HalfWidth;
 		AT::I32 m_HalfHeight;
 		void UpdateTileStatus(GRID& Grid, const AT::VEC2Di& FromBottomLeft, const AT::VEC2Di& FromTopRight, const AT::VEC2Di& ToBottomLeft, const AT::VEC2Di& ToTopRight, AT::I32 Status) const;

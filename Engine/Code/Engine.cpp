@@ -59,7 +59,10 @@ namespace AE{
 			GAME_MSG gameMsg = GameUpdateCallback(*this, W);
 			//Go through msg
 			//--
-			W.Update(elapsedTime_ms>FPS_hertz_ms?FPS_hertz_ms:elapsedTime_ms, C);
+#ifdef _DEBUG
+			if(g_bUpdateWorld)
+#endif
+				W.Update(elapsedTime_ms>FPS_hertz_ms?FPS_hertz_ms:elapsedTime_ms, C);
 			//--
 			R.Update(G, C, W);
 			//--

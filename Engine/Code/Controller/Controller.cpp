@@ -4,6 +4,7 @@
 #include "../Rendering/Renderer.h"
 #include "../Rendering/RObject.h"
 #include "../Window.h"
+#include "../GlobalDebug.h"
 //WIN32
 #include <Windows.h>
 //---------------------------------------------------------------------------
@@ -65,25 +66,17 @@ namespace AE{
 				case CONTROLLER::UNKNOWN:
 					break;
 				case CONTROLLER::KC_LEFT:
-				{
 					m_pRenderer->m_MainCamera.MoveLeft();
 					break;
-				}
 				case CONTROLLER::KC_RIGHT:
-				{
 					m_pRenderer->m_MainCamera.MoveRight();
 					break;
-				}
 				case CONTROLLER::KC_UP:
-				{
 					m_pRenderer->m_MainCamera.MoveForward();
 					break;
-				}
 				case CONTROLLER::KC_DOWN:
-				{
 					m_pRenderer->m_MainCamera.MoveBackward();
 					break;
-				}
 				case CONTROLLER::KC_ESCAPE:
 					m_bQuit = true;
 					break;
@@ -98,6 +91,7 @@ namespace AE{
 					break;
 				case KC_N:
 					m_pRenderer->m_iPostProcess = 0; //no post process
+					break;
 				case KC_V:
 					m_pRenderer->ToggleVSync();
 					break;
@@ -138,6 +132,11 @@ namespace AE{
 		m_Scroll = DeltaWheel;
 	}
 	//--------------------------------------------------------------------------
+	void CONTROLLER::OnGamepadCallback(){
+		if(m_Xbox.m_bStartButton)
+			g_bUpdateWorld = !g_bUpdateWorld;
+	}
+	//--------------------------------------------------------------------------
 	void CONTROLLER::Loop(){
 		MSG msg;
 		HACCEL hAccelTable;
@@ -162,6 +161,7 @@ namespace AE{
 		if(msg.message == WM_QUIT)
 			m_bQuit = true;
 		m_Xbox.UpdateState();
+		OnGamepadCallback();
 	}
 	//--------------------------------------------------------------------------
 }//namespace AE

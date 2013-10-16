@@ -9,7 +9,7 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World){
 	//--
 	AT::I32 H = World.GetWorldHeight();
 	AT::I32 W = World.GetWorldWidth();
-	AT::I32 NPC_COUNT = 1;
+	AT::I32 NPC_COUNT = 2;
 	for(AT::I32 iNPC = 0 ; iNPC < NPC_COUNT ; ++iNPC){
 		AT::I32F Color[] = { (AT::I32F)E.RollRealDice(), (AT::I32F)E.RollRealDice(), (AT::I32F)E.RollRealDice(), 0.8f };
 		World.SpawnNPC(AT::VEC2Di((AT::I32)(E.RollRealDice()*(W-1)), (AT::I32)(E.RollRealDice()*(H-1))), Color);
@@ -32,7 +32,7 @@ AE::ENGINE::GAME_MSG GameLogicUpdate(AE::ENGINE& E, AE::WORLD& World){
 			AT::VEC2Di Dest;
 			AT::I32 iTry = 0;
 			while(iTry < 100){
-				Dest.Set((AT::I32)(E.RollRealDice()*(W-1)), (AT::I32)(E.RollRealDice()*(H-1)));
+				Dest.Set(Npc->GetBBoxHalfWidth()+(AT::I32)(E.RollRealDice()*(W-1-2*Npc->GetBBoxHalfWidth())), Npc->GetBBoxHalfHeight()+(AT::I32)(E.RollRealDice()*(H-1-2*Npc->GetBBoxHalfHeight())));
 				if(Npc->IsCollisionFree(World, Dest)==AE::WORLD::WALKABLE){
 					World.SetTileStatus(Npc->m_Destination, AE::WORLD::WALKABLE);
 					Npc->SetDestination(Dest);

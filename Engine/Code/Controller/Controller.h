@@ -54,6 +54,7 @@ namespace AE{
 		ACROSS_KEY_CODE ConvertCmdCodeFromWin32ToAcrossKey(AT::U32 Win32CmdCode);
 		ACROSS_KEY_CODE ConvertKeyCodeFromWin32ToAcrossKey(AT::U32 Win32KeyCode);
 		void			OnKeyboardCallback(ACROSS_KEY_CODE KC, AT::I8 bDown);
+		void			OnGamepadCallback();
 		void			OnClickDownCallback(MOUSE_BUTTON MB);
 		void			OnClickUpCallback(MOUSE_BUTTON MB);
 		void			OnMouseMoveCallback(AT::I32 X, AT::I32 Y);

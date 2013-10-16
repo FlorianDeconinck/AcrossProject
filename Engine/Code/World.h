@@ -19,18 +19,36 @@ namespace AE{
 			WALKABLE,
 			//--
 			DEBUG_PATHFIND,
+			PATH,
 			//--
 			MAP_TAG_COUNT
 		};
 		//--
 		GRID();
 		~GRID(){ if(m_nMap) delete m_nMap; }
-		void LoadFromFile(const AT::I8* Filename);
 		//--
-		grid_tile_t		GetTile(AT::I32 x, AT::I32 y) const;
-		AT::I8			IsTileWalkable(AT::I32 x, AT::I32 y) const;
-		void			SetTile(AT::I32 x, AT::I32 y, MAP_TAG Value){ assert(y*m_nMapWidth + x < m_nMapWidth*m_nMapHeight); m_nMap[y*m_nMapWidth + x] = Value; }
-		grid_tile_t*	GetMapPtr(){ return m_nMap; }
+		inline grid_tile_t		GetTile(AT::I32 x, AT::I32 y) const{
+			if(x > m_nMapWidth || x < 0)
+				return STATIC_OBSTACLE;
+			if(y > m_nMapHeight || y < 0)
+				return STATIC_OBSTACLE;
+			return m_nMap[y*m_nMapWidth + x];
+		}
+		inline grid_tile_t		GetTile(AT::VEC2Di Pos) const { return GetTile(Pos.x, Pos.y); }
+		inline AT::I8			IsTileWalkable(AT::I32 x, AT::I32 y) const{
+			if(x > m_nMapWidth || x < 0 || y > m_nMapHeight || y < 0)
+				return false;
+			grid_tile_t T = m_nMap[y*m_nMapWidth + x];
+#ifdef _DEBUG
+			return T!=STATIC_OBSTACLE;
+#else
+			return T==WALKABLE;
+#endif
+		}
+		inline void		SetTile(AT::I32 x, AT::I32 y, MAP_TAG Value){ if(y*m_nMapWidth + x < m_nMapWidth*m_nMapHeight) m_nMap[y*m_nMapWidth + x] = Value; }
+		inline grid_tile_t*	GetMapPtr(){ return m_nMap; }
+		//--
+		void			LoadFromFile(const AT::I8* Filename);
 		//--
 		AT::I32			m_nMapWidth;
 		AT::I32			m_nMapHeight;

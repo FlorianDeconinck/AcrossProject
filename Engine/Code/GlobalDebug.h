@@ -18,6 +18,7 @@
 		extern AT::I64F			g_PathfinderDebug_MeanProcessTime;
 		extern AT::I64F			g_PathfinderDebug_MaxProcessTime;
 		//--
+		extern AT::I8			g_bUpdateWorld;
 	}
 	//---------------------------------------------------------------------------
 #endif

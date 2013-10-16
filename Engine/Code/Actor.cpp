@@ -22,6 +22,9 @@ namespace AE{
 	const AT::VEC2Di ACTOR_ABC::m_Dir_North_West(-1, 1);
 	//-----------------------------------------------------------------------------
 	ACTOR_ABC::ACTOR_ABC():m_Position(13,32),m_MeshsCount(0),m_Speed(1.0),m_Direction(NO_DIRECTION),m_InnerTilePosition(0,0),m_PreviousInnerTilePosition(0,0),m_AnimationAngle(0.f){
+#ifdef _DEBUG
+		m_bDebugPathfind = false;
+#endif
 	}
 	//-----------------------------------------------------------------------------
 	void ACTOR_ABC::LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA/*=NULL*/){
@@ -73,20 +76,8 @@ namespace AE{
 		}
 	}
 	//-----------------------------------------------------------------------------
-	AT::I8 ACTOR_ABC::IsCollisionFreeFromSelf(const GRID& Grid, const AT::VEC2Di PosToTest) const{
-		return m_BBox.IsCollisionFree(Grid, m_Position, PosToTest);
-	}
-	//-----------------------------------------------------------------------------
-	AT::I8 ACTOR_ABC::IsCollisionFree(const GRID& Grid, const AT::VEC2Di From, const AT::VEC2Di To) const{
-		return m_BBox.IsCollisionFree(Grid, From, To);
-	}
-	//-----------------------------------------------------------------------
-	AT::I8 ACTOR_ABC::IsCollisionFree(const GRID& Grid, const AT::VEC2Di Pos) const{
-		return m_BBox.IsCollisionFree(Grid, Pos);
-	}
-	//---------------------------------------------------------------------------
-	AT::I8 ACTOR_ABC::IsInsideBBox(const GRID& Grid, const AT::VEC2Di Pos) const{
-		return m_BBox.IsInside(m_Position, Pos);
+	AT::I8 ACTOR_ABC::IsWithinBorders(const GRID& Grid, const AT::VEC2Di& Pos) const { 
+		return Pos.x-m_BBox.m_HalfWidth >= 0 &&  Pos.x+m_BBox.m_HalfWidth < Grid.m_nMapWidth && Pos.y-m_BBox.m_HalfHeight >= 0 && Pos.y+m_BBox.m_HalfHeight < Grid.m_nMapHeight; 
 	}
 	//-----------------------------------------------------------------------------
 	// NPC
@@ -108,18 +99,20 @@ namespace AE{
 			if(m_sizePath<=0)
 				return;
 			m_iPath = 1;
-			m_NextMove = m_Path[1];
+			while(m_NextMove==m_Position)
+				m_NextMove = m_Path[++m_iPath];
 			m_bRecomputePath = false;
 		}else if(m_Position == m_NextMove){
-			m_NextMove = m_Path[++m_iPath];
+			while(m_NextMove==m_Position)
+				m_NextMove = m_Path[++m_iPath];
 		}
 		//------
 		//Update position
-		AT::VEC2Di DirTiles		= m_Position - m_NextMove;
+		AT::VEC2Di DirTiles			 = m_Position - m_NextMove;
 		AT::VEC2Df DirRealWorld(DirTiles.x*tileSize, DirTiles.y*tileSize);
 		DirRealWorld.Normalize();
-		m_PreviousInnerTilePosition = m_InnerTilePosition;
-		m_InnerTilePosition		+=  DirRealWorld*(AT::I32F)(m_Speed*(elapsedTime_ms/1000.0));
+		m_PreviousInnerTilePosition  = m_InnerTilePosition;
+		m_InnerTilePosition			+=  DirRealWorld*(AT::I32F)(m_Speed*(elapsedTime_ms/1000.0));
 		//--
 		//--
 		AT::VEC2Di PreviousPosition(-1, -1);
@@ -128,8 +121,17 @@ namespace AE{
 				PreviousPosition = m_Position;
 				//--
 				AT::I32F XOffset = m_InnerTilePosition.x/tileSize;
-				m_Position.x += (AT::I32)trunc(XOffset);
-				m_InnerTilePosition.x -= trunc(XOffset)*tileSize;
+				AT::I32 TruncXOffset = 0;
+				if(XOffset>0)
+					TruncXOffset = (AT::I32)trunc(XOffset);
+				else
+					TruncXOffset = -(AT::I32)ceil(-XOffset);
+				if(!IsCollisionFreeFromSelf(Grid, m_Position+AT::VEC2Di(TruncXOffset, 0))){
+					m_InnerTilePosition.x = m_InnerTilePosition.x > tileSize/2.f ? tileSize : 0;
+				}else{
+					m_Position.x += TruncXOffset;
+					m_InnerTilePosition.x -= TruncXOffset*tileSize;
+				}
 			}else{
 				m_InnerTilePosition.x = m_PreviousInnerTilePosition.x;
 			}
@@ -141,8 +143,17 @@ namespace AE{
 					PreviousPosition  = m_Position;
 				//--
 				AT::I32F YOffset = m_InnerTilePosition.y/tileSize;
-				m_Position.y += (AT::I32)trunc(YOffset);
-				m_InnerTilePosition.y -= trunc(YOffset)*tileSize;
+				AT::I32 TruncYOffset = 0;
+				if(TruncYOffset > 0)
+					TruncYOffset = (AT::I32)trunc(YOffset);
+				else
+					TruncYOffset = -(AT::I32)ceil(-YOffset);
+				if(!IsCollisionFreeFromSelf(Grid, m_Position+AT::VEC2Di(0, TruncYOffset))){
+					m_InnerTilePosition.y = m_InnerTilePosition.y > tileSize/2.f ? tileSize : 0;
+				}else{
+					m_Position.y += TruncYOffset;
+					m_InnerTilePosition.y -= TruncYOffset*tileSize;
+				}
 			}else{
 				m_InnerTilePosition.y = m_PreviousInnerTilePosition.y;
 			}

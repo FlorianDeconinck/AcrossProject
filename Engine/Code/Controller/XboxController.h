@@ -13,8 +13,10 @@ namespace AE{
 	//-----------------------------------------------------------------------------
 	class XBOX_CONTOLLER{
 		public :
-			XINPUT_STATE m_state;
-			AT::VEC2Df	 m_leftStick;
+			XINPUT_STATE	m_state;
+			AT::VEC2Df		m_leftStick;
+			AT::I8			m_bStartButton;
+					XBOX_CONTOLLER():m_bStartButton(false),m_leftStick(0, 0){}
 			void	UpdateState(){
 				memset(&m_state, 0, sizeof(XINPUT_STATE));
 				DWORD dwRes = XInputGetState(0, &m_state);
@@ -28,6 +30,8 @@ namespace AE{
 						m_leftStick.y = LY / magnitude;
 					}else
 						m_leftStick.Zero();
+					//START BUTTON
+					m_bStartButton = m_state.Gamepad.wButtons & XINPUT_GAMEPAD_START ? true : false;
 				}
 			}
 	};

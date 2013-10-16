@@ -17,19 +17,22 @@ namespace AE{
 							ACTOR_ABC();
 		R_OBJECT**			GetRenderingObjects(AT::I32& MeshsCount){ MeshsCount = m_MeshsCount ; return m_Meshs; }
 		void				Draw(RENDERER& R, AT::I32F TileSize);
-		AT::I8				IsCollisionFreeFromSelf(const GRID& Grid, const AT::VEC2Di PosToTest) const;
-		AT::I8				IsCollisionFree(const GRID& Grid, const AT::VEC2Di From, const AT::VEC2Di To) const;
-		AT::I8				IsCollisionFree(const GRID& Grid, const AT::VEC2Di Pos) const;
-		AT::I8				IsInsideBBox(const GRID& Grid, const AT::VEC2Di Pos) const;
-		void				EraseFromGrid(GRID& Grid)const{ m_BBox.EraseGridOccupation(Grid, m_Position); }
-		void				AddToGrid(GRID& Grid)const{ m_BBox.BuildGridOccupation(Grid, m_Position); }
-		//---
 		void				LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA=NULL);
+		AT::I8				IsWithinBorders(const GRID& Grid, const AT::VEC2Di& Pos) const;
+		//---
+		inline AT::I8		IsCollisionFreeFromSelf(const GRID& Grid, const AT::VEC2Di& PosToTest) const { return m_BBox.IsCollisionFree(Grid, m_Position, PosToTest); }
+		inline AT::I8		IsCollisionFree(const GRID& Grid, const AT::VEC2Di& From, const AT::VEC2Di To) const { return m_BBox.IsCollisionFree(Grid, From, To); }
+		inline AT::I8		IsCollisionFree(const GRID& Grid, const AT::VEC2Di& Pos) const { return m_BBox.IsCollisionFree(Grid, Pos); }
+		inline AT::I8		IsInsideBBox(const GRID& Grid, const AT::VEC2Di Pos) const { return m_BBox.IsInside(m_Position, Pos); }
+		inline AT::I32		GetBBoxHalfWidth() const { return m_BBox.m_HalfWidth; }
+		inline AT::I32		GetBBoxHalfHeight() const { return m_BBox.m_HalfHeight; }
+		inline void			EraseFromGrid(GRID& Grid)const{ m_BBox.EraseGridOccupation(Grid, m_Position); }
+		inline void			AddToGrid(GRID& Grid)const{ m_BBox.BuildGridOccupation(Grid, m_Position); }
+		inline AT::VEC2Di	GetPosition(){ return m_Position; }
 		//---
 		virtual void		Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize)=0;
 		virtual void		SetPosition(GRID& Grid, AT::I32 X, AT::I32 Y)=0;
 		virtual void		SetPosition(GRID& Grid, const AT::VEC2Di& V)=0;
-		AT::VEC2Di			GetPosition(){ return m_Position; }
 		//---
 		AT::I64F			m_Speed;	//m/s
 		enum DIRECTIONS{
@@ -63,6 +66,10 @@ namespace AE{
 		AT::VEC2Df			 m_PreviousInnerTilePosition; // Vector between 0 - 1
 		AT::VEC2Di			 m_Position;
 		AT::I32F			 m_AnimationAngle;
+	public:
+#ifdef _DEBUG
+		AT::I8				 m_bDebugPathfind;
+#endif
 	};
 	//---------------------------------------------------------------------------
 	class NPC:public ACTOR_ABC{
@@ -80,7 +87,7 @@ namespace AE{
 		//---
 		AT::VEC2Di				m_Path[1024];
 		AT::U32					m_iPath;
-		AT::U32					m_sizePath;
+		AT::I32					m_sizePath;
 		//---
 		AT::VEC2Di				m_NextMove;
 		AT::VEC2Di				m_Destination;
