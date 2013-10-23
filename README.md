@@ -26,4 +26,4 @@ This work is based on several reads :
 
 ##Work of the moment
 
-* Putting down the next "episodes"
+* Episode 1 : "Flat is good" [(desc)](https://github.com/FlorianDeconinck/AcrossProject/wiki/_preview#and-now-on-the-across-project)
