@@ -27,7 +27,7 @@ namespace AE{
 		glDeleteProgram(m_Program);
 	}
 	//---------------------------------------------------------------------------
-	void SHADER_ABC::Load(RENDERER& Renderer, char* _VertexFilename, char* _FragmentFilename, AT::I8* _GeometryFilename/*=NULL*/){
+	AT::I8 /*bSuccess*/ SHADER_ABC::Load(RENDERER& Renderer, char* _VertexFilename, char* _FragmentFilename, AT::I8* _GeometryFilename/*=NULL*/){
 		//Vertex
 		strcpy_s(m_VertexFilename, _VertexFilename);
 		m_Vertex = glCreateShader(GL_VERTEX_SHADER);
@@ -52,6 +52,7 @@ namespace AE{
 		glLinkProgram(m_Program);
 		Init(Renderer);
 		GL_TOOL::CheckGLError();
+		return glGetError() == GL_NO_ERROR;
 	}
 	//---------------------------------------------------------------------------
 	void SHADER_ABC::LoadAndCompileShaderFromFile(const char* Name, GLuint& Shader){
@@ -62,7 +63,7 @@ namespace AE{
 			Break();
 		}
 		ShaderFile.seekg (0, ShaderFile.end);
-		int length = (int)ShaderFile.tellg();
+		int length = ((int)ShaderFile.tellg())+1;
 		ShaderFile.seekg (0, ShaderFile.beg);
 		char * buffer = new char [length];
 		memset(buffer, 0, length*sizeof(char));
@@ -72,7 +73,7 @@ namespace AE{
 		glCompileShader(Shader);
 		char LogBuffer[512];
 		glGetShaderInfoLog(Shader, 512, NULL, LogBuffer); 
-		printf(LogBuffer);
+		std::cout << LogBuffer;
 		delete buffer;
 	}
 	//---------------------------------------------------------------------------

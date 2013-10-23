@@ -34,7 +34,7 @@ namespace AE{
 		//----------------------------
 		SHADER_ABC();
 		~SHADER_ABC();
-		void Load(RENDERER& Renderer, AT::I8* _VertexFilename, AT::I8* _FragmentFilename, AT::I8* _GeometryFilename=NULL);
+		AT::I8 /*bSuccess*/ Load(RENDERER& Renderer, AT::I8* _VertexFilename, AT::I8* _FragmentFilename, AT::I8* _GeometryFilename=NULL);
 		void Use();
 		virtual void Init(RENDERER& Renderer)=0;
 		virtual void InitObject(const SCENE& Scene, R_OBJECT& Object)=0;

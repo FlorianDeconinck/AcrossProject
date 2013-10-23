@@ -14,8 +14,11 @@ namespace AE{
 		m_ID = COLOR_3D_SHADER;
 		//--
 		m_posAttrib = glGetAttribLocation(m_Program, "in_position");
+		GL_TOOL::CheckGLError();
 		m_colAttrib = glGetAttribLocation(m_Program, "vertex_color");
+		GL_TOOL::CheckGLError();
 		m_viewUniform = glGetUniformLocation(m_Program, "in_view");
+		GL_TOOL::CheckGLError();
 		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
 	
 		GL_TOOL::CheckGLError();
