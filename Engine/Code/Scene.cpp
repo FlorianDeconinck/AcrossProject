@@ -11,7 +11,8 @@ namespace AE{
 	SCENE::SCENE():RenderObjectIdx(0){
 		StaticObjectCount = 0;
 		memset(StaticObject, 0, MAX_STATIC_OBJECT*sizeof(R_OBJECT*));
-		StaticObjectPool.AllocateFromScratch(INITIAL_MEMORY_SIZE);
+		StaticColorObjectPool.AllocateFromScratch(INITIAL_MEMORY_SIZE);
+		StaticTextureObjectPool.AllocateFromScratch(INITIAL_MEMORY_SIZE);
 	}
 	//---------------------------------------------------------------------------
 	SCENE::~SCENE(){
@@ -30,7 +31,7 @@ namespace AE{
 		return index;
 	}
 	//---------------------------------------------------------------------------
-	static AT::I32 SetVertexData(AT::I32F* v, AT::I32 index, AT::I32F x, AT::I32F y, AT::I32F z, AT::I32F tx, AT::I32F ty){
+	AT::I32 SCENE::SetVertexData(AT::I32F* v, AT::I32 index, AT::I32F x, AT::I32F y, AT::I32F z, AT::I32F tx, AT::I32F ty){
 		index = index*5;
 		v[index] = x;	index++;
 		v[index] = y;	index++;
@@ -56,7 +57,7 @@ namespace AE{
 			delete StaticObject[iObj];
 			StaticObject[iObj] = NULL;
 		}
-		StaticObjectPool.QuickReset();
+		StaticColorObjectPool.QuickReset();
 	}
 	//---------------------------------------------------------------------------
 	void SCENE::SetModelUniform(AT::I32 UniformModelIndex){
@@ -77,7 +78,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	void SCENE::SpawnCube_Quads(AT::I32F Size, AT::I32F*& VerticesData, AT::I32& VerticesCount, GLuint*& ElementsData, AT::I32& ElementsCount, const AT::I32F* ColorRGBA){
 		VerticesCount = 8; 
-		VerticesData = new AT::I32F[VerticesCount*StaticObjectPool.VertexMemSize];
+		VerticesData = new AT::I32F[VerticesCount*StaticColorObjectPool.VertexMemSize];
 		AT::I32F HalfSize = Size/2.f;
 		//Bottom face
 		SetVertexData(VerticesData, 0,	-HalfSize, -HalfSize, -HalfSize, ColorRGBA[0], ColorRGBA[1], ColorRGBA[2], ColorRGBA[3]); //bottom left
@@ -108,7 +109,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	void SCENE::SpawnCube_Lines(AT::I32F Size, AT::I32F*& VerticesData, AT::I32& VerticesCount, GLuint*& ElementsData, AT::I32& ElementsCount){
 		VerticesCount = 8;
-		VerticesData = new AT::I32F[VerticesCount*StaticObjectPool.VertexMemSize];
+		VerticesData = new AT::I32F[VerticesCount*StaticColorObjectPool.VertexMemSize];
 		AT::I32F HalfSize = Size/2.f;
 		AT::I32F Color[] = { 0.8f, 0.8f, 0.8f, 0.8f };
 		//Bottom face

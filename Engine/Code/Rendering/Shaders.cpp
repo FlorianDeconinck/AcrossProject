@@ -20,7 +20,6 @@ namespace AE{
 		m_viewUniform = glGetUniformLocation(m_Program, "in_view");
 		GL_TOOL::CheckGLError();
 		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
-	
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
@@ -28,9 +27,9 @@ namespace AE{
 		Use();
 		glBindVertexArray(Object.m_vao);
 		glEnableVertexAttribArray(m_posAttrib);
-		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, Scene.GetVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetPositionOffset()*sizeof(AT::I32F)));
+		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, Scene.GetColorVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetColorPositionOffset()*sizeof(AT::I32F)));
 		glEnableVertexAttribArray(m_colAttrib);
-		glVertexAttribPointer(m_colAttrib, 4, GL_FLOAT, GL_FALSE, Scene.GetVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetColorOffset()*sizeof(AT::I32F)));
+		glVertexAttribPointer(m_colAttrib, 4, GL_FLOAT, GL_FALSE, Scene.GetColorVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetColorOffset()*sizeof(AT::I32F)));
 		Object.m_uniformModel = glGetUniformLocation(m_Program, "in_model");
 		GL_TOOL::CheckGLError();
 	}
@@ -42,8 +41,42 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
-	void COLOR_SHADER::BindDynamicFragmentAttrib(){
-		//Do nothin'
+	//TEXTURE SHADER
+	//-----------------------------------------------------------------------------
+	void TEXTURE_SHADER::Init(RENDERER& Renderer){
+		m_ID = TEXTURE_3D_SHADER;
+		//--
+		m_posAttrib = glGetAttribLocation(m_Program, "in_position");
+		GL_TOOL::CheckGLError();
+		m_texAttrib = glGetAttribLocation(m_Program, "in_texels");
+		GL_TOOL::CheckGLError();
+		m_viewUniform = glGetUniformLocation(m_Program, "in_view");
+		GL_TOOL::CheckGLError();
+		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void TEXTURE_SHADER::InitObject(const SCENE& Scene, R_OBJECT& Object){
+		Use();
+		glBindVertexArray(Object.m_vao);
+		glEnableVertexAttribArray(m_posAttrib);
+		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, Scene.GetTextureVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetTexturePositionOffset()*sizeof(AT::I32F)));
+		glEnableVertexAttribArray(m_texAttrib);
+		glVertexAttribPointer(m_texAttrib, 2, GL_FLOAT, GL_FALSE, Scene.GetTextureVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetTextureOffset()*sizeof(AT::I32F)));
+		Object.m_uniformModel = glGetUniformLocation(m_Program, "in_model");
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void TEXTURE_SHADER::BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject){
+		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_MainCamera.m_View.ToGL());
+		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_MainCamera.m_Proj.ToGL());
+		glUniformMatrix4fv(RObject.m_uniformModel, 1, GL_FALSE, (GLfloat*)RObject.m_trfModel.ToGL());
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void TEXTURE_SHADER::BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject/*=NULL*/){
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, RObject->m_TextureId);
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
@@ -71,7 +104,6 @@ namespace AE{
 	//-----------------------------------------------------------------------------
 	void THICK_LINES_COLOR::BindDynamicVertexAttrib(RENDERER& R, R_OBJECT& Object){
 		COLOR_SHADER::BindDynamicVertexAttrib(R, Object);
-		
 	}
 	//-----------------------------------------------------------------------------
 	// BLUR SHADER
@@ -105,7 +137,7 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
-	void BLUR_SHADER::BindDynamicFragmentAttrib(){
+	void BLUR_SHADER::BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject/*=NULL*/){
 		glUniform1i(m_blurWdwUniform, m_Wdw);
 		glUniform1i(m_blurRadiusUniform, m_Radius);
 		GL_TOOL::CheckGLError();
@@ -143,7 +175,7 @@ namespace AE{
 
 	}
 	//-----------------------------------------------------------------------------
-	void FXAA_SHADER::BindDynamicFragmentAttrib(){
+	void FXAA_SHADER::BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject/*=NULL*/){
 		textCoordOffsetArray[0] = 1.f/RENDERER::WIDTH;
 		textCoordOffsetArray[1] = 1.f/RENDERER::HEIGHT;
 		float factor = 1.0f;

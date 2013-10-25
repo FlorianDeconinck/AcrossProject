@@ -53,7 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;AEACROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\External\glew.1.9.0.w32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\External\DevIL-SDK-x86-1.7.8\include;..\..\External\glew.1.9.0.w32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>false</ExceptionHandling>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -82,6 +82,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\AI\Pathfinder.h" />
+    <ClInclude Include="..\..\Code\Animation\Animator.h" />
+    <ClInclude Include="..\..\Code\Animation\SpriteAnimator.h" />
     <ClInclude Include="..\..\Code\Controller\Controller.h" />
     <ClInclude Include="..\..\Code\Controller\XboxController.h" />
     <ClInclude Include="..\..\Code\GlobalDebug.h" />
@@ -105,6 +107,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\AI\Pathfinder.cpp" />
+    <ClCompile Include="..\..\Code\Animation\Animator.cpp" />
+    <ClCompile Include="..\..\Code\Animation\SpriteAnimator.cpp" />
     <ClCompile Include="..\..\Code\Controller\Controller.cpp" />
     <ClCompile Include="..\..\Code\Engine.cpp" />
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
@@ -128,6 +132,8 @@
     <None Include="..\..\Code\Rendering\Shaders\color.fs" />
     <None Include="..\..\Code\Rendering\Shaders\color.vs" />
     <None Include="..\..\Code\Rendering\Shaders\FXAA.fs" />
+    <None Include="..\..\Code\Rendering\Shaders\texture.fs" />
+    <None Include="..\..\Code\Rendering\Shaders\texture.vs" />
     <None Include="..\..\Code\Rendering\Shaders\thickLines.fs" />
     <None Include="..\..\Code\Rendering\Shaders\thickLines.gs" />
     <None Include="..\..\Code\Rendering\Shaders\thickLines.vs" />

@@ -1,6 +1,8 @@
 //---------------------------------------------------------------------------
 //Project
 #include "Engine.h"
+//DevIL
+#include <IL/il.h>
 //---------------------------------------------------------------------------
 namespace AE{
 	//---------------------------------------------------------------------------
@@ -33,6 +35,8 @@ namespace AE{
 	void ENGINE::Loop(GameCallback_t& GameInitCallback, GameCallback_t& GameUpdateCallback){
 		//--
 		C.m_pMainWindow = &MainWindow;
+		//---
+		ilInit();
 		//--
 		R.Init();
 		//---

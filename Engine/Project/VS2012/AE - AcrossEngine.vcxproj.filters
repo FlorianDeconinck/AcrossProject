@@ -22,6 +22,9 @@
     <Filter Include="Controller">
       <UniqueIdentifier>{53506eea-e11a-4a43-b498-1a283d77c61d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animator">
+      <UniqueIdentifier>{ce2ae921-525c-4109-aa18-8a90e2821513}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\Tools\Timer.h">
@@ -71,6 +74,12 @@
     <ClInclude Include="..\..\Code\Rendering\Shaders.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Code\Animation\Animator.h">
+      <Filter>Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Animation\SpriteAnimator.h">
+      <Filter>Animator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Camera.cpp" />
@@ -108,6 +117,12 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Code\Engine.cpp" />
+    <ClCompile Include="..\..\Code\Animation\Animator.cpp">
+      <Filter>Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Animation\SpriteAnimator.cpp">
+      <Filter>Animator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Code\Rendering\Shaders\blur.fs">
@@ -132,6 +147,12 @@
       <Filter>Rendering\Shaders</Filter>
     </None>
     <None Include="..\..\Code\Rendering\Shaders\thickLines.vs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\texture.fs">
+      <Filter>Rendering\Shaders</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\Shaders\texture.vs">
       <Filter>Rendering\Shaders</Filter>
     </None>
   </ItemGroup>

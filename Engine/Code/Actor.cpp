@@ -4,6 +4,8 @@
 #include "./Rendering/Renderer.h"
 #include "World.h"
 #include "./AI/Pathfinder.h"
+#include "./Animation/Animator.h"
+#include "./Animation/SpriteAnimator.h"
 //STD
 #include <cmath>
 #include <random>
@@ -21,10 +23,14 @@ namespace AE{
 	const AT::VEC2Di ACTOR_ABC::m_Dir_West(-1, 0);
 	const AT::VEC2Di ACTOR_ABC::m_Dir_North_West(-1, 1);
 	//-----------------------------------------------------------------------------
-	ACTOR_ABC::ACTOR_ABC():m_Position(13,32),m_MeshsCount(0),m_Speed(1.0),m_Direction(NO_DIRECTION),m_InnerTilePosition(0,0),m_PreviousInnerTilePosition(0,0),m_AnimationAngle(0.f){
+	ACTOR_ABC::ACTOR_ABC():m_Position(0,0),m_LastPosition(0,0),m_MeshsCount(0),m_Speed(1.0),m_InnerTilePosition(0,0),m_PreviousInnerTilePosition(0,0){
 #ifdef _DEBUG
 		m_bDebugPathfind = false;
 #endif
+	}
+	//-----------------------------------------------------------------------------
+	ACTOR_ABC::~ACTOR_ABC(){
+		delete m_pAnimator;
 	}
 	//-----------------------------------------------------------------------------
 	void ACTOR_ABC::LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA/*=NULL*/){
@@ -39,7 +45,7 @@ namespace AE{
 		//--
 		R.m_Scene.SpawnCube_Quads(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, ColorRGBA ? ColorRGBA : ColorRGBA_Default);
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.m_Scene.GetStaticPool(), GL_STATIC_DRAW, true, true);
+		m_Meshs[0]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.m_Scene.GetStaticColorObjectPool(), GL_STATIC_DRAW, true, true);
 		m_Meshs[0]->m_trfModel.SetT(0.f, 1.0f, 0.f);
 		R.InitRObject(*m_Meshs[0], SHADER_ABC::COLOR_3D_SHADER);
 		delete pCubeDataElements;
@@ -48,7 +54,7 @@ namespace AE{
 		R.m_Scene.SpawnCube_Lines(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount);
 		m_Meshs[1] = new R_OBJECT();
 		m_Meshs[1]->m_GLDisplayMode = GL_LINES;
-		m_Meshs[1]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.m_Scene.GetStaticPool(), GL_STATIC_DRAW, true, true);
+		m_Meshs[1]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.m_Scene.GetStaticColorObjectPool(), GL_STATIC_DRAW, true, true);
 		m_Meshs[1]->m_trfModel.SetT(0.f, 1.0f, 0.f);
 		R.InitRObject(*m_Meshs[1], SHADER_ABC::THICK_LINES_3D_SHADER);
 		delete pCubeDataElements;
@@ -57,22 +63,14 @@ namespace AE{
 		m_BBox.Init(Grid, m_Position, 3, 3);
 	}
 	//-----------------------------------------------------------------------------
-	void ACTOR_ABC::Draw(RENDERER& R, AT::I32F TileSize){
+	void ACTOR_ABC::Draw(const WORLD& W, RENDERER& R, AT::I32F TileSize){
+		//------
+		//Update animation
+		m_pAnimator->Update(W, *this, ANIMATOR_ABC::WALK);
+		//------
+		//Draw
 		for(AT::I32 iRO = 0 ; iRO < m_MeshsCount ; iRO++){
-			R_OBJECT* pObject = m_Meshs[iRO];
-			//Update RObject model from Actor position
-			AT::VEC3Df T = pObject->m_trfModel.GetT();
-			T.x = m_Position.x * TileSize + m_InnerTilePosition.x; 
-			T.z = m_Position.y * TileSize + m_InnerTilePosition.y;
-			//--
-			T.y = 1.f + cos(m_AnimationAngle)/6.f;
-			m_AnimationAngle += 0.005f;
-			if(m_AnimationAngle > 6.28f)
-				m_AnimationAngle = 0.f;
-			//--
-			pObject->m_trfModel = T;
-			//--
-			pObject->Draw(R);
+			m_Meshs[iRO]->Draw(R);
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -80,10 +78,16 @@ namespace AE{
 		return Pos.x-m_BBox.m_HalfWidth >= 0 &&  Pos.x+m_BBox.m_HalfWidth < Grid.m_nMapWidth && Pos.y-m_BBox.m_HalfHeight >= 0 && Pos.y+m_BBox.m_HalfHeight < Grid.m_nMapHeight; 
 	}
 	//-----------------------------------------------------------------------------
+	void ACTOR_ABC::SetAnimatorModule(ANIMATOR_ABC* pAnimator){
+		m_pAnimator = pAnimator; m_pAnimator->PopulateAnimationDictionnary(); 
+	}
+	//-----------------------------------------------------------------------------
 	// NPC
 	//-----------------------------------------------------------------------------
 	NPC::NPC():m_Destination(0, 0),m_NextMove(0,0){
 		m_bRecomputePath = false;
+		//Configuration of ANIMATOR
+		SetAnimatorModule((ANIMATOR_ABC*)new DEFAULT_ANIMATOR());
 	}
 	//-----------------------------------------------------------------------------
 	AT::I32F trunc(AT::I32F a){
@@ -160,14 +164,41 @@ namespace AE{
 		}
 		//------
 		//Update grid occupation if needed
-		if(PreviousPosition.x>=0)
+		if(PreviousPosition.x>=0){
 			m_BBox.UpdateGridOccupation(Grid, PreviousPosition, m_Position);
+			m_LastPosition = PreviousPosition;
+		}
 	}
 	//-----------------------------------------------------------------------------
 	// PLAYER
 	//-----------------------------------------------------------------------------
 	PLAYER::PLAYER(){
 		m_DirectonInput.Set(0, 0);
+		m_Position.Set(10, 10);
+		//Configure animator
+		SetAnimatorModule((ANIMATOR_ABC*)new SPRITE_ANIMATOR());
+	}
+	//-----------------------------------------------------------------------------
+	void PLAYER::LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA/*=NULL*/){
+		//---
+		m_MeshsCount = 1;
+		//--
+		AT::I32   VerticesCount = 4; 
+		AT::I32F* VerticesData = new AT::I32F[VerticesCount*R.m_Scene.GetTextureVertexSize()];
+		AT::I32F  HalfSize = 0.3f;
+		AT::I32F  Height = 1.f;
+		SCENE::SetVertexData(VerticesData, 0,		 -HalfSize,		0.f, 0.05f,			 0, 0.125f);		//0,1
+		SCENE::SetVertexData(VerticesData, 1,			HalfSize,		0.f, 0.05f, 0.083f, 0.125f);		//1,1
+		SCENE::SetVertexData(VerticesData, 2,			HalfSize,		1.f, 0.05f, 0.083f, 0);					//1,0
+		SCENE::SetVertexData(VerticesData, 3,		 -HalfSize,		1.f, 0.05f,			 0, 0);					//0,0
+		m_Meshs[0] = new R_OBJECT();
+		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.m_Scene.GetStaticTextureObjectPool(), GL_STREAM_DRAW, "../../../Asset/Alex_8D_zps374573dc.png", false, false);
+		m_Meshs[0]->m_trfModel.SetT(0.f, 0.f, 0.f);
+		m_Meshs[0]->m_GLDisplayMode = GL_QUADS;
+		R.InitRObject(*m_Meshs[0], SHADER_ABC::TEXTURE_3D_SHADER);
+		delete VerticesData;
+		//--
+		m_BBox.Init(Grid, m_Position, 3, 3);		
 	}
 	//-----------------------------------------------------------------------------
 	void PLAYER::Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize){
@@ -205,9 +236,11 @@ namespace AE{
 		}
 		//------
 		//Update grid occupation if needed
-		if(PreviousPosition.x>=0)
+		if(PreviousPosition.x>=0){
 			m_BBox.UpdateGridOccupation(Grid, PreviousPosition, m_Position);
+			m_LastPosition = PreviousPosition;
+		}
 	}
 	//-----------------------------------------------------------------------------
 }//namespace AE
-//-----------------------------------------------------------------------------
+//-------------------------------------------------------------------------------

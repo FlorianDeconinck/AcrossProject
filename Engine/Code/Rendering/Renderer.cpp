@@ -174,16 +174,18 @@ namespace AE{
 		//TO MOVE TO A BUILD_ENGINE (this is more BUILD SCENE)
 		//Shaders
 		m_ColorShader.Load(*this, "color.vs", "color.fs");
+		m_TextureShader.Load(*this, "texture.vs", "texture.fs");
 		m_ThickLinesColorShader.Load(*this, "thickLines.vs", "thickLines.fs", "thickLines.gs");
 		m_BlurShader.Load(*this, "blur.vs", "blur.fs");
 		m_FXAAShader.Load(*this, "blur.vs", "FXAA.fs");
 		//Enable test
 		glEnable( GL_DEPTH_TEST );
 		//Build obj
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_ColorShader; m_ShaderAttachedCount++;
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_BlurShader; m_ShaderAttachedCount++;
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_FXAAShader; m_ShaderAttachedCount++;
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_ThickLinesColorShader; m_ShaderAttachedCount++;
+		m_ShadersAttached[m_ShaderAttachedCount] = &m_ColorShader;						m_ShaderAttachedCount++;
+		m_ShadersAttached[m_ShaderAttachedCount] = &m_TextureShader;					m_ShaderAttachedCount++;
+		m_ShadersAttached[m_ShaderAttachedCount] = &m_BlurShader;							m_ShaderAttachedCount++;
+		m_ShadersAttached[m_ShaderAttachedCount] = &m_FXAAShader;							m_ShaderAttachedCount++;
+		m_ShadersAttached[m_ShaderAttachedCount] = &m_ThickLinesColorShader;	m_ShaderAttachedCount++;
 		m_Scene.Load();
 		//Camera
 		m_MainCamera.BuildProjMatrix( 45.0f, (float)RENDERER::WIDTH / (float)RENDERER::HEIGHT, 0.1f, 100.0f );

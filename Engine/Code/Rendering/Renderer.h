@@ -58,10 +58,11 @@ namespace AE{
 		ZELDA_CAMERA		m_MainCamera;
 		AT::I32				m_iPostProcess; //0 : nothin - 1 : blur - 2 :fxaa
 		//--
-		COLOR_SHADER		m_ColorShader;
+		COLOR_SHADER			m_ColorShader;
+		TEXTURE_SHADER		m_TextureShader;
 		THICK_LINES_COLOR	m_ThickLinesColorShader;
-		BLUR_SHADER			m_BlurShader;
-		FXAA_SHADER			m_FXAAShader;
+		BLUR_SHADER				m_BlurShader;
+		FXAA_SHADER				m_FXAAShader;
 		//----
 					RENDERER();
 					~RENDERER();

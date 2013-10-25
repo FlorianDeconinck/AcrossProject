@@ -24,6 +24,7 @@ namespace AE{
 		enum SHADERS_ID{
 			NO_SHADERS=0,
 			COLOR_3D_SHADER,
+			TEXTURE_3D_SHADER,
 			THICK_LINES_3D_SHADER,
 			FXAA_SCREEN_SHADER,
 			BLUR_SCREEN_SHADER,
@@ -39,7 +40,7 @@ namespace AE{
 		virtual void Init(RENDERER& Renderer)=0;
 		virtual void InitObject(const SCENE& Scene, R_OBJECT& Object)=0;
 		virtual void BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject)=0;
-		virtual void BindDynamicFragmentAttrib()=0;
+		virtual void BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject=NULL)=0;
 	protected :
 		void LoadAndCompileShaderFromFile(const AT::I8* Name, GLuint& Shader);
 	};

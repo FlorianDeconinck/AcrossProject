@@ -70,13 +70,16 @@ namespace AE{
 			STATUS_COUNT,
 		};
 		//--
-		AT::I32 GetWorldHeight()		{ return m_nMapHeight; }
-		AT::I32 GetWorldWidth()			{ return m_nMapWidth; }
-		AT::I32 GetNPCCount()			{ return m_NPCArrays.size(); }
-		NPC*	GetNPC(AT::I32 index)	{ return m_NPCArrays[index]; }
+		inline AT::I32 GetWorldHeight()									const { return m_nMapHeight; }
+		inline AT::I32 GetWorldWidth()									const { return m_nMapWidth; }
+		inline AT::I32 GetNPCCount()										const { return m_NPCArrays.size(); }
+		inline NPC*	GetNPC(AT::I32 index)								const { return m_NPCArrays[index]; }
+		inline AT::I32F GetTileSize()										const { return m_TileSize; }
+		inline AT::I32F GetElapsedTimeSinceUdpateInMS() const { return m_ElapsedTimeSinceLastUpdate_ms; }
 		//--
 		AT::I8 SpawnNPC(const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
 		void SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S);
+		//--
 	protected:
 		//--
 		WORLD(AT::I32F _TileSize=0.1f);
@@ -95,12 +98,13 @@ namespace AE{
 		R_OBJECT*	m_pRGridQuad;
 		R_OBJECT*	m_pRGridLines;
 #endif
-		AT::I32F			m_TileSize; //size of a single tile in meter
+		AT::I32F					m_TileSize; //size of a single tile in meter
+		AT::I32F					m_ElapsedTimeSinceLastUpdate_ms;
 		std::vector<NPC*>	m_NPCArrays;
-		STATUS				m_Status;
-		PLAYER*				m_Player0;
+		STATUS						m_Status;
+		PLAYER*						m_Player0;
 		//--
-		RENDERER*			m_pRenderer;			
+		RENDERER*					m_pRenderer;			
 	};
 	//-----------------------------------------------------------------------------
 }//namespace AE

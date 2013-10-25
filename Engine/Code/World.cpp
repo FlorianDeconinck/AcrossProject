@@ -49,7 +49,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	//WORLD
 	//---------------------------------------------------------------------------
-	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Player0(NULL){
+	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Player0(NULL),m_ElapsedTimeSinceLastUpdate_ms(0){
 #ifdef _DEBUG
 		m_pRGridQuad	= NULL;
 		m_pRGridLines	= NULL;
@@ -70,7 +70,7 @@ namespace AE{
 		AT::I32F Green[] = {0.f, 0.8f, 0.f, 1.f};
 		AT::I32 Idx = 0;
 		AT::I32 VerticesCount = m_nMapWidth*m_nMapHeight*4;
-		AT::I32F* GridVertices = new AT::I32F[VerticesCount*Renderer.m_Scene.GetVertexSize()];
+		AT::I32F* GridVertices = new AT::I32F[VerticesCount*Renderer.m_Scene.GetColorVertexSize()];
 		for(AT::I32 iH = m_nMapHeight-1  ; iH >=0 ; iH--){
 			for(AT::I32 iW = 0 ; iW < m_nMapWidth ; iW++){
 				if(GetTile(iW, iH) == WALKABLE)
@@ -94,12 +94,12 @@ namespace AE{
 			delete m_pRGridQuad;
 		m_pRGridQuad = new R_OBJECT();
 		m_pRGridQuad->m_GLDisplayMode = GL_QUADS;
-		m_pRGridQuad->Build(GridVertices, VerticesCount, NULL, 0, Renderer.m_Scene.GetStaticPool(), GL_STREAM_DRAW,false);
+		m_pRGridQuad->Build(GridVertices, VerticesCount, NULL, 0, Renderer.m_Scene.GetStaticColorObjectPool(), GL_STREAM_DRAW, false);
 		Renderer.InitRObject(*m_pRGridQuad, SHADER_ABC::COLOR_3D_SHADER);
 		delete GridVertices;
 		//--
 		VerticesCount = 2*(m_nMapWidth+1)+2*(m_nMapHeight+1);
-		GridVertices = new AT::I32F[VerticesCount*Renderer.m_Scene.GetVertexSize()];
+		GridVertices = new AT::I32F[VerticesCount*Renderer.m_Scene.GetColorVertexSize()];
 		Idx = 0;
 		for(AT::I32 iW = 0  ; iW <= m_nMapWidth ; iW++){
 			SCENE::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, 0.f, 0.f, 0.f, 0.f, 0.8f);
@@ -117,7 +117,7 @@ namespace AE{
 			delete m_pRGridLines;
 		m_pRGridLines = new R_OBJECT();
 		m_pRGridLines->m_GLDisplayMode = GL_LINES;
-		m_pRGridLines->Build(GridVertices, VerticesCount, NULL, 0, Renderer.m_Scene.GetStaticPool(), GL_STREAM_DRAW, false);
+		m_pRGridLines->Build(GridVertices, VerticesCount, NULL, 0, Renderer.m_Scene.GetStaticColorObjectPool(), GL_STREAM_DRAW, false);
 		Renderer.InitRObject(*m_pRGridLines, SHADER_ABC::THICK_LINES_3D_SHADER);
 		delete GridVertices;
 		//--
@@ -134,11 +134,12 @@ namespace AE{
 		DebugRendererLoad(R);
 #endif
 		//Load Player 0
-// 		m_Player0 = new PLAYER();
-// 		m_Player0->LoadMeshs(*this, R);
+ 		m_Player0 = new PLAYER();
+ 		m_Player0->LoadMeshs(*this, R);
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
+		m_ElapsedTimeSinceLastUpdate_ms = (AT::I32F)elapsedTime_ms;
 		//Update NPC
 		AT::I32 NpcCount = m_NPCArrays.size();
 		for(int iNPC = 0 ; iNPC < NpcCount ; ++iNPC){
@@ -157,14 +158,14 @@ namespace AE{
 	//--------------------------------------------------------------------------
 	void WORLD::RenderNPC(RENDERER& R, int NPCIdx){
 		NPC& Npc = *m_NPCArrays[NPCIdx];
-		Npc.Draw(R, m_TileSize);
+		Npc.Draw(*this, R, m_TileSize);
 		GL_TOOL::CheckGLError();
 	}
 	//--------------------------------------------------------------------------
 	void WORLD::RenderPlayer(RENDERER& R){
 		if(!m_Player0)
 			return;
-		m_Player0->Draw(R, m_TileSize);
+		m_Player0->Draw(*this, R, m_TileSize);
 		GL_TOOL::CheckGLError();
 	}
 	//--------------------------------------------------------------------------

@@ -7,15 +7,15 @@
 #include <cstdlib>
 //---------------------------------------------------------------------------
 namespace AE{
-	template <typename sreal_t, AT::I32 __VertexMemSize, AT::I32 __PositionOffset, AT::I32 __ColorOffset> class STATIC_VERTICES_POOL{
+	template <typename sreal_t, AT::I32 __VertexMemSize, AT::I32 __PositionOffset, AT::I32 __ColOrTextOffset> class STATIC_VERTICES_POOL{
 	protected :
 		sreal_t*		Buffer;
 		int				MemSize;		
 	public :
 		int				Count;
-		static const AT::I32 PositionOffset = __PositionOffset;
-		static const AT::I32 VertexMemSize = __VertexMemSize;
-		static const AT::I32 ColorOffset = __ColorOffset;
+		static const AT::I32 PositionOffset		= __PositionOffset;
+		static const AT::I32 ColOrTextOffset	= __ColOrTextOffset;
+		static const AT::I32 VertexMemSize		= __VertexMemSize;
 		//------------------------------------
 		//------------------------------------
 	public :

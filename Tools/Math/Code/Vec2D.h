@@ -23,7 +23,8 @@ namespace AT{
 		VEC2D<unit>		operator*(const unit& s)		const	{ VEC2D<unit> Vr; Vr.x = s*this->x; Vr.y = s*this->y; return Vr; }
 		VEC2D<unit>		operator+=(const VEC2D<unit>& V)		{ x += V.x; y += V.y; return *this; }
 		VEC2D<unit>		operator/(const unit& s)		const	{ VEC2D<unit> Vr; Vr.x = this->x/s ; Vr.y = this->y/s; return Vr; }
-		I8				operator==(const VEC2D<unit>& V)const	{ return x == V.x && y == V.y; }
+		I8						operator==(const VEC2D<unit>& V)const	{ return x == V.x && y == V.y; }
+		I8						operator!=(const VEC2D<unit>& V)const	{ return x != V.x || y != V.y; }
 		VEC2D<unit>		operator=(const VEC2D<unit>& V)			{ x=V.x ; y=V.y ; return *this; }
 	};
 	//-----------------------------------------------------------------------

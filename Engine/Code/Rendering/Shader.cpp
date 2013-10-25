@@ -106,7 +106,7 @@ namespace AE{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Renderer.m_texScreenShaderColorBuffer);
 		glBindVertexArray(vaoQuad);
-		BindDynamicFragmentAttrib();
+		BindDynamicFragmentAttrib(Renderer);
 		glDrawArrays(GL_QUADS, 0, 4);
 	}
 	//-----------------------------------------------------------------------------
