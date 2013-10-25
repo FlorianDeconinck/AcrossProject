@@ -12,15 +12,19 @@ This work is based on several reads :
 * For A.I. 
   * Pathfinder - JPS : pruning algorithm for grid-based pathfinder by Daniel Harabor and Alban Grastien [(paper)](http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-socs12.pdf)
   * AiGameDev [(link)](http://aigamedev.com/)
+* For cross-plateform image manipulation :  [(DevIL SDK)](http://openil.sourceforge.net/)
 
 ###Libraries
 * ImGUI by Adrien Herubel [(GitHub)](https://github.com/AdrienHerubel/imgui), which was inspired from Recast GUI by Mikko Mononen [(GitHub)](https://github.com/memononen/recastnavigation)
 
 ##Project implemented list
+* Grid-based environment
 * Basic rendering OpenGL dependant structure
   * ThickLines geometry shader
-  * FXAA
-* Grid-based environment
+  * FXAA shader
+  * Basic texture shader
+* Animation
+ * Sprites animation
 * A* pathfinder
   * Pruning acceleration : JPS
 
