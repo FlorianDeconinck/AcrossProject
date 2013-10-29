@@ -12,7 +12,8 @@ namespace AT{
 		//--
 						VEC2D()								{ Zero(); }
 						VEC2D(unit _x, unit _y):x(_x),y(_y)	{}
-		void			Set(unit _x, unit _y)				{x = _x; y = _y;}
+						VEC2D(const VEC2D<unit>& V)			{ x = V.x; y = V.y; }
+		void			Set(unit _x, unit _y)				{ x = _x; y = _y;}
 		//--
 		void			Zero()									{ x=y=0; }
 		I8				IsZero()						const	{ return abs(x)<AT_EPSILON && abs(y)<AT_EPSILON; }

@@ -33,13 +33,10 @@ namespace AE{
 		//-----------------------------------------------------------------------
 		void Loop(GameCallback_t& GameInitCallback, GameCallback_t& GameUpdateCallback);
 		//-----------------------------------------------------------------------
-		AT::I32 RollInt100Dice(){
-			return m_DistributionInterger(m_defaultGenerator);
-		}
+		inline AT::I32 RollInt100Dice()				{ return m_DistributionInterger(m_defaultGenerator); }
+		inline AT::I64F RollRealDice()				{ return m_DistributionReal(m_defaultGenerator); }
 		//-----------------------------------------------------------------------
-		AT::I64F RollRealDice(){
-			return m_DistributionReal(m_defaultGenerator);
-		}
+		inline void SetCamera(BASE_CAMERA* pCamera)	{ R.SetCamera(pCamera); }
 		//-----------------------------------------------------------------------
 	public :
 		static TIMER	m_Timer;

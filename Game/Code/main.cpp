@@ -4,6 +4,9 @@
 #include <stdio.h>
 //Engine
 #include <Engine.h>
+#include <Camera.h>
+//--------------------------------------------------------------------------
+AE::ZELDA_CAMERA g_ZeldaCam;
 //--------------------------------------------------------------------------
 AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World){
 	//--
@@ -18,6 +21,8 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World){
 		AE::NPC* Npc = World.GetNPC(iNPC);
 		Npc->SetDestination(Npc->GetPosition());
 	}
+	//--
+	E.SetCamera(&g_ZeldaCam);
 	//--
 	return AE::ENGINE::NO_MSG;
 }

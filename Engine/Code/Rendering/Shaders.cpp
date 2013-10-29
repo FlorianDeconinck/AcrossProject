@@ -35,8 +35,8 @@ namespace AE{
 	}
 	//-----------------------------------------------------------------------------
 	void COLOR_SHADER::BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject){
-		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_MainCamera.m_View.ToGL());
-		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_MainCamera.m_Proj.ToGL());
+		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_View.ToGL());
+		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_Proj.ToGL());
 		glUniformMatrix4fv(RObject.m_uniformModel, 1, GL_FALSE, (GLfloat*)RObject.m_trfModel.ToGL());
 		GL_TOOL::CheckGLError();
 	}
@@ -68,8 +68,8 @@ namespace AE{
 	}
 	//-----------------------------------------------------------------------------
 	void TEXTURE_SHADER::BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject){
-		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_MainCamera.m_View.ToGL());
-		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_MainCamera.m_Proj.ToGL());
+		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_View.ToGL());
+		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_Proj.ToGL());
 		glUniformMatrix4fv(RObject.m_uniformModel, 1, GL_FALSE, (GLfloat*)RObject.m_trfModel.ToGL());
 		GL_TOOL::CheckGLError();
 	}

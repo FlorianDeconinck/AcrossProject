@@ -65,18 +65,6 @@ namespace AE{
 			switch (KC){
 				case CONTROLLER::UNKNOWN:
 					break;
-				case CONTROLLER::KC_LEFT:
-					m_pRenderer->m_MainCamera.MoveLeft();
-					break;
-				case CONTROLLER::KC_RIGHT:
-					m_pRenderer->m_MainCamera.MoveRight();
-					break;
-				case CONTROLLER::KC_UP:
-					m_pRenderer->m_MainCamera.MoveForward();
-					break;
-				case CONTROLLER::KC_DOWN:
-					m_pRenderer->m_MainCamera.MoveBackward();
-					break;
 				case CONTROLLER::KC_ESCAPE:
 					m_bQuit = true;
 					break;
@@ -110,6 +98,8 @@ namespace AE{
 				default:
 					break;
 			}
+			//-- CBs --
+			m_pRenderer->m_pCurrentCamera->KeyboardCB(KC, bDown);
 		}
 	}
 	//--------------------------------------------------------------------------

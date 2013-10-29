@@ -55,7 +55,8 @@ namespace AE{
 		static const		AT::I32 WIDTH = 1280;
 		static const		AT::I32 HEIGHT = 720;
 		SCENE				m_Scene;
-		ZELDA_CAMERA		m_MainCamera;
+		BASE_CAMERA*		m_pCurrentCamera;
+		CLASSIC_CAMERA		m_DefaultCamera;
 		AT::I32				m_iPostProcess; //0 : nothin - 1 : blur - 2 :fxaa
 		//--
 		COLOR_SHADER			m_ColorShader;
@@ -79,6 +80,12 @@ namespace AE{
 		void		ToggleVSync();
 		void		Clean();
 		void		InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID);
+		//--
+		inline void		SetCamera(BASE_CAMERA* pCamera){	
+															m_pCurrentCamera = pCamera;
+															m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)RENDERER::WIDTH / (float)RENDERER::HEIGHT, 0.1f, 100.0f );
+															m_pCurrentCamera->LookAt(m_pCurrentCamera->m_Eye, m_pCurrentCamera->m_Target, m_pCurrentCamera->m_Up);
+														}
 		//----------------------------
 	};
 	//---------------------------------------------------------------------------

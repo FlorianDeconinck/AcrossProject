@@ -1,11 +1,22 @@
 //---------------------------------------------------------------------------
 //Project
 #include "Camera.h"
+#include "World.h"
 //STD
 #include <math.h>
+//Tool
+#include <MathMacros.h>
 namespace AE{
 	//---------------------------------------------------------------------------
 	//BASE CAMERA
+	//---------------------------------------------------------------------------
+	BASE_CAMERA::BASE_CAMERA(){
+		m_View.Identity();
+		m_Proj.Identity();
+		m_Eye.Zero();
+		m_Target.Zero();
+		m_Up.Zero();
+	}
 	//---------------------------------------------------------------------------
 	void MatrixMultNxN(AT::I32F R[4][4], AT::I32F A[4][4], AT::I32F B[4][4]){
 		static const int NMatrixMult = 4;
@@ -22,9 +33,9 @@ namespace AE{
 		m_Eye = Eye;
 		m_Target = Target;
 		m_Up = Up;
-		AT::VEC3Df zaxis = Target - Eye;					// The "look-at" vector.
+		AT::VEC3Df zaxis = Target - Eye;		  // The "look-at" vector.
 		zaxis.Normalize();
-		AT::VEC3Df xaxis = Up.Cross(zaxis);				// The "right" vector.
+		AT::VEC3Df xaxis = Up.Cross(zaxis);		  // The "right" vector.
 		xaxis.Normalize();
 		AT::VEC3Df yaxis = zaxis.Cross(xaxis);    // The "up" vector.
 
@@ -108,34 +119,76 @@ namespace AE{
 			m_Proj.m_bDirty=false;
 	}
 	//---------------------------------------------------------------------------
-	//ZELDA CAMERA
+	//CLASSIC CAMERA
 	//---------------------------------------------------------------------------
-	void ZELDA_CAMERA::MoveLeft(){
-		AT::VEC3Df zaxis = m_Target - m_Eye;				// The "look-at" vector.
+	//---------------------------------------------------------------------------
+	inline void MoveLeft(BASE_CAMERA& Cam){
+		AT::VEC3Df zaxis = Cam.m_Target - Cam.m_Eye;				// The "look-at" vector.
 		zaxis.Normalize();
-		AT::VEC3Df xaxis = m_Up.Cross(zaxis);				// The "right" vector.
+		AT::VEC3Df xaxis = Cam.m_Up.Cross(zaxis);				// The "right" vector.
 		xaxis.Normalize(); 
 		xaxis = xaxis*-0.1f;
-		LookAt(m_Eye+xaxis, m_Target+xaxis, m_Up);
+		Cam.LookAt(Cam.m_Eye+xaxis, Cam.m_Target+xaxis, Cam.m_Up);
 	}
 	//---------------------------------------------------------------------------
-	void ZELDA_CAMERA::MoveRight(){
-		AT::VEC3Df zaxis = m_Target - m_Eye;				// The "look-at" vector.
+	inline void MoveRight(BASE_CAMERA& Cam){
+		AT::VEC3Df zaxis = Cam.m_Target - Cam.m_Eye;				// The "look-at" vector.
 		zaxis.Normalize();
-		AT::VEC3Df xaxis = m_Up.Cross(zaxis);				// The "right" vector.
+		AT::VEC3Df xaxis = Cam.m_Up.Cross(zaxis);				// The "right" vector.
 		xaxis.Normalize(); 
 		xaxis = xaxis*0.1f;
-		LookAt(m_Eye+xaxis, m_Target+xaxis, m_Up);
+		Cam.LookAt(Cam.m_Eye+xaxis, Cam.m_Target+xaxis, Cam.m_Up);
 	}
 	//---------------------------------------------------------------------------
-	void ZELDA_CAMERA::MoveForward(){
+	inline void MoveForward(BASE_CAMERA& Cam){
 		AT::VEC3Df Forward(0.1f, 0.f, 0.1f);
-		LookAt(m_Eye+Forward, m_Target+Forward, m_Up);
+		Cam.LookAt(Cam.m_Eye+Forward, Cam.m_Target+Forward, Cam.m_Up);
 	}
 	//---------------------------------------------------------------------------
-	void ZELDA_CAMERA::MoveBackward(){
+	inline void MoveBackward(BASE_CAMERA& Cam){
 		AT::VEC3Df Backward(-0.1f, 0.f, -0.1f);
-		LookAt(m_Eye+Backward, m_Target+Backward, m_Up);
+		Cam.LookAt(Cam.m_Eye+Backward, Cam.m_Target+Backward, Cam.m_Up);
+	}
+	//---------------------------------------------------------------------------
+	void CLASSIC_CAMERA::KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown){
+		switch(KC){
+			case CONTROLLER::KC_LEFT:
+				MoveLeft(*this);
+				break;
+			case CONTROLLER::KC_RIGHT:
+				MoveRight(*this);
+				break;
+			case CONTROLLER::KC_UP:
+				MoveForward(*this);
+				break;
+			case CONTROLLER::KC_DOWN:
+				MoveBackward(*this);
+				break;
+		}
+	}
+	//---------------------------------------------------------------------------
+	// ZELDA CAMERA
+	//---------------------------------------------------------------------------
+	ZELDA_CAMERA::ZELDA_CAMERA():m_DistanceToPlayer(5){
+		//--
+		m_Up.Set(0.f, 1.f, 0.f);
+		m_Target.Zero();
+		m_Eye.Zero();
+		//--
+		m_TargetToEye.z = -m_DistanceToPlayer;
+		static const AT::I32F alpha_in_degree = 30;
+		static const AT::I32F theta_in_degree = 45;
+		m_TargetToEye = AT::QUAT<AT::I32F>::RotateAngleAxis(m_TargetToEye, AT_DEG_TO_RAD(alpha_in_degree), 1.f, 0, 0); //up
+		m_TargetToEye = AT::QUAT<AT::I32F>::RotateAngleAxis(m_TargetToEye, AT_DEG_TO_RAD(theta_in_degree), 0, 1.f, 0); //behind
+	}
+	//---------------------------------------------------------------------------
+	void ZELDA_CAMERA::Update(const WORLD& W){
+		AT::VEC2Df Player0WorldPos = W.GetPlayer0WorldPos();
+		//--
+		m_Target = AT::VEC3Df(Player0WorldPos.x, 0, Player0WorldPos.y);
+		//--
+		m_Eye = m_Target + m_TargetToEye;
+		LookAt(m_Eye, m_Target, m_Up);
 	}
 	//---------------------------------------------------------------------------
 }//namespace AE

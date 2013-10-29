@@ -198,7 +198,7 @@ namespace AE{
 		R.InitRObject(*m_Meshs[0], SHADER_ABC::TEXTURE_3D_SHADER);
 		delete VerticesData;
 		//--
-		m_BBox.Init(Grid, m_Position, 3, 3);		
+		m_BBox.Init(Grid, m_Position, 2, 2);		
 	}
 	//-----------------------------------------------------------------------------
 	void PLAYER::Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize){

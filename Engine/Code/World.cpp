@@ -50,6 +50,7 @@ namespace AE{
 	//WORLD
 	//---------------------------------------------------------------------------
 	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Player0(NULL),m_ElapsedTimeSinceLastUpdate_ms(0){
+		m_TileSize = 0.1f;
 #ifdef _DEBUG
 		m_pRGridQuad	= NULL;
 		m_pRGridLines	= NULL;
@@ -134,8 +135,8 @@ namespace AE{
 		DebugRendererLoad(R);
 #endif
 		//Load Player 0
- 		m_Player0 = new PLAYER();
- 		m_Player0->LoadMeshs(*this, R);
+		m_Player0 = new PLAYER();
+		m_Player0->LoadMeshs(*this, R);
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){

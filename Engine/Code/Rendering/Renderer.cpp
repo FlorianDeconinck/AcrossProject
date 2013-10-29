@@ -20,6 +20,7 @@ namespace AE{
 #ifdef _DEBUG
 		m_bDrawDebug = true;
 #endif
+		SetCamera(&m_DefaultCamera);
 	}
 	//---------------------------------------------------------------------------
 	RENDERER::~RENDERER(){	
@@ -38,6 +39,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	void RENDERER::Update(GUI& Gui, CONTROLLER& C, WORLD& W){
 		//-----------------------------
+		m_pCurrentCamera->Update(W);
 		//-----------------------------
 		if(m_iPostProcess){
 			glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
@@ -188,8 +190,8 @@ namespace AE{
 		m_ShadersAttached[m_ShaderAttachedCount] = &m_ThickLinesColorShader;	m_ShaderAttachedCount++;
 		m_Scene.Load();
 		//Camera
-		m_MainCamera.BuildProjMatrix( 45.0f, (float)RENDERER::WIDTH / (float)RENDERER::HEIGHT, 0.1f, 100.0f );
-		m_MainCamera.LookAt(Eye, Target, Up);
+		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)RENDERER::WIDTH / (float)RENDERER::HEIGHT, 0.1f, 100.0f );
+		m_pCurrentCamera->LookAt(Eye, Target, Up);
 		//FrameBuffer
 		glGenTextures(1, &m_texScreenShaderColorBuffer);
 		glBindTexture(GL_TEXTURE_2D, m_texScreenShaderColorBuffer);

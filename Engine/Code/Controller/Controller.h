@@ -14,6 +14,9 @@ namespace AE{
 	class WINDOW;
 	class CONTROLLER{
 	protected :
+		RENDERER *			m_pRenderer;
+		//--
+	public :
 		enum ACROSS_KEY_CODE{
 			UNKNOWN = 0,
 			KC_LEFT,
@@ -32,9 +35,6 @@ namespace AE{
 			CMD_NEXT_SONG,
 			CMD_PREV_SONG,
 		};
-		RENDERER *			m_pRenderer;
-		//--
-	public :
 		WINDOW*				m_pMainWindow;
 		XBOX_CONTOLLER		m_Xbox;
 		AT::I8				m_bQuit;
