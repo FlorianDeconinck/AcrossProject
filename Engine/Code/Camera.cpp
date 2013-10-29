@@ -177,7 +177,7 @@ namespace AE{
 		//--
 		m_TargetToEye.z = -m_DistanceToPlayer;
 		static const AT::I32F alpha_in_degree = 30;
-		static const AT::I32F theta_in_degree = 45;
+		static const AT::I32F theta_in_degree = 0;
 		m_TargetToEye = AT::QUAT<AT::I32F>::RotateAngleAxis(m_TargetToEye, AT_DEG_TO_RAD(alpha_in_degree), 1.f, 0, 0); //up
 		m_TargetToEye = AT::QUAT<AT::I32F>::RotateAngleAxis(m_TargetToEye, AT_DEG_TO_RAD(theta_in_degree), 0, 1.f, 0); //behind
 	}
