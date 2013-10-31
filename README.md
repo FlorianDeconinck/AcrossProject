@@ -28,6 +28,6 @@ This work is based on several reads :
 * A* pathfinder
   * Pruning acceleration : JPS
 
-##Work of the moment
 
-Drinking coffeeeeeee.....
+
+[Work of the moment](https://github.com/FlorianDeconinck/AcrossProject/wiki/Across-Wiki---News#and-now-on-the-across-project)
