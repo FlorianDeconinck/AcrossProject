@@ -24,10 +24,10 @@ This work is based on several reads :
   * FXAA shader
   * Basic texture shader
 * Animation
- * Sprites animation
+ * Messy sprites animation
 * A* pathfinder
   * Pruning acceleration : JPS
 
 ##Work of the moment
 
-* Episode 1 : "Flat is good" [(desc)](https://github.com/FlorianDeconinck/AcrossProject/wiki/Across-Wiki---News#and-now-on-the-across-project)
+Drinking coffeeeeeee.....
