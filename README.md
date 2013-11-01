@@ -2,6 +2,9 @@ The Across Project
 =============
 The Across Project, is a 2.5D engine sandbox. The goal is to develop a flexible architecture to test different algorithm in many different fields (rendering, A.I., gameplay...) on a fun and open platform.
 Even if speed and optimization isn't the primary goal here, they'll be sacrificed only for the sake of flexibility.
+
+I'll try to write down some thoughts and technical details on how I implement the system as I go in the [project wiki](https://github.com/FlorianDeconinck/AcrossProject/wiki).
+
 ##Sources
 
 ###Reads
@@ -12,10 +15,10 @@ This work is based on several reads :
 * For A.I. 
   * Pathfinder - JPS : pruning algorithm for grid-based pathfinder by Daniel Harabor and Alban Grastien [(paper)](http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-socs12.pdf)
   * AiGameDev [(link)](http://aigamedev.com/)
-* For cross-plateform image manipulation :  [(DevIL SDK)](http://openil.sourceforge.net/)
 
 ###Libraries
 * ImGUI by Adrien Herubel [(GitHub)](https://github.com/AdrienHerubel/imgui), which was inspired from Recast GUI by Mikko Mononen [(GitHub)](https://github.com/memononen/recastnavigation)
+* For cross-plateform image manipulation :  [(DevIL SDK)](http://openil.sourceforge.net/)
 
 ##Project implemented list
 * Grid-based environment
