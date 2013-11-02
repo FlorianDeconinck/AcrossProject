@@ -44,7 +44,7 @@ namespace AE{
 		//---
 		G.Init();
 		//---
-		GameInitCallback(*this, W);
+		GameInitCallback(*this, W, C);
 		//---
 		AT::I64F tStartFrame, tEndFrame;
 		AT::I8 title[64];
@@ -60,7 +60,7 @@ namespace AE{
 			//--
 			C.Update();
 			//--
-			GAME_MSG gameMsg = GameUpdateCallback(*this, W);
+			GAME_MSG gameMsg = GameUpdateCallback(*this, W, C);
 			//Go through msg
 			//--
 #ifdef _DEBUG

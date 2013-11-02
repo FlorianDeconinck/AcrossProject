@@ -6,9 +6,10 @@
 #include <Engine.h>
 #include <Camera.h>
 //--------------------------------------------------------------------------
-AE::ZELDA_CAMERA g_ZeldaCam;
+AE::ZELDA_CAMERA	g_ZeldaCam;
+AT::I8				g_bSwitch=true;
 //--------------------------------------------------------------------------
-AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World){
+AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C){
 	//--
 	AT::I32 H = World.GetWorldHeight();
 	AT::I32 W = World.GetWorldWidth();
@@ -22,14 +23,15 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World){
 		Npc->SetDestination(Npc->GetPosition());
 	}
 	//--
-	E.SetCamera(&g_ZeldaCam);
+	//E.SetCamera(&g_ZeldaCam);
 	//--
 	return AE::ENGINE::NO_MSG;
 }
 //--------------------------------------------------------------------------
-AE::ENGINE::GAME_MSG GameLogicUpdate(AE::ENGINE& E, AE::WORLD& World){
+AE::ENGINE::GAME_MSG GameLogicUpdate(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C){
 	AT::I32 H = World.GetWorldHeight();
 	AT::I32 W = World.GetWorldWidth();
+	//--
 	for(AT::I32 iNPC = 0 ; iNPC < World.GetNPCCount() ; ++iNPC){
 		AE::NPC* Npc = World.GetNPC(iNPC);
 		AT::I8 bFoundDest = false;
@@ -51,6 +53,15 @@ AE::ENGINE::GAME_MSG GameLogicUpdate(AE::ENGINE& E, AE::WORLD& World){
 		if(bFoundDest) //One NPC search for his destination at a time;
 			break;
 	}
+	//--
+	if(C.m_Xbox.m_bSelectButton){
+		if(g_bSwitch)
+			E.SetCamera(&g_ZeldaCam);
+		else
+			E.SetCameraToDefault();
+		g_bSwitch = !g_bSwitch;
+	}
+	//--
 	return AE::ENGINE::NO_MSG;
 }
 //--------------------------------------------------------------------------

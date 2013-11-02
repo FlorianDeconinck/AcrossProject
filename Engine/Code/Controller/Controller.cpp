@@ -104,7 +104,7 @@ namespace AE{
 	}
 	//--------------------------------------------------------------------------
 	void CONTROLLER::OnClickDownCallback(MOUSE_BUTTON MB){
-		if(m_MouseButton!=NO_BUTTON)
+		if(m_MouseButton==NO_BUTTON)
 			m_MouseButton = MB;
 	}
 	//--------------------------------------------------------------------------
@@ -116,10 +116,16 @@ namespace AE{
 	void CONTROLLER::OnMouseMoveCallback(AT::I32 X, AT::I32 Y){
 		m_MouseX = X;
 		m_MouseY = Y;
+		m_pRenderer->m_pCurrentCamera->MouseMoveCB(*this, X, Y);
 	}
 	//--------------------------------------------------------------------------
 	void CONTROLLER::OnMouseScrollCallback(AT::I32 DeltaWheel){
-		m_Scroll = DeltaWheel;
+		m_Scroll = -DeltaWheel/WHEEL_DELTA;
+		m_pRenderer->m_pCurrentCamera->MouseScrollCB(m_Scroll);
+	}
+	//--------------------------------------------------------------------------
+	void CONTROLLER::OnMouseLeaveWdwCallback(){
+		m_MouseButton = NO_BUTTON;
 	}
 	//--------------------------------------------------------------------------
 	void CONTROLLER::OnGamepadCallback(){
@@ -130,9 +136,9 @@ namespace AE{
 	void CONTROLLER::Loop(){
 		MSG msg;
 		HACCEL hAccelTable;
-		hAccelTable = LoadAccelerators(m_pMainWindow->Instance, MAKEINTRESOURCE(107));
+		hAccelTable = LoadAccelerators(m_pMainWindow->m_Instance, MAKEINTRESOURCE(107));
 		while(!m_bQuit){
-			AT::I32 bRet = PeekMessage(&msg, m_pMainWindow->hWnd, 0, 0, 0);
+			AT::I32 bRet = PeekMessage(&msg, m_pMainWindow->m_hWnd, 0, 0, 0);
 			if(bRet>=0){
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);

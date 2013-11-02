@@ -2,6 +2,8 @@
 //Project
 #include "Camera.h"
 #include "World.h"
+#include "Rendering/Renderer.h"
+#include "./GUI/GUI.h"
 //STD
 #include <math.h>
 //Tool
@@ -27,6 +29,10 @@ namespace AE{
 					R[c][r] += A[c][k] * B[k][r];
 			}
 		}
+	}
+	//---------------------------------------------------------------------------
+	void BASE_CAMERA::LookAt(){
+		LookAt(m_Eye, m_Target, m_Up);
 	}
 	//---------------------------------------------------------------------------
 	void BASE_CAMERA::LookAt(AT::VEC3Df Eye, AT::VEC3Df Target, AT::VEC3Df Up){
@@ -165,6 +171,62 @@ namespace AE{
 				MoveBackward(*this);
 				break;
 		}
+	}
+	//---------------------------------------------------------------------------
+	// BALL CAMERA 
+	//---------------------------------------------------------------------------
+	ARCBALL_CAMERA::ARCBALL_CAMERA(){
+		m_LastMousePos.Set(-1, -1);
+		m_R = 5.f;
+		m_Theta = AT_PI/2.f;
+		m_Phi = -AT_PI;
+		m_bDirty = true;
+		//--
+		m_Up.Set(0, 1.f, 0);
+		m_Eye.Zero();
+		m_Target.Zero();
+	}
+	//---------------------------------------------------------------------------
+	void ARCBALL_CAMERA::Update(const WORLD& W){
+		if(!m_bDirty)
+			return;
+		//--
+		m_Eye = m_Target;
+		m_Eye.z += m_R * sin(m_Theta) * cos(m_Phi);
+		m_Eye.x += m_R * sin(m_Theta) * sin(m_Phi);
+		m_Eye.y += m_R * cos(m_Theta);
+		//--
+		LookAt(m_Eye, m_Target, m_Up);
+		m_bDirty = false;
+	}
+	//---------------------------------------------------------------------------
+	void ARCBALL_CAMERA::MouseMoveCB(const CONTROLLER& C, AT::I32 X, AT::I32 Y){
+		AT::VEC2Di DeltaMove(X - m_LastMousePos.x, Y - m_LastMousePos.y);
+		DeltaMove.y *= -1;
+		const static float speed = 10.f;
+		if(C.GetClickedMouseButton() == CONTROLLER::LEFT){
+			m_Theta += AT_DEG_TO_RAD(((AT::I32F)DeltaMove.y / (AT::I32F)RENDERER::HEIGHT)*2*AT_PI*speed);
+			m_Phi	+= AT_DEG_TO_RAD(((AT::I32F)DeltaMove.x / (AT::I32F)RENDERER::WIDTH)*2*AT_PI*speed);
+			m_bDirty = true;
+		}
+		if(C.GetClickedMouseButton() == CONTROLLER::MIDDLE){
+			AT::I32F dx = m_Eye.x-m_Target.x;
+			AT::I32F dy = m_Eye.z-m_Target.z;
+			AT::VEC2Df ZXNormalToTargetEye(-dy, dx);
+			AT::I32F Move = ((AT::I32F)DeltaMove.x / (AT::I32F)RENDERER::WIDTH);
+			m_Target.x += ZXNormalToTargetEye.x * Move;
+			m_Target.z += ZXNormalToTargetEye.y * Move;
+			m_Target.y -= ((AT::I32F)DeltaMove.y / (AT::I32F)RENDERER::HEIGHT)*speed;
+			m_bDirty = true;
+		}
+		m_LastMousePos.Set(X, Y);
+	}
+	//---------------------------------------------------------------------------
+	void ARCBALL_CAMERA::MouseScrollCB(AT::I32 DeltaWheel){
+		m_R += DeltaWheel;
+		if(m_R <= 0)
+			m_R = 1.f;
+		m_bDirty = true;
 	}
 	//---------------------------------------------------------------------------
 	// ZELDA CAMERA

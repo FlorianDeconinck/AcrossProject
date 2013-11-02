@@ -36,8 +36,7 @@ namespace AE{
 			CMD_PREV_SONG,
 		};
 		WINDOW*				m_pMainWindow;
-		XBOX_CONTOLLER		m_Xbox;
-		AT::I8				m_bQuit;
+		XBOX_CONTROLLER		m_Xbox;
 		AT::I32				m_MouseX;
 		AT::I32				m_MouseY;
 		AT::I32				m_Scroll;
@@ -48,9 +47,10 @@ namespace AE{
 			MIDDLE
 		};
 		MOUSE_BUTTON		m_MouseButton;
+		AT::I8				m_bQuit;
+		AT::I8				m_Padding[3];
 		//--
-						CONTROLLER():m_pRenderer(NULL),m_bQuit(false){}
-		void			SetDependancies(RENDERER* _R){m_pRenderer = _R;}
+						CONTROLLER():m_pRenderer(NULL),m_bQuit(false),m_MouseButton(NO_BUTTON){}
 		ACROSS_KEY_CODE ConvertCmdCodeFromWin32ToAcrossKey(AT::U32 Win32CmdCode);
 		ACROSS_KEY_CODE ConvertKeyCodeFromWin32ToAcrossKey(AT::U32 Win32KeyCode);
 		void			OnKeyboardCallback(ACROSS_KEY_CODE KC, AT::I8 bDown);
@@ -59,8 +59,13 @@ namespace AE{
 		void			OnClickUpCallback(MOUSE_BUTTON MB);
 		void			OnMouseMoveCallback(AT::I32 X, AT::I32 Y);
 		void			OnMouseScrollCallback(AT::I32 DeltaWheel);
+		void			OnMouseLeaveWdwCallback();
 		void			Loop();
 		void			Update();
+		//--
+		inline void			SetDependancies(RENDERER* _R){m_pRenderer = _R;}
+		inline MOUSE_BUTTON	GetClickedMouseButton() const { return m_MouseButton; }
+		inline AT::I32		GetWheelScroll()		const { return m_Scroll; }
 	};
 	//---------------------------------------------------------------------------
 	static DWORD __stdcall ControllerThread_CB(LPVOID Param){

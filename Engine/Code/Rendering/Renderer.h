@@ -56,14 +56,14 @@ namespace AE{
 		static const		AT::I32 HEIGHT = 720;
 		SCENE				m_Scene;
 		BASE_CAMERA*		m_pCurrentCamera;
-		CLASSIC_CAMERA		m_DefaultCamera;
+		ARCBALL_CAMERA		m_DefaultCamera;
 		AT::I32				m_iPostProcess; //0 : nothin - 1 : blur - 2 :fxaa
 		//--
-		COLOR_SHADER			m_ColorShader;
+		COLOR_SHADER		m_ColorShader;
 		TEXTURE_SHADER		m_TextureShader;
 		THICK_LINES_COLOR	m_ThickLinesColorShader;
-		BLUR_SHADER				m_BlurShader;
-		FXAA_SHADER				m_FXAAShader;
+		BLUR_SHADER			m_BlurShader;
+		FXAA_SHADER			m_FXAAShader;
 		//----
 					RENDERER();
 					~RENDERER();
@@ -86,6 +86,7 @@ namespace AE{
 															m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)RENDERER::WIDTH / (float)RENDERER::HEIGHT, 0.1f, 100.0f );
 															m_pCurrentCamera->LookAt(m_pCurrentCamera->m_Eye, m_pCurrentCamera->m_Target, m_pCurrentCamera->m_Up);
 														}
+		inline void		SetCameraToDefault(){ SetCamera(&m_DefaultCamera); }
 		//----------------------------
 	};
 	//---------------------------------------------------------------------------

@@ -18,15 +18,16 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	class WINDOW{
 	private :
-		AT::I8			szWdwClassName[256];
-		AT::I8			szWdwTitle[256];
-		AT::I8			bQuit;
-		RENDERER*	pRenderer;
-		HDC				hDC;
+		AT::I8			m_szWdwClassName[256];
+		AT::I8			m_szWdwTitle[256];
+		AT::I8			m_bQuit;
+		AT::I8			m_bTrackMouse;
+		RENDERER*		m_pRenderer;
+		HDC				m_hDC;
 	public :
-		HWND			hWnd;
-		PLT_HINSTANCE	Instance;
-		CONTROLLER*		pController;
+		HWND			m_hWnd;
+		PLT_HINSTANCE	m_Instance;
+		CONTROLLER*		m_pController;
 		//---
 		WINDOW();
 		~WINDOW(){}

@@ -18,18 +18,18 @@
 //---------------------------------------------------------------------------
 namespace AE{
 	//---------------------------------------------------------------------------
-	WINDOW::WINDOW():hDC(NULL){
-		bQuit = false;
+	WINDOW::WINDOW():m_hDC(NULL),m_bTrackMouse(false){
+		m_bQuit = false;
 	}
 	//---------------------------------------------------------------------------
 	void WINDOW::SetNames(const char* Name, const char* Title){
-		strcpy((char*)szWdwClassName, (char*)Name);
-		strcpy((char*)szWdwTitle, (char*)Title);
+		strcpy((char*)m_szWdwClassName, (char*)Name);
+		strcpy((char*)m_szWdwTitle, (char*)Title);
 	}
 	//---------------------------------------------------------------------------
 	void WINDOW::AttachEngines(RENDERER& _R, CONTROLLER& _C){
-		pRenderer = &_R;
-		pController = &_C;
+		m_pRenderer = &_R;
+		m_pController = &_C;
 	}
 	//---------------------------------------------------------------------------
 	#ifdef _WIN32
@@ -39,7 +39,7 @@ namespace AE{
 		if (message == WM_NCCREATE){
 			pWindow = (WINDOW*) ((LPCREATESTRUCT) lParam)->lpCreateParams ;
 			SetWindowLong (hWnd, GWL_USERDATA, (long)pWindow) ;
-			pWindow->pRenderer->SetMainWindowSettings(GetDC(hWnd), hWnd);
+			pWindow->m_pRenderer->SetMainWindowSettings(GetDC(hWnd), hWnd);
 			return DefWindowProc(hWnd,message,wParam,lParam);
 		}else
 			pWindow = (WINDOW*)GetWindowLong(hWnd, GWL_USERDATA);
@@ -56,46 +56,58 @@ namespace AE{
 				break;
 			case WM_SIZE:
 				RECT Rect;
-				GetClientRect(hWnd, &Rect);
+				GetClientRect(m_hWnd, &Rect);
 				glViewport(0, 0, RENDERER::WIDTH, RENDERER::HEIGHT);
 				break;
 			case WM_KEYDOWN:
-				pController->OnKeyboardCallback(pController->ConvertKeyCodeFromWin32ToAcrossKey(wParam), true);
+				m_pController->OnKeyboardCallback(m_pController->ConvertKeyCodeFromWin32ToAcrossKey(wParam), true);
 				break;
 			case WM_KEYUP:
-				pController->OnKeyboardCallback(pController->ConvertKeyCodeFromWin32ToAcrossKey(wParam), false);
+				m_pController->OnKeyboardCallback(m_pController->ConvertKeyCodeFromWin32ToAcrossKey(wParam), false);
 				break;
-			case WM_MOUSEHWHEEL:
-				pController->OnMouseScrollCallback(GET_WHEEL_DELTA_WPARAM(wParam));
+			case WM_MOUSEWHEEL:
+				m_pController->OnMouseScrollCallback(GET_WHEEL_DELTA_WPARAM(wParam));
+				break;
+			case WM_MOUSELEAVE :
+				m_pController->OnMouseLeaveWdwCallback();
+				m_bTrackMouse = false;
 				break;
 			case WM_LBUTTONDOWN:
-				pController->OnClickDownCallback(CONTROLLER::LEFT);
+				m_pController->OnClickDownCallback(CONTROLLER::LEFT);
 				break;
 			case WM_RBUTTONDOWN:
-				pController->OnClickDownCallback(CONTROLLER::RIGHT);
+				m_pController->OnClickDownCallback(CONTROLLER::RIGHT);
 				break;
 			case WM_MBUTTONDOWN:
-				pController->OnClickDownCallback(CONTROLLER::MIDDLE);
+				m_pController->OnClickDownCallback(CONTROLLER::MIDDLE);
 				break;
 			case WM_LBUTTONUP:
-				pController->OnClickUpCallback(CONTROLLER::LEFT);
+				m_pController->OnClickUpCallback(CONTROLLER::LEFT);
 				break;
 			case WM_RBUTTONUP:
-				pController->OnClickUpCallback(CONTROLLER::RIGHT);
+				m_pController->OnClickUpCallback(CONTROLLER::RIGHT);
 				break;
 			case WM_MBUTTONUP:
-				pController->OnClickUpCallback(CONTROLLER::MIDDLE);
+				m_pController->OnClickUpCallback(CONTROLLER::MIDDLE);
 				break;
-			case WM_MOUSEMOVE:
-				pController->OnMouseMoveCallback(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			case WM_MOUSEMOVE:{
+				if(!m_bTrackMouse){
+					TRACKMOUSEEVENT tm;
+					tm.cbSize = sizeof(TRACKMOUSEEVENT);
+					tm.dwFlags = TME_LEAVE;
+					tm.hwndTrack = m_hWnd;
+					if(TrackMouseEvent(&tm))
+						m_bTrackMouse = true;
+				}
+				m_pController->OnMouseMoveCallback(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 				break;
-			case WM_APPCOMMAND:{
+			}case WM_APPCOMMAND:{
 				int cmd = GET_APPCOMMAND_LPARAM(lParam);
-				pController->OnKeyboardCallback(pController->ConvertCmdCodeFromWin32ToAcrossKey(cmd), true);
+				m_pController->OnKeyboardCallback(m_pController->ConvertCmdCodeFromWin32ToAcrossKey(cmd), true);
 				break;
 			}
 			case WM_QUIT:
-				bQuit = true;
+				m_bQuit = true;
 				break;
 			default:
 				return DefWindowProc(_hWnd, message, wParam, lParam);
@@ -117,10 +129,10 @@ namespace AE{
 		wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 		wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
 		wcex.lpszMenuName	= 0;
-		wcex.lpszClassName	= (LPCSTR)szWdwClassName;
+		wcex.lpszClassName	= (LPCSTR)m_szWdwClassName;
 		wcex.hIconSm		= LoadIcon(wcex.hInstance, IDI_APPLICATION);
 
-		Instance = hInstance; // Store instance handle in our global variable
+		m_Instance = hInstance; // Store instance handle in our global variable
 
 		ATOM ClassAtom = RegisterClassEx(&wcex);
 		if(!ClassAtom){
@@ -129,17 +141,17 @@ namespace AE{
 			return FALSE;
 		}
 
-		hWnd = CreateWindowEx(NULL, MAKEINTATOM(ClassAtom), (LPCSTR)szWdwTitle, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, 0, 0, RENDERER::WIDTH, RENDERER::HEIGHT, NULL, NULL, hInstance, (LPVOID)this);
-		if(!hWnd){
+		m_hWnd = CreateWindowEx(NULL, MAKEINTATOM(ClassAtom), (LPCSTR)m_szWdwTitle, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, 0, 0, RENDERER::WIDTH, RENDERER::HEIGHT, NULL, NULL, hInstance, (LPVOID)this);
+		if(!m_hWnd){
 			DWORD err = GetLastError();
 			Break();
 			return FALSE;
 		}
 	
-		ShowWindow(hWnd, 1);
-		SetWindowPos(hWnd, NULL, 0, 0, RENDERER::WIDTH, RENDERER::HEIGHT, SWP_NOMOVE);
-		UpdateWindow(hWnd);
-		hDC = GetDC(hWnd);
+		ShowWindow(m_hWnd, 1);
+		SetWindowPos(m_hWnd, NULL, 0, 0, RENDERER::WIDTH, RENDERER::HEIGHT, SWP_NOMOVE);
+		UpdateWindow(m_hWnd);
+		m_hDC = GetDC(m_hWnd);
 		return TRUE;
 	}
 	//---------------------------------------------------------------------------

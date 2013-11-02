@@ -27,7 +27,7 @@ namespace AE{
 			GAME_MSG_COUNT
 		};
 		//-----------------------------------------------------------------------
-		typedef GAME_MSG (GameCallback_t)(ENGINE& E, WORLD& W);
+		typedef GAME_MSG (GameCallback_t)(ENGINE& E, WORLD& W, CONTROLLER& C);
 		//-----------------------------------------------------------------------
 		ENGINE(PLT_HINSTANCE hInstance);
 		//-----------------------------------------------------------------------
@@ -37,6 +37,7 @@ namespace AE{
 		inline AT::I64F RollRealDice()				{ return m_DistributionReal(m_defaultGenerator); }
 		//-----------------------------------------------------------------------
 		inline void SetCamera(BASE_CAMERA* pCamera)	{ R.SetCamera(pCamera); }
+		inline void SetCameraToDefault()			{ R.SetCameraToDefault(); }
 		//-----------------------------------------------------------------------
 	public :
 		static TIMER	m_Timer;

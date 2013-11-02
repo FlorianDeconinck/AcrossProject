@@ -46,7 +46,7 @@ namespace AE{
 		//--
 		imguiBeginFrame(C.m_MouseX, C.m_MouseY, MouseButton, C.m_Scroll);
 		//--
-		AT::I32 PerfLogHeight = 100;
+		AT::I32 PerfLogHeight = 150;
 		imguiBeginScrollArea("--- Perf Log ---", 10, 10, 250, PerfLogHeight, &m_PerfLogScrollArea);
 		for(AT::I32 iDebugLog = 0 ; iDebugLog < GUI_PERF_LOG::GUI_PERF_LOG_INDEX_COUNT ; ++iDebugLog)
 			imguiDrawText(20, PerfLogHeight-30-iDebugLog*15, IMGUI_ALIGN_LEFT, m_PerfLogContent[iDebugLog].m_sText, m_PerfLogContent[iDebugLog].m_ImGuiColor);
