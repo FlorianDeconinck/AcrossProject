@@ -41,6 +41,8 @@ This work is based on several reads :
  * Messy sprites animation
 * A* pathfinder
   * Pruning acceleration : JPS
+* Memory
+  * Stack allocator (for pre-allocated memory usage) 
 
 
 
