@@ -6,12 +6,20 @@
 //STD
 #include <memory.h>
 #include <vector>
+//--
+#define STACKALLOCATOR()	1
+#if STACKALLOCATOR()
+#include <StackAllocator.h>
+#endif
 //-----------------------------------------------------------------------------
 namespace AE{
 	class GRID;
 	class RENDERER;
 	class ACTOR_ABC;
 	//-----------------------------------------------------------------------------
+#if STACKALLOCATOR()
+	extern AT::STACK_ALLOCATOR_SAFE		Pathfinder_Stack_Allocator;		
+#endif
 	class PATHFINDER{
 	public :
 		PATHFINDER();
@@ -24,11 +32,11 @@ namespace AE{
 			NODE(int _x, int _y, int _score, int _manhDistFromLastTile, const NODE* _from):m_nX(_x),m_nY(_y),m_nScore(_score),m_nEstimatedDistToTarget(_manhDistFromLastTile),m_pFromNode(_from){}
 			NODE operator=(const NODE& N){ Break(); m_nX = N.m_nX ; m_nY = N.m_nY; m_nScore = N.m_nScore; m_nEstimatedDistToTarget = N.m_nEstimatedDistToTarget; m_pFromNode = N.m_pFromNode; }
 			//--
-			AT::I32				m_nX;
-			AT::I32				m_nY;
-			AT::I32				m_nScore;
-			AT::I32				m_nEstimatedDistToTarget;
-			const NODE*	m_pFromNode;
+			AT::I32						m_nX;
+			AT::I32						m_nY;
+			AT::I32						m_nScore;
+			AT::I32						m_nEstimatedDistToTarget;
+			const NODE*					m_pFromNode;
 		};
 		static const AT::I32 NORTH	= 1;
 		static const AT::I32 SOUTH	= -1;

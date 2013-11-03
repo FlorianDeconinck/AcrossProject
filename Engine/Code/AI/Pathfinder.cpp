@@ -17,6 +17,10 @@
 //-----------------------------------------------------------------------------
 namespace AE{
 	//-----------------------------------------------------------------------------
+#if STACKALLOCATOR()
+	AT::STACK_ALLOCATOR_SAFE		Pathfinder_Stack_Allocator(100000, NULL);		
+#endif
+	//-----------------------------------------------------------------------------
 	//PATHFINDER
 	//-----------------------------------------------------------------------------
 	PATHFINDER::PATHFINDER(){}
@@ -77,7 +81,13 @@ namespace AE{
 			}
 		}
 		//New node to add in both lists
-		ClosedNodes.push_back(new PATHFINDER::NODE(nNewX, nNewY, pBestNode->m_nScore+1, pBestNode->m_nScore+1+ChebyshevDistance(nNewX, nNewY, Target.x, Target.y), pBestNode));
+#if STACKALLOCATOR()
+		PATHFINDER::NODE* pNode = (PATHFINDER::NODE*)Pathfinder_Stack_Allocator.alloc(sizeof(PATHFINDER::NODE));
+		pNode = new (pNode)PATHFINDER::NODE(nNewX, nNewY, pBestNode->m_nScore+1, pBestNode->m_nScore+1+ChebyshevDistance(nNewX, nNewY, Target.x, Target.y), pBestNode);
+#else
+		PATHFINDER::NODE* pNode = new PATHFINDER::NODE(nNewX, nNewY, pBestNode->m_nScore+1, pBestNode->m_nScore+1+ChebyshevDistance(nNewX, nNewY, Target.x, Target.y), pBestNode);
+#endif
+		ClosedNodes.push_back(pNode);
 		OpenNodes.push_back(ClosedNodes.back());
 		PATHFINDER::NODE* pNew = OpenNodes.back();
 		std::push_heap(OpenNodes.begin(), OpenNodes.end(), compNodess_f);
@@ -453,7 +463,13 @@ namespace AE{
 		AT::I32				Result = -1; // -1 : failure (target is not reachable) , >0 size of path
 		//-----
 		std::vector<NODE*> ClosedNodes;
-		ClosedNodes.push_back(new NODE(Start.x, Start.y, 0, ChebyshevDistance(Start.x, Start.y, Target.x, Target.y), NULL));
+#if STACKALLOCATOR()
+		NODE* pOriginalNode = (NODE*)Pathfinder_Stack_Allocator.alloc(sizeof(NODE));
+		pOriginalNode = new(pOriginalNode) NODE(Start.x, Start.y, 0, ChebyshevDistance(Start.x, Start.y, Target.x, Target.y), NULL);
+#else
+		NODE* pOriginalNode = new NODE(Start.x, Start.y, 0, ChebyshevDistance(Start.x, Start.y, Target.x, Target.y), NULL);
+#endif
+		ClosedNodes.push_back(pOriginalNode);
 		//-----
 		std::vector<NODE*> OpenNodes;
 		OpenNodes.push_back(ClosedNodes.back());
@@ -757,9 +773,13 @@ namespace AE{
 		//--
 #endif
 		//Clean node pool
+#if STACKALLOCATOR()
+		Pathfinder_Stack_Allocator.clear();
+#else
 		AT::I32 NodePoolCount = ClosedNodes.size();
 		for(AT::I32 iNode = 0 ; iNode < NodePoolCount ; ++iNode)
 			delete ClosedNodes[iNode];
+#endif
 		//-----
 		//Add self back to grid (to avoid self-crossing tests)
 		Actor.AddToGrid(Grid);

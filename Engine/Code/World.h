@@ -70,15 +70,17 @@ namespace AE{
 			STATUS_COUNT,
 		};
 		//--
-		inline AT::I32		GetWorldHeight()					  { return m_nMapHeight; }
-		inline AT::I32		GetWorldWidth()					const { return m_nMapWidth; }
-		inline AT::I32		GetNPCCount()					const { return m_NPCArrays.size(); }
-		inline NPC*			GetNPC(AT::I32 index)			const { return m_NPCArrays[index]; }
-		inline AT::I32F		GetTileSize()					const { return m_TileSize; }
-		inline AT::I32F		GetElapsedTimeSinceUdpateInMS() const { return m_ElapsedTimeSinceLastUpdate_ms; }
-		inline AT::VEC2Df	GetPlayer0WorldPos()			const { AT::VEC2Di& V = m_Player0->GetPosition(); return AT::VEC2Df((AT::I32F)V.x, (AT::I32F)V.y)*m_TileSize + m_Player0->GetInnerPosition(); }
+		inline AT::I32		GetWorldHeight()							  { return m_nMapHeight; }
+		inline AT::I32		GetWorldWidth()							const { return m_nMapWidth; }
+		inline AT::I32		GetNPCCount()							const { return m_NPCArrays.size(); }
+		inline AT::I32		GetPlayerCount()						const { return m_Players.size(); }
+		inline NPC*			GetNPC(AT::I32 index)					const { return m_NPCArrays[index]; }
+		inline AT::I32F		GetTileSize()							const { return m_TileSize; }
+		inline AT::I32F		GetElapsedTimeSinceUdpateInMS()			const { return m_ElapsedTimeSinceLastUpdate_ms; }
+		inline AT::VEC2Df	GetPlayerWorldPos(AT::I32 PlayerIdx)	const { AT::VEC2Di& V = m_Players[PlayerIdx]->GetPosition(); return AT::VEC2Df((AT::I32F)V.x, (AT::I32F)V.y)*m_TileSize + m_Players[PlayerIdx]->GetInnerPosition(); }
 		//--
 		AT::I8 SpawnNPC(const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
+		AT::I8 SpawnPlayer(const AT::VEC2Di& Position=AT::VEC2Di(0,0));
 		void SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S);
 		//--
 	protected:
@@ -88,8 +90,8 @@ namespace AE{
 		void Init(RENDERER& R);
 		void LoadGridFromFile(const AT::I8* Filename);
 		void Update(AT::I64F elapsedTime_ms, const CONTROLLER& C);
-		void RenderNPC(RENDERER& R, int NPCIdx);
-		void RenderPlayer(RENDERER& R);
+		void RenderNPC(RENDERER& R, AT::I32 NPCIdx);
+		void RenderPlayer(RENDERER& R, AT::I32 PlayerIdx);
 		void DebugDraw(RENDERER& R);
 		//--
 		STATUS GetStatus(){ return m_Status; }
@@ -99,11 +101,11 @@ namespace AE{
 		R_OBJECT*	m_pRGridQuad;
 		R_OBJECT*	m_pRGridLines;
 #endif
-		AT::I32F			m_TileSize; //size of a single tile in meter
-		AT::I32F			m_ElapsedTimeSinceLastUpdate_ms;
-		std::vector<NPC*>	m_NPCArrays;
-		STATUS				m_Status;
-		PLAYER*				m_Player0;
+		AT::I32F				m_TileSize; //size of a single tile in meter
+		AT::I32F				m_ElapsedTimeSinceLastUpdate_ms;
+		std::vector<NPC*>		m_NPCArrays;
+		STATUS					m_Status;
+		std::vector<PLAYER*>	m_Players;
 		//--
 		RENDERER*			m_pRenderer;			
 	};

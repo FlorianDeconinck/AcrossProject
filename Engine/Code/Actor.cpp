@@ -23,7 +23,7 @@ namespace AE{
 	const AT::VEC2Di ACTOR_ABC::m_Dir_West(-1, 0);
 	const AT::VEC2Di ACTOR_ABC::m_Dir_North_West(-1, 1);
 	//-----------------------------------------------------------------------------
-	ACTOR_ABC::ACTOR_ABC():m_Position(0,0),m_LastPosition(0,0),m_MeshsCount(0),m_Speed(1.0),m_InnerTilePosition(0,0),m_PreviousInnerTilePosition(0,0){
+	ACTOR_ABC::ACTOR_ABC():m_Position(0,0),m_LastPosition(0,0),m_MeshsCount(0),m_Speed(1.0),m_InnerTilePosition(0,0),m_PreviousInnerTilePosition(0,0),m_pAnimator(NULL){
 #ifdef _DEBUG
 		m_bDebugPathfind = false;
 #endif

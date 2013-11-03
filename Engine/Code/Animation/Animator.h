@@ -14,7 +14,10 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	class ANIMATOR_ABC{
 			public :
-							ANIMATOR_ABC(){}
+							ANIMATOR_ABC(){
+								for(int iA = 0 ; iA < LAST_ANIM_PLAYED_COUNT ; iA++)
+									m_AnimationDictionnary[iA] = NULL;
+							}
 			virtual ~ANIMATOR_ABC(){ 
 				for(int iA = 0 ; iA < LAST_ANIM_PLAYED_COUNT ; iA++)
 					delete m_AnimationDictionnary[iA];

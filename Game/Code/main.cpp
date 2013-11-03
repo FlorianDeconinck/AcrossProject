@@ -13,7 +13,7 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLL
 	//--
 	AT::I32 H = World.GetWorldHeight();
 	AT::I32 W = World.GetWorldWidth();
-	AT::I32 NPC_COUNT = 1;
+	AT::I32 NPC_COUNT = 10;
 	for(AT::I32 iNPC = 0 ; iNPC < NPC_COUNT ; ++iNPC){
 		AT::I32F Color[] = { (AT::I32F)E.RollRealDice(), (AT::I32F)E.RollRealDice(), (AT::I32F)E.RollRealDice(), 0.8f };
 		while(!World.SpawnNPC(AT::VEC2Di((AT::I32)(E.RollRealDice()*(W-1)), (AT::I32)(E.RollRealDice()*(H-1))), Color)){}
@@ -24,6 +24,8 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLL
 	}
 	//--
 	//E.SetCamera(&g_ZeldaCam);
+	//--
+	//World.SpawnPlayer(AT::VEC2Di(10,10));
 	//--
 	return AE::ENGINE::NO_MSG;
 }

@@ -63,7 +63,11 @@ namespace AE{
 			Count = m_pWorld->GetNPCCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
 				m_pWorld->RenderNPC(*this, iObj);
-			m_pWorld->RenderPlayer(*this);
+			//--
+			//Render players
+			Count = m_pWorld->GetPlayerCount();
+			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
+				m_pWorld->RenderPlayer(*this, iObj);	
 			//--
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glDisable(GL_BLEND);
@@ -93,7 +97,9 @@ namespace AE{
 			Count = m_pWorld->GetNPCCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
 				m_pWorld->RenderNPC(*this, iObj);
-			m_pWorld->RenderPlayer(*this);
+			Count = m_pWorld->GetPlayerCount();
+			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
+				m_pWorld->RenderPlayer(*this, iObj);
 			//--
 		}
 		//-----------------------------

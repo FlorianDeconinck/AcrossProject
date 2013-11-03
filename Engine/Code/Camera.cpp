@@ -245,7 +245,10 @@ namespace AE{
 	}
 	//---------------------------------------------------------------------------
 	void ZELDA_CAMERA::Update(const WORLD& W){
-		AT::VEC2Df Player0WorldPos = W.GetPlayer0WorldPos();
+		if(W.GetPlayerCount()<=0)
+			return;
+		//--
+		AT::VEC2Df Player0WorldPos = W.GetPlayerWorldPos(0);
 		//--
 		m_Target = AT::VEC3Df(Player0WorldPos.x, 0, Player0WorldPos.y);
 		//--

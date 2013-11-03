@@ -49,7 +49,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	//WORLD
 	//---------------------------------------------------------------------------
-	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Player0(NULL),m_ElapsedTimeSinceLastUpdate_ms(0){
+	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Players(NULL),m_ElapsedTimeSinceLastUpdate_ms(0){
 		m_TileSize = 0.1f;
 #ifdef _DEBUG
 		m_pRGridQuad	= NULL;
@@ -134,9 +134,6 @@ namespace AE{
 		//Load display debug for grid
 		DebugRendererLoad(R);
 #endif
-		//Load Player 0
-		m_Player0 = new PLAYER();
-		m_Player0->LoadMeshs(*this, R);
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
@@ -148,25 +145,24 @@ namespace AE{
 			//Update position & grid occupation
 			Npc.Update(*this, elapsedTime_ms, m_TileSize);
 		}
-		//Update input
-		if(m_Player0){
-			m_Player0->m_DirectonInput.x = -C.m_Xbox.m_leftStick.x;
-			m_Player0->m_DirectonInput.y = C.m_Xbox.m_leftStick.y;
-			//Update player
-			m_Player0->Update(*this, elapsedTime_ms, m_TileSize);
+		//Update input on all players
+		AT::I32 PlayerCount = m_Players.size();
+		for(int iPlayer = 0 ; iPlayer < PlayerCount ; ++iPlayer){
+			PLAYER& Player = *m_Players[iPlayer];
+			Player.m_DirectonInput.x = -C.m_Xbox.m_leftStick.x;
+			Player.m_DirectonInput.y = C.m_Xbox.m_leftStick.y;
+			Player.Update(*this, elapsedTime_ms, m_TileSize);
 		}
 	}
 	//--------------------------------------------------------------------------
-	void WORLD::RenderNPC(RENDERER& R, int NPCIdx){
+	void WORLD::RenderNPC(RENDERER& R, AT::I32 NPCIdx){
 		NPC& Npc = *m_NPCArrays[NPCIdx];
 		Npc.Draw(*this, R, m_TileSize);
 		GL_TOOL::CheckGLError();
 	}
 	//--------------------------------------------------------------------------
-	void WORLD::RenderPlayer(RENDERER& R){
-		if(!m_Player0)
-			return;
-		m_Player0->Draw(*this, R, m_TileSize);
+	void WORLD::RenderPlayer(RENDERER& R, AT::I32 PlayerIdx){
+		m_Players[PlayerIdx]->Draw(*this, R, m_TileSize);
 		GL_TOOL::CheckGLError();
 	}
 	//--------------------------------------------------------------------------
@@ -236,6 +232,17 @@ namespace AE{
 		}
 		pNpc0->SetPosition(*this, Position);
 		m_NPCArrays.push_back(pNpc0);
+		return true;
+	}
+	AT::I8 WORLD::SpawnPlayer(const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/){
+		PLAYER* pPlayer = new PLAYER();
+		pPlayer->LoadMeshs(*this, *m_pRenderer);
+		if(!pPlayer->IsCollisionFree(*this, Position)){
+			delete pPlayer;
+			return false;
+		}
+		pPlayer->SetPosition(*this, Position);
+		m_Players.push_back(pPlayer);
 		return true;
 	}
 	//---------------------------------------------------------------------------
