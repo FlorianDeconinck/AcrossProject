@@ -2,6 +2,7 @@
 *.slo
 *.lo
 *.o
+*.obj
 
 # Compiled Dynamic libraries
 *.so
@@ -11,3 +12,24 @@
 *.lai
 *.la
 *.a
+
+#Visual crap
+*.tlog
+*.idb
+*.pdb
+*.ilk
+*.lastbuildstate
+*.log
+*.sdf
+*.suo
+
+#Dirs
+Engine/External/glew.1.9.0.w32/doc
+Engine/External/glew.1.9.0.w32/*.txt
+Engine/External/glew.1.9.0.w32/bin/glewinfo.exe
+Engine/External/glew.1.9.0.w32/bin/visualinfo.exe
+Engine/Out/
+Game/Out
+Tools/Memory/Out
+Tools/Coding/Out
+Tools/Math/Out
