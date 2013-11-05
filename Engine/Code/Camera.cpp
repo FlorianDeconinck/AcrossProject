@@ -2,7 +2,7 @@
 //Project
 #include "Camera.h"
 #include "World.h"
-#include "Rendering/Renderer.h"
+#include "Rendering/Renderer_Interface.h"
 #include "./GUI/GUI.h"
 //STD
 #include <math.h>
@@ -205,18 +205,18 @@ namespace AE{
 		DeltaMove.y *= -1;
 		const static float speed = 10.f;
 		if(C.GetClickedMouseButton() == CONTROLLER::LEFT){
-			m_Theta += AT_DEG_TO_RAD(((AT::I32F)DeltaMove.y / (AT::I32F)RENDERER::HEIGHT)*2*AT_PI*speed);
-			m_Phi	+= AT_DEG_TO_RAD(((AT::I32F)DeltaMove.x / (AT::I32F)RENDERER::WIDTH)*2*AT_PI*speed);
+			m_Theta += AT_DEG_TO_RAD(((AT::I32F)DeltaMove.y / (AT::I32F)RENDERER_ABC::HEIGHT)*2*AT_PI*speed);
+			m_Phi	+= AT_DEG_TO_RAD(((AT::I32F)DeltaMove.x / (AT::I32F)RENDERER_ABC::WIDTH)*2*AT_PI*speed);
 			m_bDirty = true;
 		}
 		if(C.GetClickedMouseButton() == CONTROLLER::MIDDLE){
 			AT::I32F dx = m_Eye.x-m_Target.x;
 			AT::I32F dy = m_Eye.z-m_Target.z;
 			AT::VEC2Df ZXNormalToTargetEye(-dy, dx);
-			AT::I32F Move = ((AT::I32F)DeltaMove.x / (AT::I32F)RENDERER::WIDTH);
+			AT::I32F Move = ((AT::I32F)DeltaMove.x / (AT::I32F)RENDERER_ABC::WIDTH);
 			m_Target.x += ZXNormalToTargetEye.x * Move;
 			m_Target.z += ZXNormalToTargetEye.y * Move;
-			m_Target.y -= ((AT::I32F)DeltaMove.y / (AT::I32F)RENDERER::HEIGHT)*speed;
+			m_Target.y -= ((AT::I32F)DeltaMove.y / (AT::I32F)RENDERER_ABC::HEIGHT)*speed;
 			m_bDirty = true;
 		}
 		m_LastMousePos.Set(X, Y);

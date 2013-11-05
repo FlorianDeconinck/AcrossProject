@@ -13,7 +13,7 @@ namespace AE{
 		typedef HWND PLT_HWND;
 	#endif
 	//---------------------------------------------------------------------------
-	class RENDERER;
+	class RENDERER_ABC;
 	class CONTROLLER;
 	//---------------------------------------------------------------------------
 	class WINDOW{
@@ -22,7 +22,7 @@ namespace AE{
 		AT::I8			m_szWdwTitle[256];
 		AT::I8			m_bQuit;
 		AT::I8			m_bTrackMouse;
-		RENDERER*		m_pRenderer;
+		RENDERER_ABC*	m_pRenderer;
 		HDC				m_hDC;
 	public :
 		HWND			m_hWnd;
@@ -32,7 +32,7 @@ namespace AE{
 		WINDOW();
 		~WINDOW(){}
 		void SetNames(const char* Name, const char* Title);
-		void AttachEngines(RENDERER& _R, CONTROLLER& _C);
+		void AttachEngines(RENDERER_ABC* _R, CONTROLLER& _C);
 		AT::I8 Init(PLT_HINSTANCE hInstance);
 		static LRESULT CALLBACK sWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 		LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

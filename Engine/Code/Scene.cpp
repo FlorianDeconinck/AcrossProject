@@ -70,7 +70,7 @@ namespace AE{
 		RenderObjectIdx=0;
 	}
 	//---------------------------------------------------------------------------
-	void SCENE::RenderAtom(RENDERER& R){
+	void SCENE::RenderAtom(RENDERER_ABC& R){
 		R_OBJECT& Object = *StaticObject[RenderObjectIdx];
 		Object.Draw(R);
 		RenderObjectIdx++;

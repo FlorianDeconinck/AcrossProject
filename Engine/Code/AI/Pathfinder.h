@@ -14,7 +14,7 @@
 //-----------------------------------------------------------------------------
 namespace AE{
 	class GRID;
-	class RENDERER;
+	class OPENGL_RENDERER;
 	class ACTOR_ABC;
 	//-----------------------------------------------------------------------------
 #if STACKALLOCATOR()

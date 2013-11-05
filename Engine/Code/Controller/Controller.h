@@ -10,11 +10,11 @@
 //---------------------------------------------------------------------------
 namespace AE{
 	//---------------------------------------------------------------------------
-	class RENDERER;
+	class RENDERER_ABC;
 	class WINDOW;
 	class CONTROLLER{
 	protected :
-		RENDERER *			m_pRenderer;
+		RENDERER_ABC *			m_pRenderer;
 		//--
 	public :
 		enum ACROSS_KEY_CODE{
@@ -63,7 +63,7 @@ namespace AE{
 		void			Loop();
 		void			Update();
 		//--
-		inline void			SetDependancies(RENDERER* _R){m_pRenderer = _R;}
+		inline void			SetDependancies(RENDERER_ABC* _R){m_pRenderer = _R;}
 		inline MOUSE_BUTTON	GetClickedMouseButton() const { return m_MouseButton; }
 		inline AT::I32		GetWheelScroll()		const { return m_Scroll; }
 	};

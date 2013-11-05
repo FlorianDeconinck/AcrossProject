@@ -2,7 +2,8 @@
 #pragma once
 //---------------------------------------------------------------------------
 //Project
-#include "./Rendering/Renderer.h"
+#include "./ResourceManager/Manager_Interface.h"
+#include "./Rendering/Renderer_Interface.h"
 #include "./Controller/Controller.h"
 #include "World.h"
 #include "./GUI/GUI.h"
@@ -36,13 +37,14 @@ namespace AE{
 		inline AT::I32 RollInt100Dice()				{ return m_DistributionInterger(m_defaultGenerator); }
 		inline AT::I64F RollRealDice()				{ return m_DistributionReal(m_defaultGenerator); }
 		//-----------------------------------------------------------------------
-		inline void SetCamera(BASE_CAMERA* pCamera)	{ R.SetCamera(pCamera); }
-		inline void SetCameraToDefault()			{ R.SetCameraToDefault(); }
+		inline void SetCamera(BASE_CAMERA* pCamera)	{ pRenderer->SetCamera(pCamera); }
+		inline void SetCameraToDefault()			{ pRenderer->SetCameraToDefault(); }
 		//-----------------------------------------------------------------------
 	public :
 		static TIMER	m_Timer;
 	private:
-		RENDERER		R;
+		ABC_RESOURCE_MANAGER*	pResouceManager;
+		RENDERER_ABC*			pRenderer;
 		CONTROLLER		C;
 		WORLD			W;
 		WINDOW			MainWindow;

@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "Actor.h"
-#include "./Rendering/Renderer.h"
+#include "./Rendering/Renderer_Interface.h"
 #include "World.h"
 #include "./AI/Pathfinder.h"
 #include "./Animation/Animator.h"
@@ -33,7 +33,7 @@ namespace AE{
 		delete m_pAnimator;
 	}
 	//-----------------------------------------------------------------------------
-	void ACTOR_ABC::LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA/*=NULL*/){
+	void ACTOR_ABC::LoadMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA/*=NULL*/){
 		AT::I32F* pCubeData=NULL;
 		AT::I32 CubeVerticesCount;
 		GLuint* pCubeDataElements=NULL;
@@ -43,18 +43,18 @@ namespace AE{
 		//--
 		AT::I32F ColorRGBA_Default[] = {1.f, 1.f, 1.f, 0.8f};
 		//--
-		R.m_Scene.SpawnCube_Quads(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, ColorRGBA ? ColorRGBA : ColorRGBA_Default);
+		R.GetScene().SpawnCube_Quads(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, ColorRGBA ? ColorRGBA : ColorRGBA_Default);
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.m_Scene.GetStaticColorObjectPool(), GL_STATIC_DRAW, true, true);
+		m_Meshs[0]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.GetScene().GetStaticColorObjectPool(), GL_STATIC_DRAW, true, true);
 		m_Meshs[0]->m_trfModel.SetT(0.f, 1.0f, 0.f);
 		R.InitRObject(*m_Meshs[0], SHADER_ABC::COLOR_3D_SHADER);
 		delete pCubeDataElements;
 		delete pCubeData;
 		//--
-		R.m_Scene.SpawnCube_Lines(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount);
+		R.GetScene().SpawnCube_Lines(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount);
 		m_Meshs[1] = new R_OBJECT();
 		m_Meshs[1]->m_GLDisplayMode = GL_LINES;
-		m_Meshs[1]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.m_Scene.GetStaticColorObjectPool(), GL_STATIC_DRAW, true, true);
+		m_Meshs[1]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.GetScene().GetStaticColorObjectPool(), GL_STATIC_DRAW, true, true);
 		m_Meshs[1]->m_trfModel.SetT(0.f, 1.0f, 0.f);
 		R.InitRObject(*m_Meshs[1], SHADER_ABC::THICK_LINES_3D_SHADER);
 		delete pCubeDataElements;
@@ -63,7 +63,7 @@ namespace AE{
 		m_BBox.Init(Grid, m_Position, 3, 3);
 	}
 	//-----------------------------------------------------------------------------
-	void ACTOR_ABC::Draw(const WORLD& W, RENDERER& R, AT::I32F TileSize){
+	void ACTOR_ABC::Draw(const WORLD& W, RENDERER_ABC& R, AT::I32F TileSize){
 		//------
 		//Update animation
 		m_pAnimator->Update(W, *this, ANIMATOR_ABC::WALK);
@@ -179,12 +179,12 @@ namespace AE{
 		SetAnimatorModule((ANIMATOR_ABC*)new SPRITE_ANIMATOR());
 	}
 	//-----------------------------------------------------------------------------
-	void PLAYER::LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA/*=NULL*/){
+	void PLAYER::LoadMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA/*=NULL*/){
 		//---
 		m_MeshsCount = 1;
 		//--
 		AT::I32   VerticesCount = 4; 
-		AT::I32F* VerticesData = new AT::I32F[VerticesCount*R.m_Scene.GetTextureVertexSize()];
+		AT::I32F* VerticesData = new AT::I32F[VerticesCount*R.GetScene().GetTextureVertexSize()];
 		AT::I32F  HalfSize = 0.3f;
 		AT::I32F  Height = 1.f;
 		SCENE::SetVertexData(VerticesData, 0,		 -HalfSize,		0.f, 0.05f,			 0, 0.125f);		//0,1
@@ -192,7 +192,7 @@ namespace AE{
 		SCENE::SetVertexData(VerticesData, 2,			HalfSize,		1.f, 0.05f, 0.083f, 0);					//1,0
 		SCENE::SetVertexData(VerticesData, 3,		 -HalfSize,		1.f, 0.05f,			 0, 0);					//0,0
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.m_Scene.GetStaticTextureObjectPool(), GL_STREAM_DRAW, "../../../Asset/Alex_8D_zps374573dc.png", false, false);
+		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.GetScene().GetStaticTextureObjectPool(), GL_STREAM_DRAW, "../../../Asset/Alex_8D_zps374573dc.png", false, false);
 		m_Meshs[0]->m_trfModel.SetT(0.f, 0.f, 0.f);
 		m_Meshs[0]->m_GLDisplayMode = GL_QUADS;
 		R.InitRObject(*m_Meshs[0], SHADER_ABC::TEXTURE_3D_SHADER);

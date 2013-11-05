@@ -2,7 +2,7 @@
 //Tools
 #include <CodeTools.h>
 //Project
-#include "./Rendering/Renderer.h"
+#include "./Rendering/Renderer_Interface.h"
 #include "Window.h"
 #include "./Controller/Controller.h"
 #include "GlobalDebug.h"
@@ -27,8 +27,8 @@ namespace AE{
 		strcpy((char*)m_szWdwTitle, (char*)Title);
 	}
 	//---------------------------------------------------------------------------
-	void WINDOW::AttachEngines(RENDERER& _R, CONTROLLER& _C){
-		m_pRenderer = &_R;
+	void WINDOW::AttachEngines(RENDERER_ABC* _R, CONTROLLER& _C){
+		m_pRenderer = _R;
 		m_pController = &_C;
 	}
 	//---------------------------------------------------------------------------
@@ -57,7 +57,7 @@ namespace AE{
 			case WM_SIZE:
 				RECT Rect;
 				GetClientRect(m_hWnd, &Rect);
-				glViewport(0, 0, RENDERER::WIDTH, RENDERER::HEIGHT);
+				glViewport(0, 0, RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT);
 				break;
 			case WM_KEYDOWN:
 				m_pController->OnKeyboardCallback(m_pController->ConvertKeyCodeFromWin32ToAcrossKey(wParam), true);
@@ -141,7 +141,7 @@ namespace AE{
 			return FALSE;
 		}
 
-		m_hWnd = CreateWindowEx(NULL, MAKEINTATOM(ClassAtom), (LPCSTR)m_szWdwTitle, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, 0, 0, RENDERER::WIDTH, RENDERER::HEIGHT, NULL, NULL, hInstance, (LPVOID)this);
+		m_hWnd = CreateWindowEx(NULL, MAKEINTATOM(ClassAtom), (LPCSTR)m_szWdwTitle, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, 0, 0, RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT, NULL, NULL, hInstance, (LPVOID)this);
 		if(!m_hWnd){
 			DWORD err = GetLastError();
 			Break();
@@ -149,7 +149,7 @@ namespace AE{
 		}
 	
 		ShowWindow(m_hWnd, 1);
-		SetWindowPos(m_hWnd, NULL, 0, 0, RENDERER::WIDTH, RENDERER::HEIGHT, SWP_NOMOVE);
+		SetWindowPos(m_hWnd, NULL, 0, 0, RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT, SWP_NOMOVE);
 		UpdateWindow(m_hWnd);
 		m_hDC = GetDC(m_hWnd);
 		return TRUE;

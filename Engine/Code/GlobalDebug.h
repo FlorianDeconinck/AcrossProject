@@ -3,15 +3,15 @@
 //---------------------------------------------------------------------------
 #ifdef _DEBUG
 	//---------------------------------------------------------------------------
-	//Project	
-	#include "./Rendering/Renderer.h"
-	#include "World.h"
 	//Tool
 	#include <CommonTypes.h>
 	//---------------------------------------------------------------------------
 	namespace AE{
+		class RENDERER_ABC;
+		class WORLD;
+		class CONTROLLER;
 		//--
-		extern RENDERER*		g_pRenderer;
+		extern RENDERER_ABC*	g_pRenderer;
 		extern WORLD*			g_pWorld;
 		extern CONTROLLER*		g_pController;
 		//--

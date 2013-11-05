@@ -8,14 +8,14 @@
 //-----------------------------------------------------------------------------
 namespace AE{
 	class CONTROLLER;
-	class RENDERER;
+	class OPENGL_RENDERER;
 	class WORLD;
 	class GUI{
 	public:
 		 		GUI();
 				~GUI();
 		void	Init();
-		void	Update(CONTROLLER& C, RENDERER& R, WORLD& W);
+		void	Update(CONTROLLER& C, OPENGL_RENDERER& R, WORLD& W);
 		//--
 		AT::I8 m_bDraw;
 		//--

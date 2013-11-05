@@ -13,7 +13,7 @@
 namespace AE{
 	//---------------------------------------------------------------------------
 	class SHADER_ABC;
-	class RENDERER;
+	class RENDERER_ABC;
 	class R_OBJECT{
 	public :
 		//--------------------------------------
@@ -24,7 +24,7 @@ namespace AE{
 		GLuint		m_ebo; //Element buffer object
 		GLuint		m_uniformModel;//Model matrix
 		//--------------------------------------
-		void*				m_pStartOfVerticesBuffer;			//Start of the vertices buffer in the STATIC data pool (see Renderer.h)
+		void*			m_pStartOfVerticesBuffer;			//Start of the vertices buffer in the STATIC data pool (see Renderer.h)
 		AT::U32			m_VerticesCount;				//Number of vertices
 		GLuint*			m_Elements;
 		AT::U32			m_ElementsIndexCount;
@@ -38,7 +38,7 @@ namespace AE{
 		void LoadMesh(GLuint* DataElements, AT::I32 ElementsCount, AT::I8 bCpyData=false);
 		void Build(AT::I32F* Data, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, STATIC_VERTICES_COLOR_POOL_AE& DataPool, AT::I32 DrawMode, AT::I8 bEbo=true,AT::I8 bEboCpy=false);
 		void Build(AT::I32F* Data, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, STATIC_VERTICES_TEXT_POOL_AE& DataPool, AT::I32 DrawMode, const AT::I8* Filename=NULL, AT::I8 bEbo=true,AT::I8 bEboCpy=false);
-		void Draw(RENDERER& R);
+		void Draw(RENDERER_ABC& R);
 	protected :
 		void SetNextElementIdx(AT::I32 idx);
 	};

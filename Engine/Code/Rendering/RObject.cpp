@@ -114,7 +114,7 @@ namespace AE{
 		m_trfModel.Identity();
 	}
 	//---------------------------------------------------------------------------
-	void R_OBJECT::Draw(RENDERER& R){
+	void R_OBJECT::Draw(RENDERER_ABC& R){
 		if(!m_VerticesCount)
 			return;
 		m_pShader->Use();

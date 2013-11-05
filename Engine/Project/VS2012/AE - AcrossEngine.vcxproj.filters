@@ -16,14 +16,17 @@
     <Filter Include="Rendering">
       <UniqueIdentifier>{de443f16-c637-40f9-8dbb-cca1143460d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\Shaders">
-      <UniqueIdentifier>{5a7ab3e9-c05e-4f57-ba66-4dd3d173b39d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Controller">
       <UniqueIdentifier>{53506eea-e11a-4a43-b498-1a283d77c61d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Animator">
       <UniqueIdentifier>{ce2ae921-525c-4109-aa18-8a90e2821513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Manager">
+      <UniqueIdentifier>{ae48724c-a817-49cf-a633-0eaf6e250f12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Shaders_GLSL">
+      <UniqueIdentifier>{5a7ab3e9-c05e-4f57-ba66-4dd3d173b39d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,9 +62,6 @@
     <ClInclude Include="..\..\Code\Controller\XboxController.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Code\Rendering\Renderer.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Code\Rendering\RObject.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -79,6 +79,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Code\Animation\SpriteAnimator.h">
       <Filter>Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\ResourceManager\Manager_Interface.h">
+      <Filter>Resource Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\Renderer_Interface.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\OpenGL_Renderer.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -104,9 +113,6 @@
     <ClCompile Include="..\..\Code\Controller\Controller.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Code\Rendering\Renderer.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Code\Rendering\RObject.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -123,37 +129,40 @@
     <ClCompile Include="..\..\Code\Animation\SpriteAnimator.cpp">
       <Filter>Animator</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\OpenGL_Renderer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Code\Rendering\Shaders\blur.fs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\blur.fs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\blur.vs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\blur.vs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\color.fs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\color.fs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\color.vs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\color.vs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\FXAA.fs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\FXAA.fs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\thickLines.fs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\texture.fs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\thickLines.gs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\texture.vs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\thickLines.vs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\thickLines.fs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\texture.fs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\thickLines.gs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\Shaders\texture.vs">
-      <Filter>Rendering\Shaders</Filter>
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\thickLines.vs">
+      <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@
 #include <vector>
 //-----------------------------------------------------------------------------
 namespace AE{
-	class RENDERER;
+	class RENDERER_ABC;
 	class R_OBJECT;
 	class GRID{
 	public :
@@ -59,7 +59,7 @@ namespace AE{
 	class SHADER_ABC;
 	class CONTROLLER;
 	class WORLD:public GRID{
-		friend class RENDERER;
+		friend class OPENGL_RENDERER;
 		friend class ENGINE;
 	public:	
 		//Public interface for GAME logic
@@ -87,17 +87,17 @@ namespace AE{
 		//--
 		WORLD(AT::I32F _TileSize=0.1f);
 		~WORLD();
-		void Init(RENDERER& R);
+		void Init(RENDERER_ABC* R);
 		void LoadGridFromFile(const AT::I8* Filename);
 		void Update(AT::I64F elapsedTime_ms, const CONTROLLER& C);
-		void RenderNPC(RENDERER& R, AT::I32 NPCIdx);
-		void RenderPlayer(RENDERER& R, AT::I32 PlayerIdx);
-		void DebugDraw(RENDERER& R);
+		void RenderNPC(RENDERER_ABC& R, AT::I32 NPCIdx);
+		void RenderPlayer(RENDERER_ABC& R, AT::I32 PlayerIdx);
+		void DebugDraw(RENDERER_ABC& R);
 		//--
 		STATUS GetStatus(){ return m_Status; }
 		//--
 #ifdef _DEBUG
-		void		DebugRendererLoad(RENDERER& Renderer);
+		void		DebugRendererLoad(RENDERER_ABC* Renderer);
 		R_OBJECT*	m_pRGridQuad;
 		R_OBJECT*	m_pRGridLines;
 #endif
@@ -107,7 +107,7 @@ namespace AE{
 		STATUS					m_Status;
 		std::vector<PLAYER*>	m_Players;
 		//--
-		RENDERER*			m_pRenderer;			
+		RENDERER_ABC*			m_pRenderer;			
 	};
 	//-----------------------------------------------------------------------------
 }//namespace AE

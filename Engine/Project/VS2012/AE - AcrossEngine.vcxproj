@@ -95,11 +95,13 @@
     <ClInclude Include="..\..\Code\Actor.h" />
     <ClInclude Include="..\..\Code\Camera.h" />
     <ClInclude Include="..\..\Code\Engine.h" />
-    <ClInclude Include="..\..\Code\Rendering\Renderer.h" />
+    <ClInclude Include="..\..\Code\Rendering\OpenGL_Renderer.h" />
+    <ClInclude Include="..\..\Code\Rendering\Renderer_Interface.h" />
     <ClInclude Include="..\..\Code\Rendering\RObject.h" />
     <ClInclude Include="..\..\Code\Rendering\RObject_Static_Memory.h" />
     <ClInclude Include="..\..\Code\Rendering\Shader.h" />
     <ClInclude Include="..\..\Code\Rendering\Shaders.h" />
+    <ClInclude Include="..\..\Code\ResourceManager\Manager_Interface.h" />
     <ClInclude Include="..\..\Code\Scene.h" />
     <ClInclude Include="..\..\Code\Tools\Timer.h" />
     <ClInclude Include="..\..\Code\Window.h" />
@@ -118,7 +120,7 @@
     <ClCompile Include="..\..\Code\GUI\GUI.cpp" />
     <ClCompile Include="..\..\Code\GUI\ImGUI\imgui.cpp" />
     <ClCompile Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.cpp" />
-    <ClCompile Include="..\..\Code\Rendering\Renderer.cpp" />
+    <ClCompile Include="..\..\Code\Rendering\OpenGL_Renderer.cpp" />
     <ClCompile Include="..\..\Code\Rendering\RObject.cpp" />
     <ClCompile Include="..\..\Code\Rendering\Shader.cpp" />
     <ClCompile Include="..\..\Code\Rendering\Shaders.cpp" />
@@ -127,16 +129,16 @@
     <ClCompile Include="..\..\Code\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Code\Rendering\Shaders\blur.fs" />
-    <None Include="..\..\Code\Rendering\Shaders\blur.vs" />
-    <None Include="..\..\Code\Rendering\Shaders\color.fs" />
-    <None Include="..\..\Code\Rendering\Shaders\color.vs" />
-    <None Include="..\..\Code\Rendering\Shaders\FXAA.fs" />
-    <None Include="..\..\Code\Rendering\Shaders\texture.fs" />
-    <None Include="..\..\Code\Rendering\Shaders\texture.vs" />
-    <None Include="..\..\Code\Rendering\Shaders\thickLines.fs" />
-    <None Include="..\..\Code\Rendering\Shaders\thickLines.gs" />
-    <None Include="..\..\Code\Rendering\Shaders\thickLines.vs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\blur.fs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\blur.vs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\color.fs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\color.vs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\FXAA.fs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\texture.fs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\texture.vs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\thickLines.fs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\thickLines.gs" />
+    <None Include="..\..\Code\Rendering\Shaders_GLSL\thickLines.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

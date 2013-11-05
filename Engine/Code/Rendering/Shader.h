@@ -7,7 +7,7 @@ typedef unsigned int GLuint;
 typedef int GLint;
 namespace AE{
 	//---------------------------------------------------------------------------
-	class RENDERER;
+	class RENDERER_ABC;
 	class R_OBJECT;
 	class SCENE;
 	class SHADER_ABC{
@@ -35,12 +35,12 @@ namespace AE{
 		//----------------------------
 		SHADER_ABC();
 		~SHADER_ABC();
-		AT::I8 /*bSuccess*/ Load(RENDERER& Renderer, AT::I8* _VertexFilename, AT::I8* _FragmentFilename, AT::I8* _GeometryFilename=NULL);
+		AT::I8 /*bSuccess*/ Load(RENDERER_ABC& Renderer, AT::I8* _VertexFilename, AT::I8* _FragmentFilename, AT::I8* _GeometryFilename=NULL);
 		void Use();
-		virtual void Init(RENDERER& Renderer)=0;
+		virtual void Init(RENDERER_ABC& Renderer)=0;
 		virtual void InitObject(const SCENE& Scene, R_OBJECT& Object)=0;
-		virtual void BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject)=0;
-		virtual void BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject=NULL)=0;
+		virtual void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject)=0;
+		virtual void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL)=0;
 	protected :
 		void LoadAndCompileShaderFromFile(const AT::I8* Name, GLuint& Shader);
 	};
@@ -56,9 +56,9 @@ namespace AE{
 		~POST_PROCESSING_SCREEN_SHADER(){
 			delete verticesQuad; 
 		}
-		virtual void Init(RENDERER& Renderer);
-		virtual void DeferedInit(RENDERER& Renderer)=0;
-		void ApplyPostProcess(RENDERER& Renderer);
+		virtual void Init(RENDERER_ABC& Renderer);
+		virtual void DeferedInit(RENDERER_ABC& Renderer)=0;
+		void ApplyPostProcess(RENDERER_ABC& Renderer);
 	};
 	//---------------------------------------------------------------------------
 }//namespace AE

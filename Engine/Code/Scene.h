@@ -10,7 +10,7 @@
 //---------------------------------------------------------------------------
 namespace AE{
 	class R_OBJECT;
-	class RENDERER;
+	class RENDERER_ABC;
 	class SHADER_ABC;
 	class SCENE{
 	protected :
@@ -27,7 +27,7 @@ namespace AE{
 		~SCENE();
 		void Load();
 		void PreRender();
-		void RenderAtom(RENDERER& R);
+		void RenderAtom(RENDERER_ABC& R);
 		void Reset();
 		R_OBJECT* Object(AT::I32 idx){return StaticObject[idx];}
 		R_OBJECT* Object(AT::I32 idx) const {return StaticObject[idx];}

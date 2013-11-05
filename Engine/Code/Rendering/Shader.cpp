@@ -2,7 +2,7 @@
 #include <CodeTools.h>
 //Project 
 #include "Shader.h"
-#include "Renderer.h"
+#include "OpenGL_Renderer.h"
 #include "RObject.h"
 //GL
 #include <GL/glew.h>
@@ -27,7 +27,7 @@ namespace AE{
 		glDeleteProgram(m_Program);
 	}
 	//---------------------------------------------------------------------------
-	AT::I8 /*bSuccess*/ SHADER_ABC::Load(RENDERER& Renderer, char* _VertexFilename, char* _FragmentFilename, AT::I8* _GeometryFilename/*=NULL*/){
+	AT::I8 /*bSuccess*/ SHADER_ABC::Load(RENDERER_ABC& Renderer, char* _VertexFilename, char* _FragmentFilename, AT::I8* _GeometryFilename/*=NULL*/){
 		//Vertex
 		strcpy_s(m_VertexFilename, _VertexFilename);
 		m_Vertex = glCreateShader(GL_VERTEX_SHADER);
@@ -57,7 +57,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	void SHADER_ABC::LoadAndCompileShaderFromFile(const char* Name, GLuint& Shader){
 		char ShaderFilename[512];
-		sprintf_s(ShaderFilename, "../../../Engine/Code/Rendering/Shaders/%s",Name);
+		sprintf_s(ShaderFilename, "../../../Engine/Code/Rendering/Shaders_GLSL/%s",Name);
 		std::ifstream ShaderFile(ShaderFilename);
 		if(!ShaderFile.is_open()){
 			Break();
@@ -89,7 +89,7 @@ namespace AE{
 		verticesQuad[12]=-1.0f; verticesQuad[13]=-1.0f;verticesQuad[14]=0.0f;verticesQuad[15]=0.0f;
 	}
 	//---------------------------------------------------------------------------
-	void POST_PROCESSING_SCREEN_SHADER::Init(RENDERER& Renderer){
+	void POST_PROCESSING_SCREEN_SHADER::Init(RENDERER_ABC& Renderer){
 		glGenVertexArrays(1, &vaoQuad);
 		glBindVertexArray(vaoQuad);
 		GL_TOOL::CheckGLError();
@@ -100,11 +100,11 @@ namespace AE{
 		DeferedInit(Renderer);
 	}
 	//---------------------------------------------------------------------------
-	void POST_PROCESSING_SCREEN_SHADER::ApplyPostProcess(RENDERER& Renderer){
+	void POST_PROCESSING_SCREEN_SHADER::ApplyPostProcess(RENDERER_ABC& Renderer){
 		Use();
 		glDisable( GL_DEPTH_TEST );
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Renderer.m_texScreenShaderColorBuffer);
+		glBindTexture(GL_TEXTURE_2D, ((OPENGL_RENDERER&)Renderer).m_texScreenShaderColorBuffer);//UGLY but I do know here
 		glBindVertexArray(vaoQuad);
 		BindDynamicFragmentAttrib(Renderer);
 		glDrawArrays(GL_QUADS, 0, 4);

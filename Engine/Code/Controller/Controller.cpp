@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //Project
 #include "Controller.h"
-#include "../Rendering/Renderer.h"
+#include "../Rendering/Renderer_Interface.h"
 #include "../Rendering/RObject.h"
 #include "../Window.h"
 #include "../GlobalDebug.h"
@@ -68,37 +68,19 @@ namespace AE{
 				case CONTROLLER::KC_ESCAPE:
 					m_bQuit = true;
 					break;
-				case KC_B:
-					m_pRenderer->m_iPostProcess = 1; //blur
-					break;
-				case KC_A:
-					m_pRenderer->m_iPostProcess = 2; //fxaa
-					break;
-				case KC_D:
-					m_pRenderer->m_bDrawDebug = !m_pRenderer->m_bDrawDebug;
-					break;
-				case KC_N:
-					m_pRenderer->m_iPostProcess = 0; //no post process
-					break;
-				case KC_V:
-					m_pRenderer->ToggleVSync();
-					break;
 				case CMD_VOLUME_UP:
-					m_pRenderer->m_BlurShader.IncreaseBlurWdw();
 					break;
 				case CMD_VOLUME_DOWN:
-					m_pRenderer->m_BlurShader.DecreaseBlurWdw();
 					break;
 				case CMD_NEXT_SONG:
-					m_pRenderer->m_BlurShader.IncreaseBlurRatio();
 					break;
 				case CMD_PREV_SONG:
-					m_pRenderer->m_BlurShader.DecreaseBlurRatio();
 					break;
 				default:
 					break;
 			}
 			//-- CBs --
+			m_pRenderer->KeyboardCB(KC, bDown);
 			m_pRenderer->m_pCurrentCamera->KeyboardCB(KC, bDown);
 		}
 	}

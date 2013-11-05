@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "GUI.h"
-#include "../Rendering/Renderer.h"
+#include "../Rendering/Renderer_Interface.h"
 #include "../Controller/Controller.h"
 #include "./ImGUI/imgui.h"
 #include "./ImGUI/imguiRenderGL3.h"
@@ -24,7 +24,7 @@ namespace AE{
 		imguiRenderGLDestroy();
 	}
 	//-----------------------------------------------------------------------------
-	void GUI::Update(CONTROLLER& C, RENDERER& R, WORLD& W){
+	void GUI::Update(CONTROLLER& C, OPENGL_RENDERER& R, WORLD& W){
 		if(!m_bDraw)
 			return;
 		//Convert mouse button into ImGUI
@@ -51,7 +51,7 @@ namespace AE{
 		for(AT::I32 iDebugLog = 0 ; iDebugLog < GUI_PERF_LOG::GUI_PERF_LOG_INDEX_COUNT ; ++iDebugLog)
 			imguiDrawText(20, PerfLogHeight-30-iDebugLog*15, IMGUI_ALIGN_LEFT, m_PerfLogContent[iDebugLog].m_sText, m_PerfLogContent[iDebugLog].m_ImGuiColor);
 		//--
-		imguiRenderGLDraw(RENDERER::WIDTH, RENDERER::HEIGHT);
+		imguiRenderGLDraw(RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT);
 	}
 	//-----------------------------------------------------------------------------
 }//namespace AE

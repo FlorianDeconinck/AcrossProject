@@ -21,10 +21,10 @@ namespace AE{
 	public : 
 		GLint m_viewUniform;
 		GLint m_projUniform;
-		/*virtual*/ void Init(RENDERER& Renderer);
+		/*virtual*/ void Init(RENDERER_ABC& Renderer);
 		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
-		/*virtual*/ void BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject);
-		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject=NULL){}
+		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
+		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL){}
 	};
 	//---------------------------------------------------------------------------
 	/*USAGE
@@ -41,10 +41,10 @@ namespace AE{
 	public : 
 		GLint m_viewUniform;
 		GLint m_projUniform;
-		/*virtual*/ void Init(RENDERER& Renderer);
+		/*virtual*/ void Init(RENDERER_ABC& Renderer);
 		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
-		/*virtual*/ void BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject);
-		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject=NULL);
+		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
+		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL);
 	};
 	//---------------------------------------------------------------------------
 	class THICK_LINES_COLOR:public COLOR_SHADER{
@@ -54,9 +54,9 @@ namespace AE{
 		GLfloat m_ViewportSize[2];
 		AT::I32F m_LineWidth;
 	public :
-		/*virtual*/ void Init(RENDERER& Renderer);
+		/*virtual*/ void Init(RENDERER_ABC& Renderer);
 		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
-		/*virtual*/ void BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject);
+		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
 	};
 	//---------------------------------------------------------------------------
 	class BLUR_SHADER:public POST_PROCESSING_SCREEN_SHADER{
@@ -70,14 +70,10 @@ namespace AE{
 	public:
 		BLUR_SHADER();
 		~BLUR_SHADER(){}
-		/*virtual*/ void DeferedInit(RENDERER& Renderer);
+		/*virtual*/ void DeferedInit(RENDERER_ABC& Renderer);
 		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
-		/*virtual*/ void BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject);
-		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject=NULL);
-		void IncreaseBlurWdw(){++m_Wdw;}
-		void IncreaseBlurRatio(){++m_Radius;}
-		void DecreaseBlurWdw(){m_Wdw = m_Wdw<=0 ? 0 : --m_Wdw;}
-		void DecreaseBlurRatio(){m_Radius = m_Radius<=0 ? 0 : --m_Radius;}
+		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
+		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL);
 	};
 	//-------------------------------------------------------------------------
 	class FXAA_SHADER:public POST_PROCESSING_SCREEN_SHADER{
@@ -93,10 +89,10 @@ namespace AE{
 		AT::I32F m_FXAA_REDUCE_MIN;
 		GLfloat textCoordOffsetArray[2];
 	public : 
-		/*virtual*/ void DeferedInit(RENDERER& Renderer);
+		/*virtual*/ void DeferedInit(RENDERER_ABC& Renderer);
 		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
-		/*virtual*/ void BindDynamicVertexAttrib(RENDERER& Renderer, R_OBJECT& RObject);
-		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER& Renderer, const R_OBJECT* RObject=NULL);
+		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
+		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL);
 	};
 	//-------------------------------------------------------------------------
 }//namespace AE

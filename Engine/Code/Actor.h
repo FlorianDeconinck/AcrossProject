@@ -9,7 +9,7 @@
 #include <CommonTypes.h>
 //---------------------------------------------------------------------------
 namespace AE{
-	class RENDERER;
+	class RENDERER_ABC;
 	class GRID;
 	class ANIMATOR_ABC;
 	class WORLD;
@@ -21,8 +21,8 @@ namespace AE{
 								ACTOR_ABC();
 		virtual					~ACTOR_ABC();
 		//---
-		void					Draw(const WORLD& W, RENDERER& R, AT::I32F TileSize);
-		void					LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA=NULL);
+		void					Draw(const WORLD& W, RENDERER_ABC& R, AT::I32F TileSize);
+		void					LoadMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA=NULL);
 		AT::I8					IsWithinBorders(const GRID& Grid, const AT::VEC2Di& Pos) const;
 		void					SetAnimatorModule(ANIMATOR_ABC* pAnimator);
 		//---
@@ -107,7 +107,7 @@ namespace AE{
 	class PLAYER:public NPC{
 		public:
 								PLAYER();
-					void		LoadMeshs(GRID& Grid, RENDERER& R, const AT::I32F* ColorRGBA=NULL);
+					void		LoadMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA=NULL);
 		/*virtual*/ void		Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize);
 		/*virtual*/ void		SetPosition(GRID& Grid, AT::I32 X, AT::I32 Y){ m_BBox.UpdateGridOccupation(Grid, m_Position, AT::VEC2Di(X, Y)) ; m_LastPosition = m_Position; m_Position.x = X; m_Position.y = Y; }
 		/*virtual*/ void		SetPosition(GRID& Grid, const AT::VEC2Di& NewPosition){ m_BBox.UpdateGridOccupation(Grid, m_Position, NewPosition); m_LastPosition = m_Position; m_Position = NewPosition; }

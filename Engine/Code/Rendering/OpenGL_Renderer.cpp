@@ -4,7 +4,7 @@
 //AT
 #include <CodeTools.h>
 //Engine
-#include "Renderer.h"
+#include "OpenGL_Renderer.h"
 #include "../Controller/Controller.h"
 #include "RObject.h"
 #include "../World.h"
@@ -16,28 +16,16 @@
 //---------------------------------------------------------------------------
 namespace AE{
 	//---------------------------------------------------------------------------
-	RENDERER::RENDERER():m_iPostProcess(2),m_hGLRC(NULL),m_hDC(NULL),m_hMainWnd(NULL),m_bVSync(false),m_pController(NULL),m_pWorld(NULL),m_Status(UNIT),m_ShaderAttachedCount(0){
-#ifdef _DEBUG
-		m_bDrawDebug = true;
-#endif
-		SetCamera(&m_DefaultCamera);
+	OPENGL_RENDERER::OPENGL_RENDERER():m_iPostProcess(2),m_hGLRC(NULL),m_bVSync(false),m_Status(UNIT){
+
 	}
 	//---------------------------------------------------------------------------
-	RENDERER::~RENDERER(){	
+	OPENGL_RENDERER::~OPENGL_RENDERER(){	
 		Clean();
 		GL_TOOL::CheckGLError();
 	}
 	//---------------------------------------------------------------------------
-#ifdef _DEBUG
-	void RENDERER::DefferedUpdate(GUI& Gui, CONTROLLER& C, WORLD& W){
-		Update(Gui, C, W);
-		SetWindowText(m_hMainWnd, "Pathfing DBG");
-		UpdateWindow(m_hMainWnd);
-		Sleep(1000);
-	}
-#endif
-	//---------------------------------------------------------------------------
-	void RENDERER::Update(GUI& Gui, CONTROLLER& C, WORLD& W){
+	void OPENGL_RENDERER::Update(GUI& Gui, CONTROLLER& C, WORLD& W){
 		//-----------------------------
 		m_pCurrentCamera->Update(W);
 		//-----------------------------
@@ -110,7 +98,7 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//---------------------------------------------------------------------------
-	AT::I8 RENDERER::CreateGLContext(){
+	AT::I8 OPENGL_RENDERER::CreateGLContext(){
 		PIXELFORMATDESCRIPTOR pfd;
 		memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
 		pfd.nSize	   = sizeof(PIXELFORMATDESCRIPTOR);
@@ -168,7 +156,7 @@ namespace AE{
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	AT::I8 RENDERER::Build(){
+	AT::I8 OPENGL_RENDERER::Build(){
 		//Read INI
 		FILE* SettingsFile = fopen("../../../Asset/BasicSettings.ini", "r");
 		AT::VEC3Df Eye;
@@ -196,12 +184,12 @@ namespace AE{
 		m_ShadersAttached[m_ShaderAttachedCount] = &m_ThickLinesColorShader;	m_ShaderAttachedCount++;
 		m_Scene.Load();
 		//Camera
-		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)RENDERER::WIDTH / (float)RENDERER::HEIGHT, 0.1f, 100.0f );
+		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)OPENGL_RENDERER::WIDTH / (float)OPENGL_RENDERER::HEIGHT, 0.1f, 100.0f );
 		m_pCurrentCamera->LookAt(Eye, Target, Up);
 		//FrameBuffer
 		glGenTextures(1, &m_texScreenShaderColorBuffer);
 		glBindTexture(GL_TEXTURE_2D, m_texScreenShaderColorBuffer);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, RENDERER::WIDTH, RENDERER::HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, OPENGL_RENDERER::WIDTH, OPENGL_RENDERER::HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glGenFramebuffers(1, &m_frameBuffer);
@@ -211,35 +199,35 @@ namespace AE{
 		//Render buffer object
 		glGenRenderbuffers(1, &m_rboDepthStencil);
 		glBindRenderbuffer(GL_RENDERBUFFER, m_rboDepthStencil);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, RENDERER::WIDTH, RENDERER::HEIGHT);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, OPENGL_RENDERER::WIDTH, OPENGL_RENDERER::HEIGHT);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_rboDepthStencil);
 		GL_TOOL::CheckGLError();
 		//---
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	void RENDERER::Init(){
+	void OPENGL_RENDERER::Init(){
 		while(!IsDCReady()){
 			Sleep(100); //Wait for window init to wear off
 		}
 		//--
 		if(CreateGLContext())
-			m_Status = RENDERER::GL_CONTEXT_READY;
+			m_Status = OPENGL_RENDERER::GL_CONTEXT_READY;
 		else
-			m_Status = RENDERER::GL_CONTEXT_ERROR;
+			m_Status = OPENGL_RENDERER::GL_CONTEXT_ERROR;
 		//--
 		if(Build())
-			m_Status = RENDERER::READY;
+			m_Status = OPENGL_RENDERER::READY;
 		else
-			m_Status = RENDERER::BUILD_ERROR;
+			m_Status = OPENGL_RENDERER::BUILD_ERROR;
 	}
 	//---------------------------------------------------------------------------
-	void RENDERER::ToggleVSync(){
+	void OPENGL_RENDERER::ToggleVSync(){
 		m_bVSync = !m_bVSync;
 		wglSwapIntervalEXT(m_bVSync); 
 	}
 	//---------------------------------------------------------------------------
-	void RENDERER::Clean(){
+	void OPENGL_RENDERER::Clean(){
 		//Clean
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		GL_TOOL::CheckGLError();
@@ -253,7 +241,7 @@ namespace AE{
 // 		GL_TOOL::CheckGLError();
 	}
 	//--------------------------------------------------------------------------
-	void RENDERER::InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID ID){
+	void OPENGL_RENDERER::InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID ID){
 		for(AT::I32 iShader = 0 ; iShader < m_ShaderAttachedCount ; ++iShader){
 			SHADER_ABC* pShader =m_ShadersAttached[iShader];
 			if(pShader->m_ID == ID){
@@ -261,6 +249,38 @@ namespace AE{
 				R.m_pShader = pShader;
 			}
 		}
+	}
+	//--------------------------------------------------------------------------
+	void OPENGL_RENDERER::KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown){
+		if(!bDown)
+			return;
+		switch(KC){
+			case CONTROLLER::KC_B:
+				m_iPostProcess = 1; //blur
+				break;
+			case CONTROLLER::KC_A:
+				m_iPostProcess = 2; //fxaa
+				break;
+			case CONTROLLER::KC_D:
+				m_bDrawDebug = !m_bDrawDebug;
+				break;
+			case CONTROLLER::KC_N:
+				m_iPostProcess = 0; //no post process
+				break;
+			case CONTROLLER::KC_V:
+				ToggleVSync();
+				break;
+		}
+	}
+	//--------------------------------------------------------------------------
+	void OPENGL_RENDERER::WindowTextTitle(AT::I8* title){
+		if(m_iPostProcess==1)
+			sprintf(title, "PostProcess : Blur");
+		else if(m_iPostProcess == 2)
+			sprintf(title, "PostProcess : FXAA");
+		else
+			sprintf(title, "PostProcess : None");
+		
 	}
 	//--------------------------------------------------------------------------
 }//namespace AE
