@@ -201,8 +201,7 @@ namespace AE{
 	}
 	//---------------------------------------------------------------------------
 	void ARCBALL_CAMERA::MouseMoveCB(const CONTROLLER& C, AT::I32 X, AT::I32 Y){
-		AT::VEC2Di DeltaMove(X - m_LastMousePos.x, Y - m_LastMousePos.y);
-		DeltaMove.y *= -1;
+		AT::VEC2Di DeltaMove(m_LastMousePos.x - X, m_LastMousePos.y - Y);
 		const static float speed = 10.f;
 		if(C.GetClickedMouseButton() == CONTROLLER::LEFT){
 			m_Theta += AT_DEG_TO_RAD(((AT::I32F)DeltaMove.y / (AT::I32F)RENDERER_ABC::HEIGHT)*2*AT_PI*speed);
