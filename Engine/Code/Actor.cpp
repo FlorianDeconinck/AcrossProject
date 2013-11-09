@@ -92,8 +92,8 @@ namespace AE{
 	//-----------------------------------------------------------------------------
 	AT::I32F trunc(AT::I32F a){
 		return a>0 ? std::floor(a) : ceil(a);
-	}
 	//-----------------------------------------------------------------------------
+	}
 	void NPC::Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize){
 		if(m_Position == m_Destination)
 			return;
@@ -171,8 +171,16 @@ namespace AE{
 		}
 	}
 	//-----------------------------------------------------------------------------
-	void NPC::LoadMeshs(void* pBufferFromFile, RENDERER_ABC& Renderer){
+	void NPC::LoadMeshs(WORLD& World, void* pBufferFromFile, RENDERER_ABC& Renderer){
 		char* ptr = (char*)pBufferFromFile;
+		//Load bounding box & compute grid-occupation bounding box
+		AT::VEC3Df Min(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1], ((AT::I32F*)ptr)[2]);
+		ptr += 3*sizeof(AT::I32F);
+		AT::VEC3Df Max(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1], ((AT::I32F*)ptr)[2]);
+		ptr += 3*sizeof(AT::I32F);
+		AT::I32 HalfWidth = (AT::I32)((Max.x - Min.x)/(2*World.GetTileSize()));
+		AT::I32 HalfHeight = (AT::I32)((Max.z - Min.z)/(2*World.GetTileSize()));
+		m_BBox.Init(World, m_Position, HalfWidth, HalfHeight);
 		//Load Vertices
 		AT::I32 VerticeCount = *(AT::I32*)ptr;
 		ptr += sizeof(VerticeCount);

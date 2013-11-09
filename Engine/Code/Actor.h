@@ -92,7 +92,7 @@ namespace AE{
 		inline void				SetDestination(const AT::VEC2Di& Destination){ m_Destination = Destination; m_bRecomputePath = true; }
 		inline AT::I8			IsAtDestination(){ return m_Position == m_Destination; }
 		//---
-		void					LoadMeshs(void* pBufferFromFile, RENDERER_ABC& Renderer);
+		void					LoadMeshs(WORLD& World, void* pBufferFromFile, RENDERER_ABC& Renderer);
 		//---
 		static const AT::I32	PATH_MAX_NODES = 1024;
 		//---

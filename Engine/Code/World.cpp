@@ -234,7 +234,7 @@ namespace AE{
 			pNpc0->LoadDefaultMeshs(*this, *m_pRenderer, ColorRGBA);
 		else{
 			void* pBuffer = m_pResourceManager->LoadResource(sResourceName);
-			pNpc0->LoadMeshs(pBuffer, *m_pRenderer);
+			pNpc0->LoadMeshs(*this, pBuffer, *m_pRenderer);
 		}
 		if(!pNpc0->IsCollisionFree(*this, Position)){
 			delete pNpc0;

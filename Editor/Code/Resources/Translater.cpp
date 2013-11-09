@@ -3,12 +3,55 @@
 #include "Translater.h"
 //Tools
 #include <Vec3D.h>
+//STD
 #include <assert.h>
+#include <minmax.h>
+//--
 #pragma warning( disable : 4996 )
 //-----------------------------------------------------------------------------
 namespace AE{
 	//------------------------------------------------------------
 	// TRANSLATER_3D_SCENE
+	//------------------------------------------------------------
+	void assimpToInternal_BoudingBoxComputation_Internal(const aiScene& scene, const aiNode* node, aiVector3D& min, aiVector3D& max, aiMatrix4x4& trf_model){
+		aiMultiplyMatrix4(&trf_model, &node->mTransformation);
+		//--
+		for(AT::U32 iMesh = 0 ; iMesh < scene.mNumMeshes ; ++iMesh){
+			const aiMesh& Mesh = *scene.mMeshes[iMesh];
+			for(AT::U32 iVert = 0 ; iVert < Mesh.mNumVertices ; ++iVert){
+				aiVector3D vertex = Mesh.mVertices[iVert];
+				aiTransformVecByMatrix4(&vertex, &trf_model);
+				//--
+				min.x = min(min.x, vertex.x);
+				min.y = min(min.y, vertex.y);
+				min.z = min(min.z, vertex.z);
+				//--
+				max.x = max(max.x, vertex.x);
+				max.y = max(max.y, vertex.y);
+				max.z = max(max.z, vertex.z);
+			}
+		}
+		//--
+// 		for(AT::U32 iChildNode = 0 ; iChildNode < node->mNumChildren ; ++iChildNode)
+// 			assimpToInternal_BoudingBoxComputation_Internal(scene, node->mChildren[iChildNode], min, max, trf_model);
+	}
+	//------------------------------------------------------------
+	//Compute recursively bounding boxes of meshes contained within the DAE to get
+	//the global bounding box
+	void assimpToInternal_BoudingBoxComputation(FILE* pFileEngine, const aiScene& scene){
+		aiMatrix4x4 trf_model;
+		aiIdentityMatrix4(&trf_model);
+		//--
+		aiVector3D min, max;
+		min.x = min.y = min.z = std::numeric_limits<AT::I32F>::infinity();
+		max.x = max.y = max.z = -std::numeric_limits<AT::I32F>::infinity();
+		//--
+		assimpToInternal_BoudingBoxComputation_Internal(scene, scene.mRootNode, min, max, trf_model);
+		//--
+		//Write down bounding box
+		fwrite(&min, 3*sizeof(min.x), 1, pFileEngine);
+		fwrite(&max, 3*sizeof(max.x), 1, pFileEngine);
+	}
 	//------------------------------------------------------------
 	void assimpToInternal_MeshVertices(FILE* pFileEngine, const aiMesh& Mesh){
 		fwrite((void*)&Mesh.mNumVertices, sizeof(Mesh.mNumVertices), 1, pFileEngine);
@@ -19,6 +62,7 @@ namespace AE{
 			fwrite(Color, 4*sizeof(Color[0]), 1, pFileEngine);
 		}
 	}
+	//------------------------------------------------------------
 	void assimpToInternal_MeshIndices(FILE* pFileEngine, const aiMesh& Mesh){
 		AT::I32 FaceCount = Mesh.mNumFaces*Mesh.mFaces[0].mNumIndices;
 		fwrite((void*)&FaceCount, sizeof(Mesh.mNumFaces), 1, pFileEngine);
@@ -44,6 +88,7 @@ namespace AE{
 		}
 		//Write down Engine asset format
 		if(scene->HasMeshes()){
+			assimpToInternal_BoudingBoxComputation(pFileEngine, *scene);
 			for(AT::U32 iMesh = 0 ; iMesh < scene->mNumMeshes ; ++iMesh){
 				aiMesh& Mesh = *scene->mMeshes[iMesh];
 				if(!Mesh.HasFaces())

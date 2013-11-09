@@ -30,6 +30,10 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLL
 	//--
 #else
 	World.LoadLevel("Cubes Land");
+	for(AT::I32 iNPC = 0 ; iNPC < World.GetNPCCount() ; ++iNPC){
+		AE::NPC* Npc = World.GetNPC(iNPC);
+		Npc->SetDestination(Npc->GetPosition());
+	}
 #endif
 	return AE::ENGINE::NO_MSG;
 }

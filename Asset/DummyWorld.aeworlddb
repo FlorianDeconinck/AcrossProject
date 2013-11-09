@@ -7,7 +7,7 @@
 		<level name="Cubes Land">
 			<grid name="BasicGrid.aegd"/>
 			<npc>
-				<position x="10" y="10"/>
+				<position x="50" y="50"/>
 				<resource path="mayaexport.aeasset"/>
 			</npc>
 		</level>
