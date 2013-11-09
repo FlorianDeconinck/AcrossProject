@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<world>
+	<desc>
+		<name>Dummy DB</name>
+	</desc>
+	<levels>
+		<level name="Cubes Land">
+			<grid name="BasicGrid.aegd"/>
+			<npc>
+				<position x="10" y="10"/>
+				<resource path="mayaexport.aeasset"/>
+			</npc>
+		</level>
+	</levels>
+</world>

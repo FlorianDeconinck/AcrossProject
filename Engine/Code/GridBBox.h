@@ -18,6 +18,7 @@ namespace AE{
 		AT::I32 m_HalfHeight;
 		void UpdateTileStatus(GRID& Grid, const AT::VEC2Di& FromBottomLeft, const AT::VEC2Di& FromTopRight, const AT::VEC2Di& ToBottomLeft, const AT::VEC2Di& ToTopRight, AT::I32 Status) const;
 	public :
+			 GRID_BBOX():m_HalfWidth(1),m_HalfHeight(1){}
 		void Init(GRID& Grid, const AT::VEC2Di BBoxCenter, AT::U32 HalfWidth, AT::U32 HalfHeight);
 		void UpdateGridOccupation(GRID& Grid, const AT::VEC2Di& PreviousBBoxCenter, const AT::VEC2Di& NewBBoxCenter) const;
 		void EraseGridOccupation(GRID& Grid, const AT::VEC2Di& BBoxCenter) const;

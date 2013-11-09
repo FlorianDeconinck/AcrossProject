@@ -28,6 +28,12 @@
     <Filter Include="Rendering\Shaders_GLSL">
       <UniqueIdentifier>{5a7ab3e9-c05e-4f57-ba66-4dd3d173b39d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{a0fbdbfd-1dba-4427-8a11-696ecb48e317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\pugixml">
+      <UniqueIdentifier>{21934c3b-d92e-45b3-a307-192cf8ff88c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\Tools\Timer.h">
@@ -89,6 +95,15 @@
     <ClInclude Include="..\..\Code\Rendering\OpenGL_Renderer.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Code\ResourceManager\XMLStaticResourceManager.h">
+      <Filter>Resource Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\pugixml.1.2\src\pugiconfig.hpp">
+      <Filter>External\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\External\pugixml.1.2\src\pugixml.hpp">
+      <Filter>External\pugixml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Camera.cpp" />
@@ -131,6 +146,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Code\Rendering\OpenGL_Renderer.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\ResourceManager\XMLStaticResourceManager.cpp">
+      <Filter>Resource Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\External\pugixml.1.2\src\pugixml.cpp">
+      <Filter>External\pugixml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

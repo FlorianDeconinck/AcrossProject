@@ -2,13 +2,15 @@
 //Project
 #include "World.h"
 #include "./Rendering/Renderer_Interface.h"
+#include "./ResourceManager/Manager_Interface.h"
 #include "./Controller/Controller.h"
 #include "./Rendering/RObject.h"
 #include "Actor.h"
 #include "./Rendering/Shaders.h"
-//AT
+//Tools
 #include <CodeTools.h>
 #include "Vec3D.h"
+#include <pugixml.hpp>
 //STD
 #include <fstream>
 //---------------------------------------------------------------------------
@@ -50,6 +52,7 @@ namespace AE{
 	//WORLD
 	//---------------------------------------------------------------------------
 	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Players(NULL),m_ElapsedTimeSinceLastUpdate_ms(0){
+		m_sWorldDBFilename[0]='\0';
 		m_TileSize = 0.1f;
 #ifdef _DEBUG
 		m_pRGridQuad	= NULL;
@@ -62,6 +65,10 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	void WORLD::LoadGridFromFile(const AT::I8* Filename){
 		LoadFromFile(Filename);
+#ifdef _DEBUG
+		//Load display debug for grid
+		DebugRendererLoad(m_pRenderer);
+#endif
 	}
 	//---------------------------------------------------------------------------
 #ifdef _DEBUG
@@ -125,15 +132,13 @@ namespace AE{
 	}
 #endif
 	//---------------------------------------------------------------------------
-	void WORLD::Init(RENDERER_ABC* R){
-		//Take ptr on renderer
-		m_pRenderer = R;
+	void WORLD::Init(const AT::I8* sWorldDBFilename, RENDERER_ABC* pRenderer, RESOURCE_MANAGER_ABC* pResourceManager){
+		m_pRenderer = pRenderer;
+		m_pResourceManager = pResourceManager;
+		strcpy(m_sWorldDBFilename, sWorldDBFilename);
+		m_pResourceManager->InitResourceDB(m_sWorldDBFilename);
 		//Load basic grid
-		LoadGridFromFile("../../../Asset/BasicGrid.agd");
-#ifdef _DEBUG
-		//Load display debug for grid
-		DebugRendererLoad(R);
-#endif
+		//LoadGridFromFile("../../../Asset/BasicGrid.aegd");
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
@@ -223,9 +228,14 @@ namespace AE{
 	//--------------------------------------------------------------------------
 	// WORLD : Game interface
 	//--------------------------------------------------------------------------
-	AT::I8 WORLD::SpawnNPC(const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
+	AT::I8 WORLD::SpawnNPC(const AT::I8* sResourceName/*=NULL*/, const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
 		NPC* pNpc0 = new NPC();
-		pNpc0->LoadMeshs(*this, *m_pRenderer, ColorRGBA);
+		if(!sResourceName)
+			pNpc0->LoadDefaultMeshs(*this, *m_pRenderer, ColorRGBA);
+		else{
+			void* pBuffer = m_pResourceManager->LoadResource(sResourceName);
+			pNpc0->LoadMeshs(pBuffer, *m_pRenderer);
+		}
 		if(!pNpc0->IsCollisionFree(*this, Position)){
 			delete pNpc0;
 			return false;
@@ -234,9 +244,10 @@ namespace AE{
 		m_NPCArrays.push_back(pNpc0);
 		return true;
 	}
+	//---------------------------------------------------------------------------
 	AT::I8 WORLD::SpawnPlayer(const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/){
 		PLAYER* pPlayer = new PLAYER();
-		pPlayer->LoadMeshs(*this, *m_pRenderer);
+		pPlayer->LoadDefaultMeshs(*this, *m_pRenderer);
 		if(!pPlayer->IsCollisionFree(*this, Position)){
 			delete pPlayer;
 			return false;
@@ -244,6 +255,35 @@ namespace AE{
 		pPlayer->SetPosition(*this, Position);
 		m_Players.push_back(pPlayer);
 		return true;
+	}
+	//---------------------------------------------------------------------------
+	void WORLD::LoadLevel(const AT::I8* sLevelName){
+		//--
+		pugi::xml_document doc;
+		std::ifstream stream(m_sWorldDBFilename);
+		if(!doc.load(stream))
+			return;
+		//--
+		AT::I8 sQuery[128];
+		sprintf(sQuery, ".//level[@name='%s']", sLevelName);
+		pugi::xml_node level = doc.select_single_node(sQuery).node();
+		for(pugi::xml_node node = level.first_child(); node; node = node.next_sibling()){
+			//-- GRID
+			if(!strcmp(node.name(), "grid")){
+				AT::I8 sGridFilename[128];
+				sprintf(sGridFilename, "../../../Asset/%s", node.attribute("name").value());
+				LoadGridFromFile(sGridFilename);
+				continue;
+			}
+			//-- NPC
+			if(!strcmp(node.name(), "npc")){
+				pugi::xml_node pos = node.child("position");
+				pugi::xml_node res = node.child("resource");
+				SpawnNPC(!res ? NULL : res.attribute("path").value(), AT::VEC2Di(pos.attribute("x").as_int(), pos.attribute("y").as_int()));
+				continue;
+			}
+			//--
+		}
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S){

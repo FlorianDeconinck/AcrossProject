@@ -14,6 +14,7 @@
     <ProjectGuid>{D796FB1E-D304-485A-AA20-0CADEEC93E5B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AEAcrossEngine</RootNamespace>
+    <ProjectName>AE - Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -53,7 +54,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;AEACROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\External\DevIL-SDK-x86-1.7.8\include;..\..\External\glew.1.9.0.w32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\External\DevIL-SDK-x86-1.7.8\include;..\..\External\glew.1.9.0.w32\include;..\..\External\pugixml.1.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>false</ExceptionHandling>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -102,10 +103,13 @@
     <ClInclude Include="..\..\Code\Rendering\Shader.h" />
     <ClInclude Include="..\..\Code\Rendering\Shaders.h" />
     <ClInclude Include="..\..\Code\ResourceManager\Manager_Interface.h" />
+    <ClInclude Include="..\..\Code\ResourceManager\XMLStaticResourceManager.h" />
     <ClInclude Include="..\..\Code\Scene.h" />
     <ClInclude Include="..\..\Code\Tools\Timer.h" />
     <ClInclude Include="..\..\Code\Window.h" />
     <ClInclude Include="..\..\Code\World.h" />
+    <ClInclude Include="..\..\External\pugixml.1.2\src\pugiconfig.hpp" />
+    <ClInclude Include="..\..\External\pugixml.1.2\src\pugixml.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\AI\Pathfinder.cpp" />
@@ -124,9 +128,11 @@
     <ClCompile Include="..\..\Code\Rendering\RObject.cpp" />
     <ClCompile Include="..\..\Code\Rendering\Shader.cpp" />
     <ClCompile Include="..\..\Code\Rendering\Shaders.cpp" />
+    <ClCompile Include="..\..\Code\ResourceManager\XMLStaticResourceManager.cpp" />
     <ClCompile Include="..\..\Code\Scene.cpp" />
     <ClCompile Include="..\..\Code\Window.cpp" />
     <ClCompile Include="..\..\Code\World.cpp" />
+    <ClCompile Include="..\..\External\pugixml.1.2\src\pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Code\Rendering\Shaders_GLSL\blur.fs" />

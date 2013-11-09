@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 //Project
 #include "Engine.h"
+#include "./ResourceManager/XMLStaticResourceManager.h"
 #include "./Rendering/OpenGL_Renderer.h"
 //DevIL
 #include <IL/il.h>
@@ -18,38 +19,39 @@ namespace AE{
 		//---------------
 		//TMP
 		//Module choice system should remove that
-		pRenderer = new OPENGL_RENDERER();
+		m_pRenderer = new OPENGL_RENDERER();
+		m_pResourceManager = (RESOURCE_MANAGER_ABC*)new XML_STATIC_RESOURCE_MANAGER();
 		//---------------
-		MainWindow.SetNames("AcrossEngineMainWindow", "Across Engine");	
-		C.SetDependancies(pRenderer);
-		pRenderer->SetDependancies(&C, &W);
-		MainWindow.AttachEngines(pRenderer, C);
-		if(!MainWindow.Init(hInstance)){
+		m_MainWindow.SetNames("AcrossEngineMainWindow", "Across Engine");	
+		m_Controller.SetDependancies(m_pRenderer);
+		m_pRenderer->SetDependancies(&m_Controller, &m_World);
+		m_MainWindow.AttachEngines(m_pRenderer, m_Controller);
+		if(!m_MainWindow.Init(hInstance)){
 			Break();
 		}
 		m_FPS = 0;
 		m_FPSIndex = 0;
 		memset(m_FPSs, 0, s_FPSIndexMax*sizeof(AT::I64F));
 #ifdef _DEBUG
-		g_pRenderer = pRenderer;
-		g_pWorld = &W;
-		g_pController = &C;
+		g_pRenderer = m_pRenderer;
+		g_pWorld = &m_World;
+		g_pController = &m_Controller;
 #endif
 	}
 	//---------------------------------------------------------------------------
-	void ENGINE::Loop(GameCallback_t& GameInitCallback, GameCallback_t& GameUpdateCallback){
+	void ENGINE::Loop(GameCallback_t& GameInitCallback, GameCallback_t& GameUpdateCallback, const AT::I8* sWorldDBFilename){
 		//--
-		C.m_pMainWindow = &MainWindow;
+		m_Controller.m_pMainWindow = &m_MainWindow;
 		//---
 		ilInit();
 		//--
-		pRenderer->Init();
+		m_pRenderer->Init();
 		//---
-		W.Init(pRenderer);
+		m_World.Init(sWorldDBFilename, m_pRenderer, m_pResourceManager);
 		//---
-		G.Init();
+		m_Gui.Init();
 		//---
-		GameInitCallback(*this, W, C);
+		GameInitCallback(*this, m_World, m_Controller);
 		//---
 		AT::I64F tStartFrame, tEndFrame;
 		AT::I8 title[64];
@@ -58,23 +60,23 @@ namespace AE{
 		AT::I64F Time = 0;
 		AT::I64F FPS_hertz_ms = 1000.0/60.0;
 		//--
-		while(!C.m_bQuit){
+		while(!m_Controller.m_bQuit){
 			//--
 			tStartFrame = m_Timer.GetTime();
 			elapsedTime_ms = tStartFrame - Time;
 			Time = tStartFrame;
 			//--
-			C.Update();
+			m_Controller.Update();
 			//--
-			GAME_MSG gameMsg = GameUpdateCallback(*this, W, C);
+			GAME_MSG gameMsg = GameUpdateCallback(*this, m_World, m_Controller);
 			//Go through msg
 			//--
 #ifdef _DEBUG
 			if(g_bUpdateWorld)
 #endif
-				W.Update(elapsedTime_ms>FPS_hertz_ms?FPS_hertz_ms:elapsedTime_ms, C);
+				m_World.Update(elapsedTime_ms>FPS_hertz_ms?FPS_hertz_ms:elapsedTime_ms, m_Controller);
 			//--
-			pRenderer->Update(G, C, W);
+			m_pRenderer->Update(m_Gui, m_Controller, m_World);
 			//--
 			tEndFrame = m_Timer.GetTime();
 			//--
@@ -84,10 +86,10 @@ namespace AE{
 			for(AT::I32 i = 0 ; i < s_FPSIndexMax ; ++i)
 				m_FPS += m_FPSs[i];
 			m_FPS /= s_FPSIndexMax;
-			if(!C.m_bQuit){
-				pRenderer->WindowTextTitle(rendererTitle);
-				sprintf_s(title, "Across Engine -- FPS : %4.2lf -- %s", rendererTitle);
-				SetWindowText(pRenderer->m_hMainWnd, (LPCSTR)title);
+			if(!m_Controller.m_bQuit){
+				m_pRenderer->WindowTextTitle(rendererTitle);
+				sprintf_s(title, "Across Engine -- FPS : %4.2lf -- %s", m_FPS, rendererTitle);
+				SetWindowText(m_pRenderer->m_hMainWnd, (LPCSTR)title);
 			}
 			//--
 			GL_TOOL::CheckGLError();

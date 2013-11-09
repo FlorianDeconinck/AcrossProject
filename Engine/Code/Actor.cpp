@@ -33,7 +33,7 @@ namespace AE{
 		delete m_pAnimator;
 	}
 	//-----------------------------------------------------------------------------
-	void ACTOR_ABC::LoadMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA/*=NULL*/){
+	void ACTOR_ABC::LoadDefaultMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA/*=NULL*/){
 		AT::I32F* pCubeData=NULL;
 		AT::I32 CubeVerticesCount;
 		GLuint* pCubeDataElements=NULL;
@@ -84,7 +84,7 @@ namespace AE{
 	//-----------------------------------------------------------------------------
 	// NPC
 	//-----------------------------------------------------------------------------
-	NPC::NPC():m_Destination(0, 0),m_NextMove(0,0){
+	NPC::NPC():m_Destination(0, 0),m_NextMove(0,0),m_sizePath(0),m_iPath(0){
 		m_bRecomputePath = false;
 		//Configuration of ANIMATOR
 		SetAnimatorModule((ANIMATOR_ABC*)new DEFAULT_ANIMATOR());
@@ -107,14 +107,15 @@ namespace AE{
 				m_NextMove = m_Path[++m_iPath];
 			m_bRecomputePath = false;
 		}else if(m_Position == m_NextMove){
-			while(m_NextMove==m_Position)
+			while(m_NextMove==m_Position && (AT::I32)m_iPath < m_sizePath)
 				m_NextMove = m_Path[++m_iPath];
 		}
 		//------
 		//Update position
 		AT::VEC2Di DirTiles			 = m_Position - m_NextMove;
 		AT::VEC2Df DirRealWorld(DirTiles.x*tileSize, DirTiles.y*tileSize);
-		DirRealWorld.Normalize();
+		if(!DirRealWorld.IsZero())
+			DirRealWorld.Normalize();
 		m_PreviousInnerTilePosition  = m_InnerTilePosition;
 		m_InnerTilePosition			+=  DirRealWorld*(AT::I32F)(m_Speed*(elapsedTime_ms/1000.0));
 		//--
@@ -170,6 +171,39 @@ namespace AE{
 		}
 	}
 	//-----------------------------------------------------------------------------
+	void NPC::LoadMeshs(void* pBufferFromFile, RENDERER_ABC& Renderer){
+		char* ptr = (char*)pBufferFromFile;
+		//Load Vertices
+		AT::I32 VerticeCount = *(AT::I32*)ptr;
+		ptr += sizeof(VerticeCount);
+		AT::I32F* pVerticesBuffer = (AT::I32F*)ptr;
+		ptr += VerticeCount*7*sizeof(AT::I32F);
+		//Load Indices
+		AT::I32 IndicesCount = *(AT::I32*)ptr;
+		ptr += sizeof(IndicesCount);
+		GLuint* pIndicesBuffer = (GLuint*)ptr;
+		//---
+		m_MeshsCount = 1;
+		//--
+		m_Meshs[0] = new R_OBJECT();
+		m_Meshs[0]->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW);
+		m_Meshs[0]->m_trfModel.SetT(0.f, 1.0f, 0.f);
+		m_Meshs[0]->m_trfModel.ToGL();
+		m_Meshs[0]->m_GLDisplayMode = GL_TRIANGLES;
+		Renderer.InitRObject(*m_Meshs[0], SHADER_ABC::COLOR_3D_SHADER);
+		//--
+// 		R.GetScene().SpawnCube_Lines(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount);
+// 		m_Meshs[1] = new R_OBJECT();
+// 		m_Meshs[1]->m_GLDisplayMode = GL_LINES;
+// 		m_Meshs[1]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.GetScene().GetStaticColorObjectPool(), GL_STATIC_DRAW, true, true);
+// 		m_Meshs[1]->m_trfModel.SetT(0.f, 1.0f, 0.f);
+// 		R.InitRObject(*m_Meshs[1], SHADER_ABC::THICK_LINES_3D_SHADER);
+// 		delete pCubeDataElements;
+// 		delete pCubeData;	
+		//--
+//		m_BBox.Init(Grid, m_Position, 3, 3);
+	}
+	//-----------------------------------------------------------------------------
 	// PLAYER
 	//-----------------------------------------------------------------------------
 	PLAYER::PLAYER(){
@@ -179,7 +213,7 @@ namespace AE{
 		SetAnimatorModule((ANIMATOR_ABC*)new SPRITE_ANIMATOR());
 	}
 	//-----------------------------------------------------------------------------
-	void PLAYER::LoadMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA/*=NULL*/){
+	void PLAYER::LoadDefaultMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA/*=NULL*/){
 		//---
 		m_MeshsCount = 1;
 		//--

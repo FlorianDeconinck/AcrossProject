@@ -10,6 +10,7 @@ AE::ZELDA_CAMERA	g_ZeldaCam;
 AT::I8				g_bSwitch=true;
 //--------------------------------------------------------------------------
 AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C){
+#if 0
 	//--
 	AT::I32 H = World.GetWorldHeight();
 	AT::I32 W = World.GetWorldWidth();
@@ -27,6 +28,9 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLL
 	//--
 	//World.SpawnPlayer(AT::VEC2Di(10,10));
 	//--
+#else
+	World.LoadLevel("Cubes Land");
+#endif
 	return AE::ENGINE::NO_MSG;
 }
 //--------------------------------------------------------------------------
@@ -73,7 +77,7 @@ int __stdcall WinMain(  _In_  HINSTANCE hInstance, _In_  HINSTANCE hPrevInstance
 	AllocConsole();
 	//---------------
 	AE::ENGINE	E(hInstance);
-	E.Loop(GameLogicInit, GameLogicUpdate);
+	E.Loop(GameLogicInit, GameLogicUpdate, "../../../Asset/DummyWorld.aeworlddb");
 	//---------------
 	FreeConsole();
 	return 1;

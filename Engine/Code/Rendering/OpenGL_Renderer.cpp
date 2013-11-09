@@ -247,6 +247,7 @@ namespace AE{
 			if(pShader->m_ID == ID){
 				pShader->InitObject(m_Scene, R);
 				R.m_pShader = pShader;
+				return; //m_ID is unique
 			}
 		}
 	}

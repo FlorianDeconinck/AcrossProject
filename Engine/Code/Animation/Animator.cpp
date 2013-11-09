@@ -19,7 +19,7 @@ namespace AE{
 			T.y = 1.f + cos(m_AnimationAngle)/6.f;
 			m_AnimationAngle += 0.005f;
 			if(m_AnimationAngle > 6.28f)
-			m_AnimationAngle = 0.f;
+				m_AnimationAngle = 0.f;
 			//--
 			pObject->m_trfModel = T;
 		}

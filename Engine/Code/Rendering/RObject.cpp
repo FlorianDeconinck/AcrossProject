@@ -114,6 +114,29 @@ namespace AE{
 		m_trfModel.Identity();
 	}
 	//---------------------------------------------------------------------------
+	void R_OBJECT::Build(AT::I32F* DataVertices, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, AT::I32 DrawMode){
+		m_Elements = DataElements;
+		m_ElementsIndexCount = ElementsCount;
+		m_VerticesCount = VerticesCount;
+		m_pStartOfVerticesBuffer = DataVertices;
+		//VAO
+		glGenVertexArrays(1, &m_vao);
+		glBindVertexArray(m_vao);
+		GL_TOOL::CheckGLError();
+		//VBO
+		glGenBuffers(1, &m_vbo); 
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+		glBufferData(GL_ARRAY_BUFFER, VerticesCount*7*sizeof(AT::I32F), DataVertices, DrawMode);
+		GL_TOOL::CheckGLError();
+		if(ElementsCount){
+			glGenBuffers(1, &m_ebo);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_ElementsIndexCount*sizeof(m_Elements), m_Elements, DrawMode);
+		}
+		//TRF
+		m_trfModel.Identity();
+	}
+	//---------------------------------------------------------------------------
 	void R_OBJECT::Draw(RENDERER_ABC& R){
 		if(!m_VerticesCount)
 			return;

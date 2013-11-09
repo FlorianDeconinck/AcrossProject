@@ -38,6 +38,7 @@ namespace AE{
 		void LoadMesh(GLuint* DataElements, AT::I32 ElementsCount, AT::I8 bCpyData=false);
 		void Build(AT::I32F* Data, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, STATIC_VERTICES_COLOR_POOL_AE& DataPool, AT::I32 DrawMode, AT::I8 bEbo=true,AT::I8 bEboCpy=false);
 		void Build(AT::I32F* Data, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, STATIC_VERTICES_TEXT_POOL_AE& DataPool, AT::I32 DrawMode, const AT::I8* Filename=NULL, AT::I8 bEbo=true,AT::I8 bEboCpy=false);
+		void Build(AT::I32F* DataVertices, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, AT::I32 DrawMode);
 		void Draw(RENDERER_ABC& R);
 	protected :
 		void SetNextElementIdx(AT::I32 idx);

@@ -212,7 +212,7 @@ namespace AE{
 			AT::I32F dx = m_Eye.x-m_Target.x;
 			AT::I32F dy = m_Eye.z-m_Target.z;
 			AT::VEC2Df ZXNormalToTargetEye(-dy, dx);
-			AT::I32F Move = ((AT::I32F)DeltaMove.x / (AT::I32F)RENDERER_ABC::WIDTH);
+			AT::I32F Move = ((AT::I32F)-DeltaMove.x / (AT::I32F)RENDERER_ABC::WIDTH);
 			m_Target.x += ZXNormalToTargetEye.x * Move;
 			m_Target.z += ZXNormalToTargetEye.y * Move;
 			m_Target.y -= ((AT::I32F)DeltaMove.y / (AT::I32F)RENDERER_ABC::HEIGHT)*speed;

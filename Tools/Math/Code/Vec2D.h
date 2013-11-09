@@ -6,7 +6,6 @@
 //---------------------------------------------------------------------------
 namespace AT{
 	//-----------------------------------------------------------------------
-	#define AT_EPSILON 1e-5
 	template <typename unit> struct VEC2D{
 		unit x, y;
 		//--
@@ -16,7 +15,7 @@ namespace AT{
 		void			Set(unit _x, unit _y)				{ x = _x; y = _y;}
 		//--
 		void			Zero()									{ x=y=0; }
-		I8				IsZero()						const	{ return abs(x)<AT_EPSILON && abs(y)<AT_EPSILON; }
+		I8				IsZero()						const	{ return abs(x)<std::numeric_limits<unit>::epsilon() && abs(y)<std::numeric_limits<unit>::epsilon(); }
 		void			Normalize()								{ unit n = sqrt(x*x + y*y); x/=n ; y/=n; }
 		unit			Cross(const VEC2D<unit>& V)		const	{ return this->x*V.y - this->y*V.x; }
 		VEC2D<unit>		operator-(const VEC2D<unit>& V)	const	{ VEC2D<unit> Vr; Vr.x = V.x - this->x; Vr.y = V.y - this->y; return Vr; }
