@@ -29,7 +29,9 @@ This work is based on several reads :
 
 ###Libraries
 * ImGUI by Adrien Herubel [(GitHub)](https://github.com/AdrienHerubel/imgui), which was inspired from Recast GUI by Mikko Mononen [(GitHub)](https://github.com/memononen/recastnavigation)
-* For cross-plateform image manipulation :  [(DevIL SDK)](http://openil.sourceforge.net/)
+* For cross-plateform image manipulation :  [DevIL SDK](http://openil.sourceforge.net/)
+* For XML document manipulation : [pugixml 1.2](http://pugixml.org/)
+* For 3D mesh/animation translation from several modelers (MAYA being the one I use mostly) to the engine format : [AssImp](http://assimp.sourceforge.net/)
 
 ##Project implemented list
 * Grid-based environment
