@@ -181,11 +181,26 @@ namespace AE{
 		AT::I32 HalfWidth = (AT::I32)((Max.x - Min.x)/(2*World.GetTileSize()));
 		AT::I32 HalfHeight = (AT::I32)((Max.z - Min.z)/(2*World.GetTileSize()));
 		m_BBox.Init(World, m_Position, HalfWidth, HalfHeight);
+		//Load UV channels count
+		AT::I32 nUV = *(AT::I32*)ptr;
+		ptr += sizeof(AT::I32);
+		AT::I32 pixelInformationLength;
+		SHADER_ABC::SHADERS_ID Shader;
+		if(nUV==1){
+			pixelInformationLength = 5;	//vertex 3d position + uv 
+			Shader = SHADER_ABC::TEXTURE_3D_SHADER;
+		}else if(nUV!=0){
+			assert(false);				//multiple uv channels, not handled
+			return;
+		}else{
+			pixelInformationLength = 7; //vertex 3d position + 4d color vector
+			Shader = SHADER_ABC::COLOR_3D_SHADER;
+		}
 		//Load Vertices
 		AT::I32 VerticeCount = *(AT::I32*)ptr;
 		ptr += sizeof(VerticeCount);
 		AT::I32F* pVerticesBuffer = (AT::I32F*)ptr;
-		ptr += VerticeCount*7*sizeof(AT::I32F);
+		ptr += VerticeCount*pixelInformationLength*sizeof(AT::I32F);
 		//Load Indices
 		AT::I32 IndicesCount = *(AT::I32*)ptr;
 		ptr += sizeof(IndicesCount);
@@ -194,11 +209,11 @@ namespace AE{
 		m_MeshsCount = 1;
 		//--
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW);
+		m_Meshs[0]->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, "../../../Asset/CompanionCube/mesh/companion-cube/tex/companion_cubeColor.png");
 		m_Meshs[0]->m_trfModel.SetT(0.f, 1.0f, 0.f);
 		m_Meshs[0]->m_trfModel.ToGL();
 		m_Meshs[0]->m_GLDisplayMode = GL_TRIANGLES;
-		Renderer.InitRObject(*m_Meshs[0], SHADER_ABC::COLOR_3D_SHADER);
+		Renderer.InitRObject(*m_Meshs[0], Shader);
 		//--
 // 		R.GetScene().SpawnCube_Lines(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount);
 // 		m_Meshs[1] = new R_OBJECT();

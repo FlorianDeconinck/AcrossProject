@@ -51,6 +51,11 @@ namespace AT{
 	}
 	//-----------------------------------------------------------------
 	template<U8 bSAFE_MODE>
+	U32 STACK_ALLOCATOR<bSAFE_MODE>::getFreeSize(){
+		return m_stackSize_bytes - m_stackTop_marker;
+	}
+	//-----------------------------------------------------------------
+	template<U8 bSAFE_MODE>
 	void STACK_ALLOCATOR<bSAFE_MODE>::freeToMarker(Marker marker){
 		m_stackTop_marker = marker > 0 ? marker : 0;
 	}

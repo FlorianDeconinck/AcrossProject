@@ -40,6 +40,8 @@ namespace AT{
 			void* alloc(U32 size_bytes, STACK_ALLOCATOR_ERROR* pErr=NULL);
 			// Returns a marker to the current stack top. 
 			Marker getMarker();
+			// Get size left on the stack
+			U32 getFreeSize();
 			// Rolls the stack back to a previous marker. 
 			void freeToMarker(Marker marker);
 			// Clears the entire stack (rolls the stack back to

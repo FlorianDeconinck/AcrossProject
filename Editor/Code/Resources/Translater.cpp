@@ -49,17 +49,33 @@ namespace AE{
 		assimpToInternal_BoudingBoxComputation_Internal(scene, scene.mRootNode, min, max, trf_model);
 		//--
 		//Write down bounding box
-		fwrite(&min, 3*sizeof(min.x), 1, pFileEngine);
-		fwrite(&max, 3*sizeof(max.x), 1, pFileEngine);
+		fwrite(&min, sizeof(min.x), 3, pFileEngine);
+		fwrite(&max, sizeof(max.x), 3, pFileEngine);
 	}
 	//------------------------------------------------------------
 	void assimpToInternal_MeshVertices(FILE* pFileEngine, const aiMesh& Mesh){
+		//--
+		AT::I32 nUV = Mesh.GetNumUVChannels();
+		fwrite((void*)&nUV, sizeof(nUV), 1, pFileEngine);
+		//--
 		fwrite((void*)&Mesh.mNumVertices, sizeof(Mesh.mNumVertices), 1, pFileEngine);
 		//--
-		AT::I32F Color[]={0.5f, 0.5f, 0.5f, 0.8f};
-		for(AT::U32 iVert = 0 ; iVert < Mesh.mNumVertices ; ++iVert){
-			fwrite((void*)&Mesh.mVertices[iVert], 3*sizeof(Mesh.mVertices[0].x), 1, pFileEngine);
-			fwrite(Color, 4*sizeof(Color[0]), 1, pFileEngine);
+		if(nUV==1){
+			for(AT::U32 iVert = 0 ; iVert < Mesh.mNumVertices ; ++iVert){
+				fwrite((void*)&Mesh.mVertices[iVert], 3*sizeof(Mesh.mVertices[0].x), 1, pFileEngine);
+				fwrite((void*)&Mesh.mTextureCoords[nUV-1][iVert].x, sizeof(Mesh.mTextureCoords[nUV-1][0].x), 1, pFileEngine);
+				AT::I32F y = 1-Mesh.mTextureCoords[nUV-1][iVert].y;
+				fwrite((void*)&y, sizeof(Mesh.mTextureCoords[nUV-1][0].x), 1, pFileEngine);
+			}
+		}else if(nUV!=0){
+			assert(false);
+		}else{
+			//--
+			AT::I32F Color[]={0.5f, 0.5f, 0.5f, 0.8f};
+			for(AT::U32 iVert = 0 ; iVert < Mesh.mNumVertices ; ++iVert){
+				fwrite((void*)&Mesh.mVertices[iVert], 3*sizeof(Mesh.mVertices[0].x), 1, pFileEngine);
+				fwrite(Color, 4*sizeof(Color[0]), 1, pFileEngine);
+			}
 		}
 	}
 	//------------------------------------------------------------

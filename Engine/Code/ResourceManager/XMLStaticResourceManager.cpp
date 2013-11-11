@@ -15,7 +15,7 @@ namespace AE{
 		}
 	};
 	//-----------------------------------------------------------------------------
-	XML_STATIC_RESOURCE_MANAGER::XML_STATIC_RESOURCE_MANAGER():m_Stack_Allocator(100000),m_MarkerAfterInit(0){
+	XML_STATIC_RESOURCE_MANAGER::XML_STATIC_RESOURCE_MANAGER():m_Stack_Allocator(1000000),m_MarkerAfterInit(0){
 	}
 	//-----------------------------------------------------------------------------
 	void XML_STATIC_RESOURCE_MANAGER::InitResourceDB(const AT::I8* sResourceDataBaseName){
@@ -44,15 +44,17 @@ namespace AE{
 		if(!Resource.m_bInMemory){
 			AT::I8 Filename[128];
 			sprintf(Filename, "../../../Asset/%s", it->first.c_str());
-			FILE* pFile = fopen(Filename, "rb");
-			if(!pFile)
+			std::ifstream fstream (Filename, std::ifstream::binary);
+			if(!fstream)
 				return NULL;
-			fseek(pFile, 0, SEEK_END);
-			AT::I32 bytes_size = ftell(pFile);
-			Resource.m_pBuffer = m_Stack_Allocator.alloc(bytes_size);
-			rewind(pFile);
-			fread(Resource.m_pBuffer, bytes_size, 1, pFile);
-			fclose(pFile);
+			std::filebuf* fBuffer = fstream.rdbuf();
+			std::streamoff size = fBuffer->pubseekoff(0, fstream.end, fstream.in);
+			if(m_Stack_Allocator.getFreeSize() < size)
+				return NULL;
+			fBuffer->pubseekpos(0, fstream.in);
+			Resource.m_pBuffer = m_Stack_Allocator.alloc((AT::U32)size);
+			fBuffer->sgetn((char*)Resource.m_pBuffer, size-1);
+			fstream.close();
 			Resource.m_bInMemory = true;
 		}
 		return Resource.m_pBuffer;

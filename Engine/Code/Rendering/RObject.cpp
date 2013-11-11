@@ -114,7 +114,7 @@ namespace AE{
 		m_trfModel.Identity();
 	}
 	//---------------------------------------------------------------------------
-	void R_OBJECT::Build(AT::I32F* DataVertices, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, AT::I32 DrawMode){
+	void R_OBJECT::Build(AT::I32F* DataVertices, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, AT::I32 DrawMode, const AT::I8* TextureFilename/*=NULL*/){
 		m_Elements = DataElements;
 		m_ElementsIndexCount = ElementsCount;
 		m_VerticesCount = VerticesCount;
@@ -135,7 +135,29 @@ namespace AE{
 		}
 		//TRF
 		m_trfModel.Identity();
-	}
+		//TEXTURE
+		if(TextureFilename){
+			glGenTextures(1, &m_TextureId);
+			ILuint ilTexid;
+			ilGenImages(1, &ilTexid); 
+			ilBindImage(ilTexid); 
+			if(ilLoadImage(TextureFilename) && ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)){
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, m_TextureId);
+				//clamp
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP); 
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+				//texture filtering
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+				glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+				glGenerateMipmap(GL_TEXTURE_2D);
+			}else{
+				Break();
+				m_TextureId = -1;
+			}
+			ilDeleteImage(ilTexid);
+		}	}
 	//---------------------------------------------------------------------------
 	void R_OBJECT::Draw(RENDERER_ABC& R){
 		if(!m_VerticesCount)
