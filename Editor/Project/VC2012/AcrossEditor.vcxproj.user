@@ -3,5 +3,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LocalDebuggerCommandArguments>--ts3d ../../../Asset/mayaexport.dae ../../../Asset/mayaexport.aeasset</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)../../../../Asset</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

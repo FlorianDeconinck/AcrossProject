@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 //Tools
-#include <CommonTypes.h>
+#include <AcrossTypes.h>
 //---------------------------------------------------------------------------
 namespace AE{
 	class R_OBJECT;

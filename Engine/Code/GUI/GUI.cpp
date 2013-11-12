@@ -16,7 +16,7 @@ namespace AE{
 	}
 	//-----------------------------------------------------------------------------
 	void GUI::Init(){
-		if (!imguiRenderGLInit("../../../Asset/DroidSans.ttf"))
+		if (!imguiRenderGLInit("DroidSans.ttf"))
 			Break();
 	}
 	//-----------------------------------------------------------------------------

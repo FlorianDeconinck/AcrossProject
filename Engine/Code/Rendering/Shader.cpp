@@ -57,7 +57,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	void SHADER_ABC::LoadAndCompileShaderFromFile(const char* Name, GLuint& Shader){
 		char ShaderFilename[512];
-		sprintf_s(ShaderFilename, "../../../Engine/Code/Rendering/Shaders_GLSL/%s",Name);
+		sprintf_s(ShaderFilename, "../Engine/Code/Rendering/Shaders_GLSL/%s",Name);
 		std::ifstream ShaderFile(ShaderFilename);
 		if(!ShaderFile.is_open()){
 			Break();

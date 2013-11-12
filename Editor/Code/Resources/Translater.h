@@ -6,7 +6,7 @@
 #include <assimp/scene.h>           // Output data structure
 #include <assimp/postprocess.h>     // Post processing flags
 //Tool
-#include <CommonTypes.h>
+#include <AcrossTypes.h>
 //---------------------------------------------------------------------------
 namespace AE{
 	class TRANSLATER_3D_SCENE{

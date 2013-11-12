@@ -2,6 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="..\..\Code\CodeTools.h" />
-    <ClInclude Include="..\..\Code\CommonTypes.h" />
+    <ClInclude Include="..\..\Code\PerfomanceLogger.h" />
+    <ClInclude Include="..\..\Code\Timer.h" />
+    <ClInclude Include="..\..\Code\AcrossTypes.h" />
   </ItemGroup>
 </Project>

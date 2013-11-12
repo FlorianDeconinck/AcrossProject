@@ -78,7 +78,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\CodeTools.h" />
-    <ClInclude Include="..\..\Code\CommonTypes.h" />
+    <ClInclude Include="..\..\Code\AcrossTypes.h" />
+    <ClInclude Include="..\..\Code\PerfomanceLogger.h" />
+    <ClInclude Include="..\..\Code\Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

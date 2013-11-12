@@ -138,7 +138,7 @@ namespace AE{
 		strcpy(m_sWorldDBFilename, sWorldDBFilename);
 		m_pResourceManager->InitResourceDB(m_sWorldDBFilename);
 		//Load basic grid
-		//LoadGridFromFile("../../../Asset/BasicGrid.aegd");
+		//LoadGridFromFile("BasicGrid.aegd");
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
@@ -271,7 +271,7 @@ namespace AE{
 			//-- GRID
 			if(!strcmp(node.name(), "grid")){
 				AT::I8 sGridFilename[128];
-				sprintf(sGridFilename, "../../../Asset/%s", node.attribute("name").value());
+				sprintf(sGridFilename, "%s", node.attribute("name").value());
 				LoadGridFromFile(sGridFilename);
 				continue;
 			}

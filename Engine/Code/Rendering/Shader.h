@@ -1,7 +1,7 @@
 #pragma once
 //---------------------------------------------------------------------------
 //Tool
-#include <CommonTypes.h>
+#include <AcrossTypes.h>
 //---------------------------------------------------------------------------
 typedef unsigned int GLuint;
 typedef int GLint;

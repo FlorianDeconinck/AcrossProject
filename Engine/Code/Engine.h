@@ -9,7 +9,7 @@
 #include "Window.h"
 #include "GlobalDebug.h"
 //TOOLS
-#include "./Tools/Timer.h"
+#include <Timer.h>
 //WIN32
 #include <Windows.h>
 //STD

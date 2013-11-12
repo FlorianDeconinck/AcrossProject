@@ -6,7 +6,7 @@
 #include "GridBBox.h"
 //Tools
 #include "Vec2D.h"
-#include <CommonTypes.h>
+#include <AcrossTypes.h>
 //---------------------------------------------------------------------------
 namespace AE{
 	class RENDERER_ABC;

@@ -12,7 +12,7 @@
 #ifndef __STACK_ALLOCATOR_H__
 #define __STACK_ALLOCATOR_H__
 //-----------------------------------------------------------------
-#include <CommonTypes.h>
+#include <AcrossTypes.h>
 //-----------------------------------------------------------------
 namespace AT{
 	template<U8 bSAFE_MODE=true> class STACK_ALLOCATOR{

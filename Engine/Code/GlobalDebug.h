@@ -4,21 +4,25 @@
 #ifdef _DEBUG
 	//---------------------------------------------------------------------------
 	//Tool
-	#include <CommonTypes.h>
+	#include <AcrossTypes.h>
+	#include <PerfomanceLogger.h>
 	//---------------------------------------------------------------------------
 	namespace AE{
 		class RENDERER_ABC;
 		class WORLD;
 		class CONTROLLER;
 		//--
-		extern RENDERER_ABC*	g_pRenderer;
-		extern WORLD*			g_pWorld;
-		extern CONTROLLER*		g_pController;
+		extern RENDERER_ABC*							g_pRenderer;
+		extern WORLD*									g_pWorld;
+		extern CONTROLLER*								g_pController;
 		//--
-		extern AT::I64F			g_PathfinderDebug_MeanProcessTime;
-		extern AT::I64F			g_PathfinderDebug_MaxProcessTime;
+		extern AT::I64F									g_PathfinderDebug_MeanProcessTime;
+		extern AT::I64F									g_PathfinderDebug_MaxProcessTime;
 		//--
-		extern AT::I8			g_bUpdateWorld;
+		extern AT::I8									g_bUpdateWorld;
+		//--
+		extern AT::DIRECT_TO_FILE_PERFORMANCE_LOGGER	g_PerfFileLogger;
+		//--
 	}
 	//---------------------------------------------------------------------------
 #endif

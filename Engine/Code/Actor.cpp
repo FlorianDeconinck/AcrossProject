@@ -209,7 +209,7 @@ namespace AE{
 		m_MeshsCount = 1;
 		//--
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, "../../../Asset/CompanionCube/mesh/companion-cube/tex/companion_cubeColor.png");
+		m_Meshs[0]->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, "CompanionCube/mesh/companion-cube/tex/companion_cubeColor.png");
 		m_Meshs[0]->m_trfModel.SetT(0.f, 1.0f, 0.f);
 		m_Meshs[0]->m_trfModel.ToGL();
 		m_Meshs[0]->m_GLDisplayMode = GL_TRIANGLES;
@@ -249,7 +249,7 @@ namespace AE{
 		SCENE::SetVertexData(VerticesData, 2,			HalfSize,		1.f, 0.05f, 0.083f, 0);					//1,0
 		SCENE::SetVertexData(VerticesData, 3,		 -HalfSize,		1.f, 0.05f,			 0, 0);					//0,0
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.GetScene().GetStaticTextureObjectPool(), GL_STREAM_DRAW, "../../../Asset/Alex_8D_zps374573dc.png", false, false);
+		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.GetScene().GetStaticTextureObjectPool(), GL_STREAM_DRAW, "Alex_8D_zps374573dc.png", false, false);
 		m_Meshs[0]->m_trfModel.SetT(0.f, 0.f, 0.f);
 		m_Meshs[0]->m_GLDisplayMode = GL_QUADS;
 		R.InitRObject(*m_Meshs[0], SHADER_ABC::TEXTURE_3D_SHADER);

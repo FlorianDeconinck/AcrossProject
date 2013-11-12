@@ -2,7 +2,7 @@
 //Std
 #include <string>
 //Tools
-#include <CommonTypes.h>
+#include <AcrossTypes.h>
 //Project
 #include "Resources/Translater.h"
 //---------------------------------------------------------------------------

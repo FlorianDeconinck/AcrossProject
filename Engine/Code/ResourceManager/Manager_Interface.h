@@ -1,7 +1,7 @@
 #pragma once
 //-----------------------------------------------------------------------------
 //Tool
-#include <CommonTypes.h>
+#include <AcrossTypes.h>
 //-----------------------------------------------------------------------------
 // Resource manager has to be initialized with the resource database name.
 //  Database format and stocking is up to the child Resource manager

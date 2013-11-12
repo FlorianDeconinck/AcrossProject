@@ -43,7 +43,7 @@ namespace AE{
 		RESOURCE& Resource = it->second;
 		if(!Resource.m_bInMemory){
 			AT::I8 Filename[128];
-			sprintf(Filename, "../../../Asset/%s", it->first.c_str());
+			sprintf(Filename, "%s", it->first.c_str());
 			std::ifstream fstream (Filename, std::ifstream::binary);
 			if(!fstream)
 				return NULL;

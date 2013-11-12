@@ -81,7 +81,7 @@ int __stdcall WinMain(  _In_  HINSTANCE hInstance, _In_  HINSTANCE hPrevInstance
 	AllocConsole();
 	//---------------
 	AE::ENGINE	E(hInstance);
-	E.Loop(GameLogicInit, GameLogicUpdate, "../../../Asset/DummyWorld.aeworlddb");
+	E.Loop(GameLogicInit, GameLogicUpdate, "DummyWorld.aeworlddb");
 	//---------------
 	FreeConsole();
 	return 1;

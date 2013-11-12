@@ -158,7 +158,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	AT::I8 OPENGL_RENDERER::Build(){
 		//Read INI
-		FILE* SettingsFile = fopen("../../../Asset/BasicSettings.ini", "r");
+		FILE* SettingsFile = fopen("BasicSettings.ini", "r");
 		AT::VEC3Df Eye;
 		fscanf(SettingsFile, "EyeX=%f\nEyeY=%f\nEyeZ=%f\n", &Eye.x, &Eye.y, &Eye.z);
 		AT::VEC3Df Target;

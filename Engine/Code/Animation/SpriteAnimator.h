@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 //Tool
-#include <CommonTypes.h>
+#include <AcrossTypes.h>
 #include <Vec2D.h>
 //---------------------------------------------------------------------------
 namespace AE{
