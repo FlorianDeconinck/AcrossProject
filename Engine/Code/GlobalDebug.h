@@ -6,6 +6,7 @@
 	//Tool
 	#include <AcrossTypes.h>
 	#include <PerfomanceLogger.h>
+	#include <Profiler.h>
 	//---------------------------------------------------------------------------
 	namespace AE{
 		class RENDERER_ABC;
@@ -22,6 +23,8 @@
 		extern AT::I8									g_bUpdateWorld;
 		//--
 		extern AT::DIRECT_TO_FILE_PERFORMANCE_LOGGER	g_PerfFileLogger;
+		//--
+		extern AT::PROFILER								g_Profiler;
 		//--
 	}
 	//---------------------------------------------------------------------------

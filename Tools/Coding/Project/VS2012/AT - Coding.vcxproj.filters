@@ -5,5 +5,9 @@
     <ClInclude Include="..\..\Code\PerfomanceLogger.h" />
     <ClInclude Include="..\..\Code\Timer.h" />
     <ClInclude Include="..\..\Code\AcrossTypes.h" />
+    <ClInclude Include="..\..\Code\Profiler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Code\Profiler.cpp" />
   </ItemGroup>
 </Project>

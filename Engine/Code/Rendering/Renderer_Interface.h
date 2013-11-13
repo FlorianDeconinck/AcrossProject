@@ -1,8 +1,8 @@
 #pragma once
 //Project
 #include "../Camera.h"
-#include "../Scene.h"
-#include "./Shader.h"
+#include "../World/Scene.h"
+#include "Shader.h"
 //Windows
 #include <wtypes.h>
 #include <wingdi.h>

@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 //Project
 #include "SpriteAnimator.h"
-#include "../Actor.h"
-#include "../World.h"
+#include "../World/Actor.h"
+#include "../World/World.h"
 //Tool
 #include <AcrossTypes.h>
 //---------------------------------------------------------------------------

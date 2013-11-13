@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 //Project
 #include "Camera.h"
-#include "World.h"
-#include "Rendering/Renderer_Interface.h"
+#include "./World/World.h"
+#include "./Rendering/Renderer_Interface.h"
 #include "./GUI/GUI.h"
 //STD
 #include <math.h>

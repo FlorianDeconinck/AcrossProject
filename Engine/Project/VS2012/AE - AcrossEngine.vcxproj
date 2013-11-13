@@ -93,8 +93,6 @@
     <ClInclude Include="..\..\Code\GUI\ImGUI\imgui.h" />
     <ClInclude Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.h" />
     <ClInclude Include="..\..\Code\GUI\ImGUI\stb_truetype.h" />
-    <ClInclude Include="..\..\Code\GridBBox.h" />
-    <ClInclude Include="..\..\Code\Actor.h" />
     <ClInclude Include="..\..\Code\Camera.h" />
     <ClInclude Include="..\..\Code\Engine.h" />
     <ClInclude Include="..\..\Code\Rendering\OpenGL_Renderer.h" />
@@ -105,9 +103,11 @@
     <ClInclude Include="..\..\Code\Rendering\Shaders.h" />
     <ClInclude Include="..\..\Code\ResourceManager\Manager_Interface.h" />
     <ClInclude Include="..\..\Code\ResourceManager\XMLStaticResourceManager.h" />
-    <ClInclude Include="..\..\Code\Scene.h" />
     <ClInclude Include="..\..\Code\Window.h" />
-    <ClInclude Include="..\..\Code\World.h" />
+    <ClInclude Include="..\..\Code\World\Actor.h" />
+    <ClInclude Include="..\..\Code\World\GridBBox.h" />
+    <ClInclude Include="..\..\Code\World\Scene.h" />
+    <ClInclude Include="..\..\Code\World\World.h" />
     <ClInclude Include="..\..\External\pugixml.1.2\src\pugiconfig.hpp" />
     <ClInclude Include="..\..\External\pugixml.1.2\src\pugixml.hpp" />
   </ItemGroup>
@@ -118,8 +118,6 @@
     <ClCompile Include="..\..\Code\Controller\Controller.cpp" />
     <ClCompile Include="..\..\Code\Engine.cpp" />
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
-    <ClCompile Include="..\..\Code\GridBBox.cpp" />
-    <ClCompile Include="..\..\Code\Actor.cpp" />
     <ClCompile Include="..\..\Code\Camera.cpp" />
     <ClCompile Include="..\..\Code\GUI\GUI.cpp" />
     <ClCompile Include="..\..\Code\GUI\ImGUI\imgui.cpp" />
@@ -129,9 +127,11 @@
     <ClCompile Include="..\..\Code\Rendering\Shader.cpp" />
     <ClCompile Include="..\..\Code\Rendering\Shaders.cpp" />
     <ClCompile Include="..\..\Code\ResourceManager\XMLStaticResourceManager.cpp" />
-    <ClCompile Include="..\..\Code\Scene.cpp" />
     <ClCompile Include="..\..\Code\Window.cpp" />
-    <ClCompile Include="..\..\Code\World.cpp" />
+    <ClCompile Include="..\..\Code\World\Actor.cpp" />
+    <ClCompile Include="..\..\Code\World\GridBBox.cpp" />
+    <ClCompile Include="..\..\Code\World\Scene.cpp" />
+    <ClCompile Include="..\..\Code\World\World.cpp" />
     <ClCompile Include="..\..\External\pugixml.1.2\src\pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>

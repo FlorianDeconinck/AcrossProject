@@ -31,15 +31,14 @@
     <Filter Include="External\pugixml">
       <UniqueIdentifier>{21934c3b-d92e-45b3-a307-192cf8ff88c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{57670808-aeb4-4187-bb3a-04a1f494d024}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\Camera.h" />
-    <ClInclude Include="..\..\Code\Scene.h" />
     <ClInclude Include="..\..\Code\Window.h" />
-    <ClInclude Include="..\..\Code\World.h" />
     <ClInclude Include="..\..\Code\Engine.h" />
-    <ClInclude Include="..\..\Code\Actor.h" />
-    <ClInclude Include="..\..\Code\GridBBox.h" />
     <ClInclude Include="..\..\Code\GlobalDebug.h" />
     <ClInclude Include="..\..\Code\GUI\ImGUI\imgui.h">
       <Filter>GUI\ImGUi</Filter>
@@ -98,14 +97,22 @@
     <ClInclude Include="..\..\External\pugixml.1.2\src\pugixml.hpp">
       <Filter>External\pugixml</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Code\World\Actor.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\GridBBox.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\Scene.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\World.h">
+      <Filter>World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Camera.cpp" />
-    <ClCompile Include="..\..\Code\Scene.cpp" />
     <ClCompile Include="..\..\Code\Window.cpp" />
-    <ClCompile Include="..\..\Code\World.cpp" />
-    <ClCompile Include="..\..\Code\Actor.cpp" />
-    <ClCompile Include="..\..\Code\GridBBox.cpp" />
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
     <ClCompile Include="..\..\Code\GUI\ImGUI\imgui.cpp">
       <Filter>GUI\ImGUi</Filter>
@@ -146,6 +153,18 @@
     </ClCompile>
     <ClCompile Include="..\..\External\pugixml.1.2\src\pugixml.cpp">
       <Filter>External\pugixml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\Actor.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\GridBBox.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\Scene.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\World.cpp">
+      <Filter>World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

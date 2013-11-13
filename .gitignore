@@ -22,12 +22,17 @@
 *.log
 *.sdf
 *.suo
+*.opensdf
 
 #Dirs
 Engine/External/glew.1.9.0.w32/doc
 Engine/External/glew.1.9.0.w32/*.txt
 Engine/External/glew.1.9.0.w32/bin/glewinfo.exe
 Engine/External/glew.1.9.0.w32/bin/visualinfo.exe
+Tools/Coding/External/glew.1.9.0.w32/doc
+Tools/Coding/External/glew.1.9.0.w32/*.txt
+Tools/Coding/External/glew.1.9.0.w32/bin/glewinfo.exe
+Tools/Coding/External/glew.1.9.0.w32/bin/visualinfo.exe
 Engine/Out/
 Game/Out
 Tools/Memory/Out

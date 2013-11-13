@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "Pathfinder.h"
-#include "../World.h"
+#include "../World/World.h"
 #include "../GlobalDebug.h"
 #ifdef _DEBUG
 	#include "../Engine.h"

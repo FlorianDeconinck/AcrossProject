@@ -7,7 +7,7 @@
 #include "OpenGL_Renderer.h"
 #include "../Controller/Controller.h"
 #include "RObject.h"
-#include "../World.h"
+#include "../World/World.h"
 #include "Shader.h"
 #include "../GlobalDebug.h"
 #include "../GUI/GUI.h"
@@ -91,7 +91,19 @@ namespace AE{
 			//--
 		}
 		//-----------------------------
+#ifdef _DEBUG	
+		g_Profiler.StartSubTimer("GUI");
+#endif
 		Gui.Update(C, *this, W);
+#ifdef _DEBUG	
+		g_Profiler.StopSubTimer("GUI");
+#endif
+		//-----------------------------
+#ifdef _DEBUG	
+		g_Profiler.StopSubTimer("Renderer");
+		g_Profiler.StopFrameTimer();
+		g_Profiler.RenderProfiler(RENDERER_ABC::WIDTH-270, 10, m_pController->m_MouseX, m_pController->m_MouseY, m_pController->GetWheelScroll(), RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT);
+#endif
 		//-----------------------------
 		SwapBuffers(m_hDC);
 		//-----------------------------

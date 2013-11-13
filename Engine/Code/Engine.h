@@ -4,7 +4,7 @@
 //Project
 #include "./Rendering/Renderer_Interface.h"
 #include "./Controller/Controller.h"
-#include "World.h"
+#include "./World/World.h"
 #include "./GUI/GUI.h"
 #include "Window.h"
 #include "GlobalDebug.h"

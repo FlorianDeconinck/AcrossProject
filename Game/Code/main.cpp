@@ -26,7 +26,7 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLL
 	//--
 	//E.SetCamera(&g_ZeldaCam);
 	//--
-	//World.SpawnPlayer(AT::VEC2Di(10,10));
+	
 	//--
 #else
 	World.LoadLevel("Cubes Land");
@@ -34,6 +34,7 @@ AE::ENGINE::GAME_MSG GameLogicInit(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLL
 		AE::NPC* Npc = World.GetNPC(iNPC);
 		Npc->SetDestination(Npc->GetPosition());
 	}
+	World.SpawnPlayer(AT::VEC2Di(30,30));
 #endif
 	return AE::ENGINE::NO_MSG;
 }

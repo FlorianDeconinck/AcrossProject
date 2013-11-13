@@ -53,6 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ATCODING_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\External\glew.1.9.0.w32\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -80,7 +81,11 @@
     <ClInclude Include="..\..\Code\CodeTools.h" />
     <ClInclude Include="..\..\Code\AcrossTypes.h" />
     <ClInclude Include="..\..\Code\PerfomanceLogger.h" />
+    <ClInclude Include="..\..\Code\Profiler.h" />
     <ClInclude Include="..\..\Code\Timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Code\Profiler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

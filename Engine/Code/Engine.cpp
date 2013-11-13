@@ -36,6 +36,13 @@ namespace AE{
 		g_pRenderer = m_pRenderer;
 		g_pWorld = &m_World;
 		g_pController = &m_Controller;
+		//--
+		g_Profiler.AddSubTimer("Controller");
+		g_Profiler.AddSubTimer("Game callback");
+		g_Profiler.AddSubTimer("World");
+		g_Profiler.AddSubTimer("Renderer");
+		const char* RenderingGUI[128]={"GUI","Renderer"};
+		g_Profiler.AddSubTimer(RenderingGUI, 2);
 #endif
 	}
 	//---------------------------------------------------------------------------
@@ -66,18 +73,38 @@ namespace AE{
 			elapsedTime_ms = tStartFrame - Time;
 			Time = tStartFrame;
 			//--
+#ifdef _DEBUG			
+			g_Profiler.StartFrameTimer();
+			g_Profiler.StartSubTimer("Controller");
+#endif
 			m_Controller.Update();
+#ifdef _DEBUG			
+			g_Profiler.StopSubTimer("Controller");
+#endif
 			//--
+#ifdef _DEBUG			
+			g_Profiler.StartSubTimer("Game callback");
+#endif
 			GAME_MSG gameMsg = GameUpdateCallback(*this, m_World, m_Controller);
+#ifdef _DEBUG			
+			g_Profiler.StopSubTimer("Game callback");
+#endif
 			//Go through msg
 			//--
 #ifdef _DEBUG
-			if(g_bUpdateWorld)
+			if(g_bUpdateWorld){
+				g_Profiler.StartSubTimer("World");
 #endif
 				m_World.Update(elapsedTime_ms>FPS_hertz_ms?FPS_hertz_ms:elapsedTime_ms, m_Controller);
+#ifdef _DEBUG
+				g_Profiler.StopSubTimer("World");
+			}
+#endif
 			//--
+#ifdef _DEBUG			
+			g_Profiler.StartSubTimer("Renderer");
+#endif
 			m_pRenderer->Update(m_Gui, m_Controller, m_World);
-			//--
 			tEndFrame = m_Timer.GetTime();
 			//--
 			m_FPSs[m_FPSIndex]  = 1000.0/(tEndFrame - tStartFrame);
