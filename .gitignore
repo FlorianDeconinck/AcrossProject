@@ -35,6 +35,7 @@ Tools/Coding/External/glew.1.9.0.w32/bin/glewinfo.exe
 Tools/Coding/External/glew.1.9.0.w32/bin/visualinfo.exe
 Engine/Out/
 Game/Out
+Editor/Out
 Tools/Memory/Out
 Tools/Coding/Out
 Tools/Math/Out

@@ -135,7 +135,8 @@ namespace AE{
 	void WORLD::Init(const AT::I8* sWorldDBFilename, RENDERER_ABC* pRenderer, RESOURCE_MANAGER_ABC* pResourceManager){
 		m_pRenderer = pRenderer;
 		m_pResourceManager = pResourceManager;
-		strcpy(m_sWorldDBFilename, sWorldDBFilename);
+		if(sWorldDBFilename)
+			strcpy(m_sWorldDBFilename, sWorldDBFilename);
 		m_pResourceManager->InitResourceDB(m_sWorldDBFilename);
 		//Load basic grid
 		//LoadGridFromFile("BasicGrid.aegd");

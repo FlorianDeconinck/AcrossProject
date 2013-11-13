@@ -12,9 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\AcrossEditor.cpp" />
+    <ClCompile Include="..\..\Code\Editor.cpp" />
     <ClCompile Include="..\..\Code\Resources\Translater.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Code\Editor.h" />
     <ClInclude Include="..\..\Code\Resources\Translater.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -60,14 +62,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\External\assimp.3.0.1270\include;..\..\..\Tools\Math\Code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\External\assimp.3.0.1270\include;..\..\..\Engine\Code;..\..\..\Tools\Math\Code;..\..\..\Engine\External\glew.1.9.0.w32\include;..\..\..\External\DevIL-SDK-x86-1.7.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\External\assimp.3.0.1270\lib\assimp_debug-dll_win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;..\..\..\Engine\Out\$(Configuration)\AE - Engine.lib;..\..\..\Tools\Memory\Out\$(Configuration)\AT - Memory.lib;..\..\..\Tools\Coding\Out\$(Configuration)\AT - Coding.lib;..\..\..\Engine\External\glew.1.9.0.w32\lib\glew32.lib;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\lib\DevIL.lib;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\lib\ilu.lib;opengl32.lib;Xinput9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

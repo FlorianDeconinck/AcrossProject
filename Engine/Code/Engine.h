@@ -10,6 +10,7 @@
 #include "GlobalDebug.h"
 //TOOLS
 #include <Timer.h>
+#include <Singleton.h>
 //WIN32
 #include <Windows.h>
 //STD
@@ -19,21 +20,28 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	class RESOURCE_MANAGER_ABC;
 	class RENDERER_ABC;
-	class ENGINE{
-	public:
+	class ENGINE;
+	//---------------------------------------------------------------------------
+	struct ENGINE_API_ENTRYPOINTS{
 		//-----------------------------------------------------------------------
-		enum GAME_MSG{
+		enum API_MSG{
 			NO_MSG=0,
 			QUIT,
 			//--
-			GAME_MSG_COUNT
+			API_MSG_COUNT
 		};
 		//-----------------------------------------------------------------------
-		typedef GAME_MSG (GameCallback_t)(ENGINE& E, WORLD& W, CONTROLLER& C);
+		virtual API_MSG InitCallback(ENGINE& E, WORLD& W, CONTROLLER& C)=0;
+		virtual API_MSG UpdateCallback(ENGINE& E, WORLD& W, CONTROLLER& C)=0;
+		//-----------------------------------------------------------------------
+	};
+	//---------------------------------------------------------------------------
+	class ENGINE{
+	public:
 		//-----------------------------------------------------------------------
 		ENGINE(PLT_HINSTANCE hInstance);
 		//-----------------------------------------------------------------------
-		void Loop(GameCallback_t& GameInitCallback, GameCallback_t& GameUpdateCallback, const AT::I8* sWorldDBFilename);
+		void Loop(ENGINE_API_ENTRYPOINTS* pEntryPoints, const AT::I8* sWorldDBFilename);
 		//-----------------------------------------------------------------------
 		inline AT::I32 RollInt100Dice()				{ return m_DistributionInterger(m_defaultGenerator); }
 		inline AT::I64F RollRealDice()				{ return m_DistributionReal(m_defaultGenerator); }

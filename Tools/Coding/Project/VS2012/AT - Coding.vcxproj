@@ -82,6 +82,7 @@
     <ClInclude Include="..\..\Code\AcrossTypes.h" />
     <ClInclude Include="..\..\Code\PerfomanceLogger.h" />
     <ClInclude Include="..\..\Code\Profiler.h" />
+    <ClInclude Include="..\..\Code\Singleton.h" />
     <ClInclude Include="..\..\Code\Timer.h" />
   </ItemGroup>
   <ItemGroup>

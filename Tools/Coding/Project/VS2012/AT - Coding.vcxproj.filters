@@ -6,6 +6,7 @@
     <ClInclude Include="..\..\Code\Timer.h" />
     <ClInclude Include="..\..\Code\AcrossTypes.h" />
     <ClInclude Include="..\..\Code\Profiler.h" />
+    <ClInclude Include="..\..\Code\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Profiler.cpp" />

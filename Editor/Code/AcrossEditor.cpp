@@ -5,17 +5,23 @@
 #include <AcrossTypes.h>
 //Project
 #include "Resources/Translater.h"
+#include "Editor.h"
 //---------------------------------------------------------------------------
-AT::I32 main(AT::I32 argc, AT::I8* argv[]){
-	for(AT::I32 iArg = 0 ; iArg < argc ; ++iArg){
+int __stdcall WinMain(  _In_  HINSTANCE hInstance, _In_  HINSTANCE hPrevInstance, _In_  LPSTR lpCmdLine, _In_  int nCmdShow){
+	for(AT::I32 iArg = 0 ; iArg < __argc ; ++iArg){
 		//--
-		if(!strcmp(argv[iArg], "--ts3d")){  //3D translate batch mode
-			if(iArg+1 < argc)
-				AE::TRANSLATER_3D_SCENE::TranslateWithAssImp(argv[iArg+1], argv[iArg+2]);
-			iArg+=2;
+		if(!strcmp(__argv[iArg], "--ts3d")){  //3D translate batch mode
+			if(iArg+1 < __argc)
+				AE::TRANSLATER_3D_SCENE::TranslateWithAssImp(__argv[iArg+1], __argv[iArg+2]);
+			return 0;
 		}
 		//--
 	}
+	//--
+	AE::ACROSS_EDITOR* pEditor = AE::ACROSS_EDITOR::getInstance();
+	//--
+	AE::ENGINE	E(hInstance);
+	E.Loop(pEditor, NULL);
 	//--
 	return 0;
 }

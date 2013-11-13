@@ -46,7 +46,7 @@ namespace AE{
 #endif
 	}
 	//---------------------------------------------------------------------------
-	void ENGINE::Loop(GameCallback_t& GameInitCallback, GameCallback_t& GameUpdateCallback, const AT::I8* sWorldDBFilename){
+	void ENGINE::Loop(ENGINE_API_ENTRYPOINTS* pEntryPoints, const AT::I8* sWorldDBFilename){
 		//--
 		m_Controller.m_pMainWindow = &m_MainWindow;
 		//---
@@ -58,7 +58,7 @@ namespace AE{
 		//---
 		m_Gui.Init();
 		//---
-		GameInitCallback(*this, m_World, m_Controller);
+		pEntryPoints->InitCallback(*this, m_World, m_Controller);
 		//---
 		AT::I64F tStartFrame, tEndFrame;
 		AT::I8 title[64];
@@ -85,7 +85,7 @@ namespace AE{
 #ifdef _DEBUG			
 			g_Profiler.StartSubTimer("Game callback");
 #endif
-			GAME_MSG gameMsg = GameUpdateCallback(*this, m_World, m_Controller);
+			ENGINE_API_ENTRYPOINTS::API_MSG gameMsg = pEntryPoints->UpdateCallback(*this, m_World, m_Controller);
 #ifdef _DEBUG			
 			g_Profiler.StopSubTimer("Game callback");
 #endif
