@@ -13,10 +13,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\Code\AcrossEditor.cpp" />
     <ClCompile Include="..\..\Code\Editor.cpp" />
+    <ClCompile Include="..\..\Code\AssetImporter.cpp" />
     <ClCompile Include="..\..\Code\Resources\Translater.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\Editor.h" />
+    <ClInclude Include="..\..\Code\EditorModule.h" />
+    <ClInclude Include="..\..\Code\AssetImporter.h" />
     <ClInclude Include="..\..\Code\Resources\Translater.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -63,7 +66,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\External\assimp.3.0.1270\include;..\..\..\Engine\Code;..\..\..\Tools\Math\Code;..\..\..\Engine\External\glew.1.9.0.w32\include;..\..\..\External\DevIL-SDK-x86-1.7.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\External\ImGUI;..\..\External\assimp.3.0.1270\include;..\..\..\Engine\Code;..\..\..\Tools\Math\Code;..\..\..\Engine\External\glew.1.9.0.w32\include;..\..\..\External\DevIL-SDK-x86-1.7.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

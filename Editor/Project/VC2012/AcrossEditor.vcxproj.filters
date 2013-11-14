@@ -6,6 +6,7 @@
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Code\Editor.cpp" />
+    <ClCompile Include="..\..\Code\AssetImporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resources">
@@ -17,5 +18,7 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Code\Editor.h" />
+    <ClInclude Include="..\..\Code\EditorModule.h" />
+    <ClInclude Include="..\..\Code\AssetImporter.h" />
   </ItemGroup>
 </Project>

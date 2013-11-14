@@ -9,7 +9,7 @@
 //---------------------------------------------------------------------------
 namespace AT{
 	//---------------------------------------------------------------------------
-	PROFILER::PROFILER(){}
+	PROFILER::PROFILER():m_bDraw(true){}
 	//---------------------------------------------------------------------------
 	PROFILER::~PROFILER(){
 		AT::I32 SubTimerCount = m_SubTimers.size();
@@ -89,6 +89,8 @@ namespace AT{
 	}
 	//---------------------------------------------------------------------------
 	void PROFILER::RenderProfiler(AT::U32 x, AT::U32 y, AT::I32 MouseX, AT::I32 MouseY, AT::I32 MouseScroll, AT::I32 WindowWidth, AT::I32 WindowHeight){
+		if(!m_bDraw)
+			return;
 		//--
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

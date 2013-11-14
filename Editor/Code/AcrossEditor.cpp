@@ -21,6 +21,10 @@ int __stdcall WinMain(  _In_  HINSTANCE hInstance, _In_  HINSTANCE hPrevInstance
 	AE::ACROSS_EDITOR* pEditor = AE::ACROSS_EDITOR::getInstance();
 	//--
 	AE::ENGINE	E(hInstance);
+	E.SetGUIDraw(false);
+#ifdef _DEBUG
+	AE::g_Profiler.SetDraw(false);
+#endif
 	E.Loop(pEditor, NULL);
 	//--
 	return 0;

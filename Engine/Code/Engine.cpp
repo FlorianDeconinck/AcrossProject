@@ -105,6 +105,9 @@ namespace AE{
 			g_Profiler.StartSubTimer("Renderer");
 #endif
 			m_pRenderer->Update(m_Gui, m_Controller, m_World);
+			pEntryPoints->RenderCallback(*this, m_World, m_Controller);
+			m_pRenderer->SwapDrawBuffers();
+			//--
 			tEndFrame = m_Timer.GetTime();
 			//--
 			m_FPSs[m_FPSIndex]  = 1000.0/(tEndFrame - tStartFrame);

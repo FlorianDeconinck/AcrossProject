@@ -105,8 +105,11 @@ namespace AE{
 		g_Profiler.RenderProfiler(RENDERER_ABC::WIDTH-270, 10, m_pController->m_MouseX, m_pController->m_MouseY, m_pController->GetWheelScroll(), RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT);
 #endif
 		//-----------------------------
+		GL_TOOL::CheckGLError();
+	}
+	//---------------------------------------------------------------------------
+	void OPENGL_RENDERER::SwapDrawBuffers(){
 		SwapBuffers(m_hDC);
-		//-----------------------------
 		GL_TOOL::CheckGLError();
 	}
 	//---------------------------------------------------------------------------

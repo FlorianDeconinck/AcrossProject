@@ -1,9 +1,13 @@
 #pragma once
 //-----------------------------------------------------------------------------
+//Project
+#include "EditorModule.h"
 //Engine
 #include <Engine.h>
 //Tools
 #include <Singleton.h>
+//STD
+#include <vector>
 //-----------------------------------------------------------------------------
 namespace AE{
 	//-----------------------------------------------------------------------------
@@ -13,9 +17,18 @@ namespace AE{
 		ACROSS_EDITOR();
 		~ACROSS_EDITOR();
 	public :
-		API_MSG InitCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C){ return ENGINE_API_ENTRYPOINTS::NO_MSG; }
-		API_MSG UpdateCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C){return ENGINE_API_ENTRYPOINTS::NO_MSG; }
+		/*virtual*/ API_MSG InitCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C);
+		/*virtual*/ API_MSG UpdateCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C);
+		/*virtual*/ API_MSG RenderCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C);
+	private :
+		void	RenderNavBar();
+		//--
+		EDITOR_MODULE_ABC*				m_pCurrentModule;
+		//--
+		AT::I8							m_bRenderNavBar;
+		AT::I8							m_ToggleCollapseModule;
+		//--
+		std::vector<EDITOR_MODULE_ABC*>	m_Modules;
 	};
-	//-----------------------------------------------------------------------------
 }//namespace AE
 //-----------------------------------------------------------------------------

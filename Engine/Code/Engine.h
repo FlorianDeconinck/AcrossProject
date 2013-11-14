@@ -33,6 +33,7 @@ namespace AE{
 		//-----------------------------------------------------------------------
 		virtual API_MSG InitCallback(ENGINE& E, WORLD& W, CONTROLLER& C)=0;
 		virtual API_MSG UpdateCallback(ENGINE& E, WORLD& W, CONTROLLER& C)=0;
+		virtual API_MSG RenderCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C)=0;
 		//-----------------------------------------------------------------------
 	};
 	//---------------------------------------------------------------------------
@@ -48,6 +49,8 @@ namespace AE{
 		//-----------------------------------------------------------------------
 		inline void SetCamera(BASE_CAMERA* pCamera)	{ m_pRenderer->SetCamera(pCamera); }
 		inline void SetCameraToDefault()			{ m_pRenderer->SetCameraToDefault(); }
+		//-----------------------------------------------------------------------
+		inline void SetGUIDraw(AT::I8 bDraw)		{ m_Gui.m_bDraw = bDraw; }
 		//-----------------------------------------------------------------------
 	public :
 		static TIMER	m_Timer;

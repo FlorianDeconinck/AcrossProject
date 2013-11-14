@@ -23,6 +23,8 @@ namespace AE{
 		//---
 		virtual void	Init()=0;
 		virtual void	Update(GUI& Gui, CONTROLLER& C, WORLD& W)=0;
+		virtual void	SwapDrawBuffers()=0;
+		//---
 		virtual void	InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID)=0;
 		//---
 		virtual void	KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown){}

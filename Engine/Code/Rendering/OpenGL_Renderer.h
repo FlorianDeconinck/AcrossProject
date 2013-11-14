@@ -45,8 +45,9 @@ namespace AE{
 					OPENGL_RENDERER();
 					~OPENGL_RENDERER();
 		//----
-		/*virtual*/ void		Update(GUI& Gui, CONTROLLER& C, WORLD& W);
 		/*virtual*/ void		Init();
+		/*virtual*/ void		Update(GUI& Gui, CONTROLLER& C, WORLD& W);
+		/*virtual*/ void		SwapDrawBuffers();
 		/*virtual*/ void		InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID);
 		//----
 		/*virtual*/ void		KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown);

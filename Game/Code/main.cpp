@@ -86,6 +86,10 @@ public :
 		return AE::ENGINE_API_ENTRYPOINTS::NO_MSG;	
 	}
 	//--------------------------------------------------------------------------
+	API_MSG RenderCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C){
+		return NO_MSG;
+	}
+	//--------------------------------------------------------------------------
 };
 //--------------------------------------------------------------------------
 int __stdcall WinMain(  _In_  HINSTANCE hInstance, _In_  HINSTANCE hPrevInstance, _In_  LPSTR lpCmdLine, _In_  int nCmdShow){

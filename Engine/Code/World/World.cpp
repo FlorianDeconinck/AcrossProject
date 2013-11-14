@@ -138,8 +138,6 @@ namespace AE{
 		if(sWorldDBFilename)
 			strcpy(m_sWorldDBFilename, sWorldDBFilename);
 		m_pResourceManager->InitResourceDB(m_sWorldDBFilename);
-		//Load basic grid
-		//LoadGridFromFile("BasicGrid.aegd");
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){

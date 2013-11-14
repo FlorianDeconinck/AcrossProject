@@ -15,6 +15,7 @@ namespace AT{
 			//--
 			inline void StartFrameTimer()					{ m_FrameTime = m_Timer.GetTime(); }
 			inline void StopFrameTimer()					{ m_LastFrameTime = m_Timer.GetTime() - m_FrameTime; }
+			inline void SetDraw(AT::I8 bDraw)				{ m_bDraw = bDraw; }
 			//--
 			void		StartSubTimer(const char* TimerName);
 			void		StopSubTimer(const char* TimerName);
@@ -44,6 +45,7 @@ namespace AT{
 				std::vector<SUB_TIMER*>	m_SubTimers;
 			};
 			std::vector<SUB_TIMER*>	m_SubTimers;
+			AT::I8					m_bDraw;
 			//--
 			static const AT::I32 LineHeight = 15;
 			static const AT::U32 GrayishColor = 2164260863;//Color code for 255,255,255,128 because I'm lazy
