@@ -1,4 +1,3 @@
-
 The Across Project
 =============
 The Across Project, is a 2.5D engine sandbox. The goal is to develop a flexible architecture to test different algorithm in many different fields (rendering, A.I., gameplay...) on a fun and open platform.
@@ -29,6 +28,8 @@ This work is based on several reads :
   * ThickLines geometry shader
   * FXAA shader
   * Basic texture shader
+* XML base resource manager
+* Small editor
 * Animation
  * Messy sprites animation
 * A* pathfinder
