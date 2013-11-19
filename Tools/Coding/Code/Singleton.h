@@ -3,7 +3,7 @@
 namespace AT{
 	template <typename T> class SINGLETON{
 	protected:
-		SINGLETON(){ }
+		SINGLETON(){}
 		~SINGLETON(){}
 	public:
 		//------------------------------------------------------------------------

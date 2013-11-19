@@ -9,6 +9,8 @@
 //-----------------------------------------------------------------------------
 namespace AE{
 	//-----------------------------------------------------------------------------
+	class NPC;
+	//-----------------------------------------------------------------------------
 	class ASSET_IMPORTER:public AT::SINGLETON<ASSET_IMPORTER>,public EDITOR_MODULE_ABC{
 		friend class AT::SINGLETON<ASSET_IMPORTER>;
 	private :

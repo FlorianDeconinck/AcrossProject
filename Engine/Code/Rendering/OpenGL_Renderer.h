@@ -5,6 +5,7 @@
 #include "Renderer_Interface.h"
 //AT
 #include <AcrossTypes.h>
+#include <Singleton.h>
 //GL
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -13,7 +14,11 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	typedef void (*GENBUFFERS) ( GLsizei, GLuint* );
 	//---------------------------------------------------------------------------
-	class OPENGL_RENDERER:public RENDERER_ABC{
+	class OPENGL_RENDERER:public RENDERER_ABC, public AT::SINGLETON<OPENGL_RENDERER>{
+		friend class AT::SINGLETON<OPENGL_RENDERER>;
+	protected :
+		OPENGL_RENDERER();
+		~OPENGL_RENDERER();
 	public : 
 		//----------------------------
 		enum STATUS{
@@ -41,9 +46,6 @@ namespace AE{
 		THICK_LINES_COLOR	m_ThickLinesColorShader;
 		BLUR_SHADER			m_BlurShader;
 		FXAA_SHADER			m_FXAAShader;
-		//----
-					OPENGL_RENDERER();
-					~OPENGL_RENDERER();
 		//----
 		/*virtual*/ void		Init();
 		/*virtual*/ void		Update(GUI& Gui, CONTROLLER& C, WORLD& W);

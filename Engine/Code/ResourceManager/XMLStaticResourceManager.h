@@ -9,10 +9,12 @@
 #include <string>
 //---------------------------------------------------------------------------
 namespace AE{
-	class XML_STATIC_RESOURCE_MANAGER:RESOURCE_MANAGER_ABC{
+	class XML_STATIC_RESOURCE_MANAGER:public RESOURCE_MANAGER_ABC, public AT::SINGLETON<XML_STATIC_RESOURCE_MANAGER>{
+		friend class AT::SINGLETON<XML_STATIC_RESOURCE_MANAGER>;
 	public:
-							XML_STATIC_RESOURCE_MANAGER();
+							 XML_STATIC_RESOURCE_MANAGER();
 							~XML_STATIC_RESOURCE_MANAGER(){}
+	public:
 		/*virtual*/ void	InitResourceDB(const AT::I8* sResourceDataBaseName);
 		/*virtual*/ void	AddResrouceToDB(const AT::I8* sResourceName);
 		/*virtual*/ void*	LoadResource(const AT::I8* sResourceName);		

@@ -38,7 +38,7 @@ namespace AE{
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			//--
 #ifdef _DEBUG
-			m_pWorld->DebugDraw(*this);
+			W.DebugDraw(*this);
 #endif
 			//--
 			//Render scene
@@ -48,14 +48,14 @@ namespace AE{
 				m_Scene.RenderAtom(*this);
 			//--
 			//Render NPC
-			Count = m_pWorld->GetNPCCount();
+			Count = W.GetNPCCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_pWorld->RenderNPC(*this, iObj);
+				W.RenderNPC(*this, iObj);
 			//--
 			//Render players
-			Count = m_pWorld->GetPlayerCount();
+			Count = W.GetPlayerCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_pWorld->RenderPlayer(*this, iObj);	
+				W.RenderPlayer(*this, iObj);	
 			//--
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glDisable(GL_BLEND);
@@ -72,7 +72,7 @@ namespace AE{
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			//--
 #ifdef _DEBUG
-			m_pWorld->DebugDraw(*this);
+			W.DebugDraw(*this);
 #endif
 			//--
 			//Render scene (decor)
@@ -82,12 +82,12 @@ namespace AE{
 				m_Scene.RenderAtom(*this);
 			//--
 			//Render NPC
-			Count = m_pWorld->GetNPCCount();
+			Count = W.GetNPCCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_pWorld->RenderNPC(*this, iObj);
-			Count = m_pWorld->GetPlayerCount();
+				W.RenderNPC(*this, iObj);
+			Count = W.GetPlayerCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_pWorld->RenderPlayer(*this, iObj);
+				W.RenderPlayer(*this, iObj);
 			//--
 		}
 		//-----------------------------

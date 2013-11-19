@@ -5,8 +5,8 @@
 #include "./Rendering/Renderer_Interface.h"
 #include "./ResourceManager/Manager_Interface.h"
 #include "./Controller/Controller.h"
-#include "./World/World.h"
 #include "./GUI/GUI.h"
+#include "./World/World.h"
 #include "Window.h"
 #include "GlobalDebug.h"
 //TOOLS
@@ -32,7 +32,7 @@ namespace AE{
 		//-----------------------------------------------------------------------
 		virtual API_MSG InitCallback(ENGINE& E, WORLD& W, CONTROLLER& C)=0;
 		virtual API_MSG UpdateCallback(ENGINE& E, WORLD& W, CONTROLLER& C)=0;
-		virtual API_MSG RenderCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C)=0;
+		virtual API_MSG RenderCallback(ENGINE& E, WORLD& World, CONTROLLER& C)=0;
 		//-----------------------------------------------------------------------
 	};
 	//---------------------------------------------------------------------------
@@ -59,8 +59,8 @@ namespace AE{
 	private:
 		RESOURCE_MANAGER_ABC*	m_pResourceManager;
 		RENDERER_ABC*			m_pRenderer;
-		CONTROLLER				m_Controller;
 		WORLD					m_World;
+		CONTROLLER				m_Controller;
 		WINDOW					m_MainWindow;
 		GUI						m_Gui;
 		static const			AT::I32 s_FPSIndexMax=1000;

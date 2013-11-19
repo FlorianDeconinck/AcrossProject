@@ -2,15 +2,17 @@
 //-----------------------------------------------------------------------------
 //Tool
 #include <AcrossTypes.h>
+#include <Singleton.h>
 //-----------------------------------------------------------------------------
 // Resource manager has to be initialized with the resource database name.
 //  Database format and stocking is up to the child Resource manager
 //-----------------------------------------------------------------------------
 namespace AE{
 	class RESOURCE_MANAGER_ABC{
-	public:
+	protected:			
 						RESOURCE_MANAGER_ABC(){}
 		virtual			~RESOURCE_MANAGER_ABC(){}
+	public:
 		virtual void	InitResourceDB(const AT::I8* sResourceDataBaseName) = 0;
 		virtual void	AddResrouceToDB(const AT::I8* sResourceName)=0;
 		virtual void*	LoadResource(const AT::I8* sResourceName) = 0;
