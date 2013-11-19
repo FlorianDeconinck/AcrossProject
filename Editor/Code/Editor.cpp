@@ -17,7 +17,7 @@ namespace AE{
 	}
 	//---------------------------------------------------------------------------
 	ENGINE_API_ENTRYPOINTS::API_MSG ACROSS_EDITOR::InitCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C){ 
-		
+		World.LoadLevel("Editor");
 		//--
 		return ENGINE_API_ENTRYPOINTS::NO_MSG; 
 	}
@@ -25,7 +25,7 @@ namespace AE{
 	ENGINE_API_ENTRYPOINTS::API_MSG ACROSS_EDITOR::UpdateCallback(AE::ENGINE& Engine, AE::WORLD& World, AE::CONTROLLER& Controller){
 		API_MSG Msg = NO_MSG;
 		if(m_pCurrentModule)
-			Msg = m_pCurrentModule->Update();
+			Msg = m_pCurrentModule->Update(Engine, World);
 		return Msg; 
 	}
 	//--------------------------------------------------------------------------
@@ -47,11 +47,16 @@ namespace AE{
 		default:
 			MouseButton = 0 ;
 		}
+		AT::I32 Mscroll = 0;
+		if (Controller.m_Scroll < 0)
+			Mscroll = 2;
+		if (Controller.m_Scroll > 0)
+			Mscroll = -2;
 		//--
-		imguiBeginFrame(Controller.m_MouseX, RENDERER_ABC::HEIGHT-38-Controller.m_MouseY, MouseButton, Controller.m_Scroll);
+		imguiBeginFrame(Controller.m_MouseX, RENDERER_ABC::HEIGHT-38-Controller.m_MouseY, MouseButton, Mscroll);
 		//--
 		if(m_pCurrentModule)
-			m_pCurrentModule->UpdateGUI();
+			m_pCurrentModule->UpdateGUI(Engine);
 		RenderNavBar();
 		//--
 		imguiRenderGLDraw(RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT);
@@ -68,6 +73,7 @@ namespace AE{
 		static AT::I32 RenderNavWidth = 200;
 		AT::I32 NavBarScrollArea=0;
 		imguiBeginScrollArea("Across Editor",  0, 0 , RenderNavWidth, RENDERER_ABC::HEIGHT-38 , &NavBarScrollArea);
+		imguiSeparatorLine();
 		//--
 		toggle = imguiCollapse("Modules", "", m_ToggleCollapseModule);
 		m_ToggleCollapseModule = toggle ? !m_ToggleCollapseModule : m_ToggleCollapseModule;
@@ -86,6 +92,8 @@ namespace AE{
 			imguiCollapse(m_pCurrentModule->m_ModuleName, "", true);
 			m_pCurrentModule->UpdateNavBarGUI();
 		}
+		//--
+		imguiEndScrollArea();
 	}
 	//---------------------------------------------------------------------------
 }//namespace AE

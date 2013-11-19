@@ -31,16 +31,18 @@ namespace AE{
 	VERTEX SHADER : (8 float)
 			position	: 3 first float of VBO
 			texels		: 2 next float of VBO
-	FRAGMENT SHADER (no attrib)
-			
+	FRAGMENT SHADER ( )
+			uvOffset    : 2 float added to texel coordinates
 	*/
 	class TEXTURE_SHADER:public SHADER_ABC{
 	protected :
 		GLint m_posAttrib;
 		GLint m_texAttrib;
+
 	public : 
 		GLint m_viewUniform;
 		GLint m_projUniform;
+		GLint m_uvOffsetUniform;
 		/*virtual*/ void Init(RENDERER_ABC& Renderer);
 		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
 		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);

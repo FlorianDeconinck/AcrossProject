@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------
 //Project
 #include "./Rendering/Renderer_Interface.h"
+#include "./ResourceManager/Manager_Interface.h"
 #include "./Controller/Controller.h"
 #include "./World/World.h"
 #include "./GUI/GUI.h"
@@ -18,8 +19,6 @@
 //---------------------------------------------------------------------------
 namespace AE{
 	//---------------------------------------------------------------------------
-	class RESOURCE_MANAGER_ABC;
-	class RENDERER_ABC;
 	class ENGINE;
 	//---------------------------------------------------------------------------
 	struct ENGINE_API_ENTRYPOINTS{
@@ -44,14 +43,17 @@ namespace AE{
 		//-----------------------------------------------------------------------
 		void Loop(ENGINE_API_ENTRYPOINTS* pEntryPoints, const AT::I8* sWorldDBFilename);
 		//-----------------------------------------------------------------------
-		inline AT::I32 RollInt100Dice()				{ return m_DistributionInterger(m_defaultGenerator); }
-		inline AT::I64F RollRealDice()				{ return m_DistributionReal(m_defaultGenerator); }
+		inline AT::I32 RollInt100Dice()									{ return m_DistributionInterger(m_defaultGenerator); }
+		inline AT::I64F RollRealDice()									{ return m_DistributionReal(m_defaultGenerator); }
 		//-----------------------------------------------------------------------
-		inline void SetCamera(BASE_CAMERA* pCamera)	{ m_pRenderer->SetCamera(pCamera); }
-		inline void SetCameraToDefault()			{ m_pRenderer->SetCameraToDefault(); }
+		inline void SetCamera(BASE_CAMERA* pCamera)						{ m_pRenderer->SetCamera(pCamera); }
+		inline void SetCameraToDefault()								{ m_pRenderer->SetCameraToDefault(); }
 		//-----------------------------------------------------------------------
-		inline void SetGUIDraw(AT::I8 bDraw)		{ m_Gui.m_bDraw = bDraw; }
+		inline void SetGUIDraw(AT::I8 bDraw)							{ m_Gui.m_bDraw = bDraw; }
 		//-----------------------------------------------------------------------
+		inline HWND GetRendererHWND()							const	{ return m_pRenderer->m_hMainWnd; }
+		//-----------------------------------------------------------------------
+		inline void AddResourceToDB(const AT::I8* sResourceName)		{ m_pResourceManager->AddResrouceToDB(sResourceName); }
 	public :
 		static TIMER	m_Timer;
 	private:

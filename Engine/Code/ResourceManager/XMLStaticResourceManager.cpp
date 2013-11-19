@@ -36,6 +36,12 @@ namespace AE{
 		m_MarkerAfterInit = m_Stack_Allocator.getMarker();
 	}
 	//-----------------------------------------------------------------------------
+	void XML_STATIC_RESOURCE_MANAGER::AddResrouceToDB(const AT::I8* sResourceName){
+		RESOURCE& Resource = *(RESOURCE*)m_Stack_Allocator.alloc(sizeof(RESOURCE));
+		Resource = *(RESOURCE*)new(RESOURCE)();
+		m_Database_Dictionnary.insert(std::make_pair(sResourceName, Resource));
+	}
+	//-----------------------------------------------------------------------------
 	void* XML_STATIC_RESOURCE_MANAGER::LoadResource(const AT::I8* sResourceName){
 		std::unordered_map<std::string, RESOURCE>::iterator it = m_Database_Dictionnary.find(sResourceName);
 		if(it == m_Database_Dictionnary.end())

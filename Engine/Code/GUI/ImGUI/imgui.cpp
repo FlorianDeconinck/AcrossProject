@@ -595,7 +595,8 @@ bool imguiSlider(const char* text, float* val, float vmin, float vmax, float vin
                         if (u < 0) u = 0;
                         if (u > 1) u = 1;
                         *val = vmin + u*(vmax-vmin);
-                        *val = floorf(*val/vinc+0.5f)*vinc; // Snap to vinc
+						if(vinc!=0.000)
+							*val = floorf(*val/vinc+0.5f)*vinc; // Snap to vinc
                         m = (int)(u * range);
                         valChanged = true;
                 }
@@ -607,11 +608,12 @@ bool imguiSlider(const char* text, float* val, float vmin, float vmax, float vin
                 addGfxCmdRoundedRect((float)(x+m), (float)y, (float)SLIDER_MARKER_WIDTH, (float)SLIDER_HEIGHT, 4.0f, isHot(id) ? imguiRGBA(255,196,0,128) : imguiRGBA(255,255,255,64));
 
         // TODO: fix this, take a look at 'nicenum'.
-        int digits = (int)(ceilf(log10f(vinc)));
-        char fmt[16];
-        snprintf(fmt, 16, "%%.%df", digits >= 0 ? 0 : -digits);
+//         int digits = (int)(ceilf(log10f(vinc)));
+//         char fmt[16];
+//         snprintf(fmt, 16, "%%.%df", digits >= 0 ? 0 : -digits);
         char msg[128];
-        snprintf(msg, 128, fmt, *val);
+//         snprintf(msg, 128, fmt, *val);
+		snprintf(msg, 128, "%3.2f", *val);
         
         if (enabled)
         {

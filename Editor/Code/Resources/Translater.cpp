@@ -89,7 +89,7 @@ namespace AE{
 		}
 	}
 	//------------------------------------------------------------
-	AT::I8 TRANSLATER_3D_SCENE::TranslateWithAssImp(const AT::I8* FilenameToImport, const AT::I8* FilenameToWrite){
+	AT::I8 TRANSLATER_3D_SCENE::TranslateWithAssImp(ASSET_TYPE AssetType, const AT::I8* FilenameToImport, const TEXTURE_PARAMETERS& TextureParameters, const AT::I8* FilenameToWrite){
 		const aiScene* scene = aiImportFile(FilenameToImport, 
 			aiProcess_CalcTangentSpace       | 
 			aiProcess_Triangulate            |
@@ -102,9 +102,14 @@ namespace AE{
 			aiReleaseImport(scene);
 			return false;
 		}
+		//--
+		//Asset type
+		fwrite((void*)&AssetType, sizeof(ASSET_TYPE), 1, pFileEngine);
+		//--
 		//Write down Engine asset format
 		if(scene->HasMeshes()){
 			assimpToInternal_BoudingBoxComputation(pFileEngine, *scene);
+			fwrite((void*)&scene->mNumMeshes, sizeof(scene->mNumMeshes), 1, pFileEngine);
 			for(AT::U32 iMesh = 0 ; iMesh < scene->mNumMeshes ; ++iMesh){
 				aiMesh& Mesh = *scene->mMeshes[iMesh];
 				if(!Mesh.HasFaces())
@@ -112,6 +117,18 @@ namespace AE{
 				assimpToInternal_MeshVertices(pFileEngine, Mesh);
 				assimpToInternal_MeshIndices(pFileEngine, Mesh);
 			}
+		}
+		//--
+		//Write down texture
+		if(TextureParameters.FilenameToImport){
+			size_t len = strlen(TextureParameters.FilenameToImport);
+			fwrite((void*)&len, sizeof(size_t), 1, pFileEngine);
+			fwrite((void*)TextureParameters.FilenameToImport, sizeof(AT::I8), len, pFileEngine);
+			fwrite((void*)&TextureParameters.UVOffset.x, sizeof(AT::I32F), 1, pFileEngine);
+			fwrite((void*)&TextureParameters.UVOffset.y, sizeof(AT::I32F), 1, pFileEngine);
+		}else{
+			size_t len = -1;
+			fwrite((void*)&len, sizeof(size_t), 1, pFileEngine);
 		}
 		//--
 		aiReleaseImport(scene);

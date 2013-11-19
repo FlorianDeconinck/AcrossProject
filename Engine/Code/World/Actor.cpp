@@ -6,6 +6,7 @@
 #include "../AI/Pathfinder.h"
 #include "../Animation/Animator.h"
 #include "../Animation/SpriteAnimator.h"
+#include "../ResourceManager/Asset_Types.h"
 //STD
 #include <cmath>
 #include <random>
@@ -173,6 +174,10 @@ namespace AE{
 	//-----------------------------------------------------------------------------
 	void NPC::LoadMeshs(WORLD& World, void* pBufferFromFile, RENDERER_ABC& Renderer){
 		char* ptr = (char*)pBufferFromFile;
+		//Asset type
+		ASSET_TYPE AssetType = *(ASSET_TYPE*)ptr;
+		ptr+= sizeof(ASSET_TYPE);
+		assert(AssetType!=ASSET_UNKNOWN_TYPE);
 		//Load bounding box & compute grid-occupation bounding box
 		AT::VEC3Df Min(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1], ((AT::I32F*)ptr)[2]);
 		ptr += 3*sizeof(AT::I32F);
@@ -181,6 +186,9 @@ namespace AE{
 		AT::I32 HalfWidth = (AT::I32)((Max.x - Min.x)/(2*World.GetTileSize()));
 		AT::I32 HalfHeight = (AT::I32)((Max.z - Min.z)/(2*World.GetTileSize()));
 		m_BBox.Init(World, m_Position, HalfWidth, HalfHeight);
+		//Mesh number
+		m_MeshsCount = (AT::I32)*(AT::U32*)ptr;
+		ptr += sizeof(AT::U32);
 		//Load UV channels count
 		AT::I32 nUV = *(AT::I32*)ptr;
 		ptr += sizeof(AT::I32);
@@ -205,11 +213,50 @@ namespace AE{
 		AT::I32 IndicesCount = *(AT::I32*)ptr;
 		ptr += sizeof(IndicesCount);
 		GLuint* pIndicesBuffer = (GLuint*)ptr;
+		ptr += IndicesCount*sizeof(GLuint);
+		//!!!!!!TMP
+		//One mesh read for the moment
+		for(AT::I32 iMeshToSkip=0 ; iMeshToSkip < m_MeshsCount-1 ; ++iMeshToSkip){
+			//skip UV channels count
+			AT::I32 nUV = *(AT::I32*)ptr;
+			ptr += sizeof(AT::I32);
+			AT::I32 pixelInformationLength;
+			if(nUV==1){
+				pixelInformationLength = 5;	//vertex 3d position + uv 
+			}else if(nUV!=0){
+				assert(false);				//multiple uv channels, not handled
+				return;
+			}else{
+				pixelInformationLength = 7; //vertex 3d position + 4d color vector
+			}
+			//Load Vertices
+			AT::I32 VerticeCount = *(AT::I32*)ptr;
+			ptr += sizeof(VerticeCount);
+			ptr += VerticeCount*pixelInformationLength*sizeof(AT::I32F);
+			//Load Indices
+			AT::I32 IndicesCount = *(AT::I32*)ptr;
+			ptr += sizeof(IndicesCount);
+			ptr += IndicesCount*sizeof(GLuint);
+		}
+		m_MeshsCount = 1;
+		//!!!!!!TMP
+		//Load Texture
+		AT::I8*		TextureFilename;
+		AT::VEC2Df	UVOffset;
+		size_t len = *(size_t*)ptr;
+		ptr += sizeof(size_t);
+		if(len > 0){
+			TextureFilename = (AT::I8*)ptr;
+			ptr += len*sizeof(AT::I8);
+			UVOffset.Set(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1]);
+			ptr += 2*sizeof(AT::I32F);
+		}else
+			TextureFilename = NULL;
 		//---
 		m_MeshsCount = 1;
 		//--
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, "companion_cubeColor.png");
+		m_Meshs[0]->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, TextureFilename);
 		m_Meshs[0]->m_trfModel.SetT(0.f, 1.0f, 0.f);
 		m_Meshs[0]->m_trfModel.ToGL();
 		m_Meshs[0]->m_GLDisplayMode = GL_TRIANGLES;

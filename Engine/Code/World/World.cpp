@@ -227,21 +227,23 @@ namespace AE{
 	//--------------------------------------------------------------------------
 	// WORLD : Game interface
 	//--------------------------------------------------------------------------
-	AT::I8 WORLD::SpawnNPC(const AT::I8* sResourceName/*=NULL*/, const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
+	NPC* WORLD::SpawnNPC(const AT::I8* sResourceName/*=NULL*/, const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
 		NPC* pNpc0 = new NPC();
 		if(!sResourceName)
 			pNpc0->LoadDefaultMeshs(*this, *m_pRenderer, ColorRGBA);
 		else{
 			void* pBuffer = m_pResourceManager->LoadResource(sResourceName);
+			if(!pBuffer)
+				return NULL;
 			pNpc0->LoadMeshs(*this, pBuffer, *m_pRenderer);
 		}
 		if(!pNpc0->IsCollisionFree(*this, Position)){
 			delete pNpc0;
-			return false;
+			return NULL;
 		}
 		pNpc0->SetPosition(*this, Position);
 		m_NPCArrays.push_back(pNpc0);
-		return true;
+		return pNpc0;
 	}
 	//---------------------------------------------------------------------------
 	AT::I8 WORLD::SpawnPlayer(const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/){

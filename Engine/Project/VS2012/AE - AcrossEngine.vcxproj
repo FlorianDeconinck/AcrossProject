@@ -101,6 +101,7 @@
     <ClInclude Include="..\..\Code\Rendering\RObject_Static_Memory.h" />
     <ClInclude Include="..\..\Code\Rendering\Shader.h" />
     <ClInclude Include="..\..\Code\Rendering\Shaders.h" />
+    <ClInclude Include="..\..\Code\ResourceManager\Asset_Types.h" />
     <ClInclude Include="..\..\Code\ResourceManager\Manager_Interface.h" />
     <ClInclude Include="..\..\Code\ResourceManager\XMLStaticResourceManager.h" />
     <ClInclude Include="..\..\Code\Window.h" />

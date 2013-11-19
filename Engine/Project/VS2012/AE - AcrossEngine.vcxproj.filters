@@ -109,6 +109,9 @@
     <ClInclude Include="..\..\Code\World\World.h">
       <Filter>World</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Code\ResourceManager\Asset_Types.h">
+      <Filter>Resource Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Camera.cpp" />

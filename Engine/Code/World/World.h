@@ -71,16 +71,17 @@ namespace AE{
 			STATUS_COUNT,
 		};
 		//--
-		inline	AT::I32		GetWorldHeight()							  { return m_nMapHeight; }
-		inline	AT::I32		GetWorldWidth()							const { return m_nMapWidth; }
-		inline	AT::I32		GetNPCCount()							const { return m_NPCArrays.size(); }
-		inline	AT::I32		GetPlayerCount()						const { return m_Players.size(); }
-		inline	NPC*		GetNPC(AT::I32 index)					const { return m_NPCArrays[index]; }
-		inline	AT::I32F	GetTileSize()							const { return m_TileSize; }
-		inline	AT::I32F	GetElapsedTimeSinceUdpateInMS()			const { return m_ElapsedTimeSinceLastUpdate_ms; }
-		inline	AT::VEC2Df	GetPlayerWorldPos(AT::I32 PlayerIdx)	const { AT::VEC2Di& V = m_Players[PlayerIdx]->GetPosition(); return AT::VEC2Df((AT::I32F)V.x, (AT::I32F)V.y)*m_TileSize + m_Players[PlayerIdx]->GetInnerPosition(); }
+		inline	AT::I32		GetWorldHeight()								{ return m_nMapHeight; }
+		inline	AT::I32		GetWorldWidth()							const	{ return m_nMapWidth; }
+		inline	AT::I32		GetNPCCount()							const	{ return m_NPCArrays.size(); }
+		inline	AT::I32		GetPlayerCount()						const	{ return m_Players.size(); }
+		inline	NPC*		GetNPC(AT::I32 index)					const	{ return m_NPCArrays[index]; }
+		inline	AT::I32F	GetTileSize()							const	{ return m_TileSize; }
+		inline	AT::I32F	GetElapsedTimeSinceUdpateInMS()			const	{ return m_ElapsedTimeSinceLastUpdate_ms; }
+		inline	AT::VEC2Df	GetPlayerWorldPos(AT::I32 PlayerIdx)	const	{ AT::VEC2Di& V    = m_Players[PlayerIdx]->GetPosition(); return AT::VEC2Df((AT::I32F)V.x, (AT::I32F)V.y)*m_TileSize + m_Players[PlayerIdx]->GetInnerPosition(); }
+		inline	void		ClearNPC()										{ for(AT::U32 iNPC = 0 ; iNPC < m_NPCArrays.size() ; ++iNPC) delete m_NPCArrays[iNPC]; m_NPCArrays.clear(); }
 		//--
-				AT::I8		SpawnNPC(const AT::I8* sResourceName=NULL, const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
+				NPC*		SpawnNPC(const AT::I8* sResourceName=NULL, const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
 				AT::I8		SpawnPlayer(const AT::VEC2Di& Position=AT::VEC2Di(0,0));
 				void		LoadLevel(const AT::I8* sLevelName);
 				void		SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S);

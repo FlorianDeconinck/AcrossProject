@@ -4,6 +4,7 @@
 #include "RObject_Static_Memory.h"
 //Math
 #include <Trf.h>
+#include <Vec2D.h>
 //Tools
 #include <AcrossTypes.h>
 //GL
@@ -29,8 +30,9 @@ namespace AE{
 		GLuint*			m_Elements;
 		AT::U32			m_ElementsIndexCount;
 		AT::I32			m_GLDisplayMode;
-		SHADER_ABC*	m_pShader;
+		SHADER_ABC*		m_pShader;
 		GLuint			m_TextureId;
+		AT::VEC2Df		m_UVOffset;
 		//--------------------------------------
 		//--------------------------------------
 		R_OBJECT():m_vbo(-1),m_vao(-1),m_ebo(-1),m_VerticesCount(0),m_Elements(NULL),m_ElementsIndexCount(0),m_uniformModel(-1),m_GLDisplayMode(GL_QUADS),m_pShader(NULL),m_TextureId(-1){}
@@ -40,6 +42,7 @@ namespace AE{
 		void Build(AT::I32F* Data, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, STATIC_VERTICES_TEXT_POOL_AE& DataPool, AT::I32 DrawMode, const AT::I8* Filename=NULL, AT::I8 bEbo=true,AT::I8 bEboCpy=false);
 		void Build(AT::I32F* DataVertices, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, AT::I32 DrawMode, const AT::I8* TextureFilename=NULL);
 		void Draw(RENDERER_ABC& R);
+		//--------------------------------------
 	protected :
 		void SetNextElementIdx(AT::I32 idx);
 	};

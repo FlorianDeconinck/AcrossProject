@@ -54,6 +54,8 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
 		GL_TOOL::CheckGLError();
+		m_uvOffsetUniform = glGetUniformLocation(m_Program, "in_uvOffset");
+		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
 	void TEXTURE_SHADER::InitObject(const SCENE& Scene, R_OBJECT& Object){
@@ -71,6 +73,7 @@ namespace AE{
 		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_View.ToGL());
 		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_Proj.ToGL());
 		glUniformMatrix4fv(RObject.m_uniformModel, 1, GL_FALSE, (GLfloat*)RObject.m_trfModel.ToGL());
+		glUniform2fv(m_uvOffsetUniform, 1, (GLfloat*)&RObject.m_UVOffset.x);
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------

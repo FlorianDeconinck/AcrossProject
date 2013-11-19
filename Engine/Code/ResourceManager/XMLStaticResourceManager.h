@@ -14,6 +14,7 @@ namespace AE{
 							XML_STATIC_RESOURCE_MANAGER();
 							~XML_STATIC_RESOURCE_MANAGER(){}
 		/*virtual*/ void	InitResourceDB(const AT::I8* sResourceDataBaseName);
+		/*virtual*/ void	AddResrouceToDB(const AT::I8* sResourceName);
 		/*virtual*/ void*	LoadResource(const AT::I8* sResourceName);		
 		/*virtual*/ void	ResetAllLevels();
 	private:

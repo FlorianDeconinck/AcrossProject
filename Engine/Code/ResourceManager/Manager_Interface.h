@@ -12,6 +12,7 @@ namespace AE{
 						RESOURCE_MANAGER_ABC(){}
 		virtual			~RESOURCE_MANAGER_ABC(){}
 		virtual void	InitResourceDB(const AT::I8* sResourceDataBaseName) = 0;
+		virtual void	AddResrouceToDB(const AT::I8* sResourceName)=0;
 		virtual void*	LoadResource(const AT::I8* sResourceName) = 0;
 		virtual void	ResetAllLevels() = 0;
 	};
