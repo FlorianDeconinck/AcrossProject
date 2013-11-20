@@ -12,6 +12,7 @@ namespace AE{
 		enum EDITOR_MODE{
 			NO_EDITOR_MODE=0,
 			IMPORT_ASSET_MODE,
+			GRID_GENERATOR_MODE,
 			//--
 			EDITOR_MODE_COUNT
 		};

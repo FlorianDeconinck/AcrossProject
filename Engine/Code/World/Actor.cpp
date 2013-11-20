@@ -245,13 +245,16 @@ namespace AE{
 		AT::VEC2Df	UVOffset;
 		size_t len = *(size_t*)ptr;
 		ptr += sizeof(size_t);
+		AT::I8 DefaultNoTexture[22];
+		sprintf_s(DefaultNoTexture, "DefaultNoTexture.png\0");
 		if(len > 0){
 			TextureFilename = (AT::I8*)ptr;
 			ptr += len*sizeof(AT::I8);
 			UVOffset.Set(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1]);
 			ptr += 2*sizeof(AT::I32F);
-		}else
-			TextureFilename = NULL;
+		}else{
+			TextureFilename = DefaultNoTexture;
+		}
 		//---
 		m_MeshsCount = 1;
 		//--

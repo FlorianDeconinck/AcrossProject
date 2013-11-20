@@ -45,7 +45,8 @@ namespace AE{
 			TParameters.UVOffset.Set(0, 0);
 			TRANSLATER_3D_SCENE::TranslateWithAssImp(m_AssetType, m_CurrentModelFilename, TParameters, FilenameToWrite);
 			Engine.AddResourceToDB(FilenameToWrite);
-			m_pImportedObject = World.SpawnNPC(FilenameToWrite, AT::VEC2Di(64, 64));
+			
+			m_pImportedObject = World.SpawnNPC(FilenameToWrite, AT::VEC2Di(World.GetWorldWidth()/2, World.GetWorldHeight()/2));
 			if(!m_pImportedObject)//problem with the translation
 				m_ImportStep = IMPORT_FAILED;
 			//--
@@ -114,7 +115,6 @@ namespace AE{
 	}
 	//-----------------------------------------------------------------------------
 	void ASSET_IMPORTER::UpdateNavBarGUI(){
-		imguiIndent();
 		m_bImport = imguiButton("Load/Translate model", m_ImportStep==NONE);
 		if(m_bImport || m_ImportStep!=NONE){
 			if(m_ImportStep==NONE)
@@ -140,7 +140,6 @@ namespace AE{
 					break;
 			}
 		}
-		imguiUnindent();
 	}
 	//-----------------------------------------------------------------------------
 	inline void PopLoadDialog(char* szFileOut){

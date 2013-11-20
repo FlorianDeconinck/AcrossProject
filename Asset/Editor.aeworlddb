@@ -5,7 +5,7 @@
 	</desc>
 	<levels>
 		<level name="Editor">
-			<grid name="BasicGrid.aegd"/>
+			<grid name="GeneratedGrid.aegd"/>
 		</level>
 	</levels>
 </world>

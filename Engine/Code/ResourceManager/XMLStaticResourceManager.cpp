@@ -15,7 +15,7 @@ namespace AE{
 		}
 	};
 	//-----------------------------------------------------------------------------
-	XML_STATIC_RESOURCE_MANAGER::XML_STATIC_RESOURCE_MANAGER():m_Stack_Allocator(1000000),m_MarkerAfterInit(0){
+	XML_STATIC_RESOURCE_MANAGER::XML_STATIC_RESOURCE_MANAGER():m_Stack_Allocator(100000000),m_MarkerAfterInit(0){
 	}
 	//-----------------------------------------------------------------------------
 	void XML_STATIC_RESOURCE_MANAGER::InitResourceDB(const AT::I8* sResourceDataBaseName){

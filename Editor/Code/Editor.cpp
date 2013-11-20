@@ -2,6 +2,7 @@
 //Project
 #include "Editor.h"
 #include "AssetImporter.h"
+#include "GridGenerator.h"
 //Tool
 #include <imgui.h>
 #include <imguiRenderGL3.h>
@@ -10,6 +11,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	ACROSS_EDITOR::ACROSS_EDITOR():m_pCurrentModule(NULL),m_bRenderNavBar(true){
 		m_Modules.push_back(ASSET_IMPORTER::getInstance());
+		m_Modules.push_back(GRID_GENERATOR::getInstance());
 	}
 	//---------------------------------------------------------------------------
 	ACROSS_EDITOR::~ACROSS_EDITOR(){
@@ -70,7 +72,7 @@ namespace AE{
 		//--
 		bool toggle;
 		static AT::I32 RenderNavButtonWidth = 60;
-		static AT::I32 RenderNavWidth = 200;
+		static AT::I32 RenderNavWidth		= 200;
 		AT::I32 NavBarScrollArea=0;
 		imguiBeginScrollArea("Across Editor",  0, 0 , RenderNavWidth, RENDERER_ABC::HEIGHT-38 , &NavBarScrollArea);
 		imguiSeparatorLine();
@@ -90,7 +92,9 @@ namespace AE{
 		//--
 		if(m_pCurrentModule){
 			imguiCollapse(m_pCurrentModule->m_ModuleName, "", true);
+			imguiIndent();
 			m_pCurrentModule->UpdateNavBarGUI();
+			imguiUnindent();
 		}
 		//--
 		imguiEndScrollArea();
