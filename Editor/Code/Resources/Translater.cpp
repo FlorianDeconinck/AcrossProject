@@ -131,6 +131,10 @@ namespace AE{
 			fwrite((void*)&len, sizeof(size_t), 1, pFileEngine);
 		}
 		//--
+		//fwrite last zero
+		AT::I8 Zero = 0;
+		fwrite((void*)&Zero, sizeof(AT::I8), 1, pFileEngine);
+		//--
 		aiReleaseImport(scene);
 		fclose(pFileEngine);
 		return true;

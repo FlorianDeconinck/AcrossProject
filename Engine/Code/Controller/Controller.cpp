@@ -111,8 +111,10 @@ namespace AE{
 	}
 	//--------------------------------------------------------------------------
 	void CONTROLLER::OnGamepadCallback(){
+#ifdef _DEBUG
 		if(m_Xbox.m_bStartButton)
 			g_bUpdateWorld = !g_bUpdateWorld;
+#endif
 	}
 	//--------------------------------------------------------------------------
 	void CONTROLLER::Loop(){

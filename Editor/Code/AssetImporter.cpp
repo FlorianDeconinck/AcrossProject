@@ -142,14 +142,14 @@ namespace AE{
 		}
 	}
 	//-----------------------------------------------------------------------------
-	inline void PopLoadDialog(char* szFileOut){
-		char szFile[256];
-		OPENFILENAME ofn;
+	inline void PopLoadDialog(AT::I8* szFileOut){
+		AT::I8 szFile[256];
+		OPENFILENAMEA ofn;
 		ZeroMemory(&ofn, sizeof(ofn));
 		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = NULL;
 		ofn.lpstrTitle = "Open";
-		ofn.lpstrFile = szFile;
+		ofn.lpstrFile= szFile;
 		ofn.lpstrFile[0] = '\0';
 		ofn.nMaxFile = sizeof(szFile);
 		ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
@@ -158,7 +158,7 @@ namespace AE{
 		ofn.nMaxFileTitle = 0 ;
 		ofn.lpstrInitialDir=NULL;
 		ofn.Flags = OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST;
-		GetOpenFileName(&ofn);
+		GetOpenFileNameA(&ofn);
 		strcpy(szFileOut, ofn.lpstrFile);
 	}
 	//-----------------------------------------------------------------------------

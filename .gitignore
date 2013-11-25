@@ -23,6 +23,7 @@
 *.sdf
 *.suo
 *.opensdf
+*.unsuccessfulbuild
 
 #Dirs
 Engine/External/glew.1.9.0.w32/doc

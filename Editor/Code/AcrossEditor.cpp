@@ -8,6 +8,9 @@
 #include "Editor.h"
 //Engine
 #include <./ResourceManager/Asset_Types.h>
+//WIN32
+#include <Windows.h>
+#include <stdio.h>
 //---------------------------------------------------------------------------
 int __stdcall WinMain(  _In_  HINSTANCE hInstance, _In_  HINSTANCE hPrevInstance, _In_  LPSTR lpCmdLine, _In_  int nCmdShow){
 	for(AT::I32 iArg = 0 ; iArg < __argc ; ++iArg){

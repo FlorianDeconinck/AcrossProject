@@ -28,7 +28,8 @@ namespace AE{
 	//		...
 	//		TAG(0x0) ... TAG(Width-2x0) TAG(Width-1x0)
 	void GRID::LoadFromFile(const AT::I8* Filename){
-		FILE* GridFile = fopen( Filename, "r");
+		FILE* GridFile;
+		fopen_s(&GridFile, Filename, "r");
 		if(!GridFile){
 			Break();
 			return;
@@ -51,7 +52,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	//WORLD
 	//---------------------------------------------------------------------------
-	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Players(NULL),m_ElapsedTimeSinceLastUpdate_ms(0){
+	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Players(NULL),m_ElapsedTimeSinceLastUpdate_ms(0),m_DynamicAllocator(102400000){
 		m_sWorldDBFilename[0]='\0';
 		m_TileSize = 0.1f;
 #ifdef _DEBUG
@@ -61,6 +62,7 @@ namespace AE{
 	}
 	//---------------------------------------------------------------------------
 	WORLD::~WORLD(){
+
 	}
 	//---------------------------------------------------------------------------
 	void WORLD::LoadGridFromFile(const AT::I8* Filename){
@@ -170,6 +172,7 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//--------------------------------------------------------------------------
+#ifdef _DEBUG
 	void WORLD::DebugDraw(RENDERER_ABC& R){
 		if(!R.m_bDrawDebug)
 			return;
@@ -224,18 +227,17 @@ namespace AE{
 		}
 		GL_TOOL::CheckGLError();		
 	}
+#endif
 	//--------------------------------------------------------------------------
 	// WORLD : Game interface
 	//--------------------------------------------------------------------------
 	NPC* WORLD::SpawnNPC(const AT::I8* sResourceName/*=NULL*/, const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
-		NPC* pNpc0 = new NPC();
+		NPC* pNpc0 = (NPC*)m_DynamicAllocator.alloc(sizeof(NPC));
+		pNpc0 = new(pNpc0)NPC();
 		if(!sResourceName)
 			pNpc0->LoadDefaultMeshs(*this, *m_pRenderer, ColorRGBA);
 		else{
-			void* pBuffer = m_pResourceManager->LoadResource(sResourceName);
-			if(!pBuffer)
-				return NULL;
-			pNpc0->LoadMeshs(*this, pBuffer, *m_pRenderer);
+			pNpc0->Init(*this, sResourceName);
 		}
 		if(!pNpc0->IsCollisionFree(*this, Position)){
 			delete pNpc0;

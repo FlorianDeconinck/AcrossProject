@@ -6,6 +6,7 @@
 //Tool
 #include <AcrossTypes.h>
 #include <CodeTools.h>
+#include <StackAllocator.h>
 //std
 #include <vector>
 //-----------------------------------------------------------------------------
@@ -71,6 +72,9 @@ namespace AE{
 			STATUS_COUNT,
 		};
 		//--
+							WORLD(AT::I32F _TileSize=0.1f);
+							~WORLD();
+		//--
 		inline	AT::I32		GetWorldHeight()								{ return m_nMapHeight; }
 		inline	AT::I32		GetWorldWidth()							const	{ return m_nMapWidth; }
 		inline	AT::I32		GetNPCCount()							const	{ return m_NPCArrays.size(); }
@@ -86,16 +90,20 @@ namespace AE{
 				void		LoadLevel(const AT::I8* sLevelName);
 				void		SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S);
 		//--
-	protected:
+		inline AT::STACK_ALLOCATOR_UNSAFE&	GetAllocator() { return m_DynamicAllocator; };
+		inline RENDERER_ABC&				GetRenderer() { return *m_pRenderer; }
+		inline RESOURCE_MANAGER_ABC&		GetResourceManager() { return *m_pResourceManager; }
 		//--
-			 WORLD(AT::I32F _TileSize=0.1f);
-			 ~WORLD();
+	protected :
 		void Init(const AT::I8* sWorldDBFilename, RENDERER_ABC* R, RESOURCE_MANAGER_ABC* pResourceManager);
-		void LoadGridFromFile(const AT::I8* Filename);
 		void Update(AT::I64F elapsedTime_ms, const CONTROLLER& C);
+	private :
+		void LoadGridFromFile(const AT::I8* Filename);
 		void RenderNPC(RENDERER_ABC& R, AT::I32 NPCIdx);
 		void RenderPlayer(RENDERER_ABC& R, AT::I32 PlayerIdx);
+#ifdef _DEBUG
 		void DebugDraw(RENDERER_ABC& R);
+#endif
 		//--
 		STATUS GetStatus(){ return m_Status; }
 		//--
@@ -104,16 +112,18 @@ namespace AE{
 		R_OBJECT*	m_pRGridQuad;
 		R_OBJECT*	m_pRGridLines;
 #endif
-		AT::I32F				m_TileSize; //size of a single tile in meter
-		AT::I32F				m_ElapsedTimeSinceLastUpdate_ms;
-		STATUS					m_Status;
-		std::vector<NPC*>		m_NPCArrays;
-		std::vector<PLAYER*>	m_Players;
+		AT::I32F					m_TileSize; //size of a single tile in meter
+		AT::I32F					m_ElapsedTimeSinceLastUpdate_ms;
+		STATUS						m_Status;
+		std::vector<NPC*>			m_NPCArrays;
+		std::vector<PLAYER*>		m_Players;
 		//--
-		RENDERER_ABC*			m_pRenderer;
-		RESOURCE_MANAGER_ABC*	m_pResourceManager;
+		RENDERER_ABC*				m_pRenderer;
+		RESOURCE_MANAGER_ABC*		m_pResourceManager;
 		//--
-		AT::I8					m_sWorldDBFilename[128];
+		AT::I8						m_sWorldDBFilename[128];
+		//--
+		AT::STACK_ALLOCATOR_UNSAFE	m_DynamicAllocator; //~100Mo
 	};
 	//-----------------------------------------------------------------------------
 }//namespace AE

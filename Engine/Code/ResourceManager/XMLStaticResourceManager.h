@@ -24,7 +24,7 @@ namespace AE{
 		typedef std::string RESOURCE_NAME_t;
 		//---
 		AT::STACK_ALLOCATOR_SAFE::Marker				m_MarkerAfterInit;
-		AT::STACK_ALLOCATOR_SAFE						m_Stack_Allocator; //allocation done in cstrctor (~1Mo)
+		AT::STACK_ALLOCATOR_SAFE						m_Stack_Allocator; //allocation done in cstrctor (~100Mo)
 		std::unordered_map<RESOURCE_NAME_t, RESOURCE>	m_Database_Dictionnary;
 
 	};

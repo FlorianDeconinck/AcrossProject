@@ -32,10 +32,10 @@ namespace AE{
 		};
 		//----------------------------
 	private:
-		HGLRC				m_hGLRC;
-		GLuint				m_frameBuffer;
-		GLuint				m_rboDepthStencil;
-		AT::I8				m_bVSync;
+		HGLRC						m_hGLRC;
+		GLuint						m_frameBuffer;
+		GLuint						m_rboDepthStencil;
+		AT::I8						m_bVSync;
 	public:
 		STATUS				m_Status;
 		GLuint				m_texScreenShaderColorBuffer;
@@ -47,7 +47,7 @@ namespace AE{
 		BLUR_SHADER			m_BlurShader;
 		FXAA_SHADER			m_FXAAShader;
 		//----
-		/*virtual*/ void		Init();
+		/*virtual*/ AT::I8		Init();
 		/*virtual*/ void		Update(GUI& Gui, CONTROLLER& C, WORLD& W);
 		/*virtual*/ void		SwapDrawBuffers();
 		/*virtual*/ void		InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID);

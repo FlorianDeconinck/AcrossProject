@@ -88,13 +88,12 @@ namespace AE{
 	public:
 								NPC();
 		//---
+		void					Init(WORLD& World, const AT::I8* sResourceName);
 		/*virtual*/ void		Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize);
 		inline /*virtual*/ void	SetPosition(GRID& Grid, AT::I32 X, AT::I32 Y){ m_BBox.UpdateGridOccupation(Grid, m_Position, AT::VEC2Di(X, Y)) ; m_Position.x = m_NextMove.x = X; m_Position.y = m_NextMove.y = Y; }
 		inline /*virtual*/ void	SetPosition(GRID& Grid, const AT::VEC2Di& NewPosition){ m_BBox.UpdateGridOccupation(Grid, m_Position, NewPosition); m_Position = m_NextMove = NewPosition; }
 		inline void				SetDestination(const AT::VEC2Di& Destination){ m_Destination = Destination; m_bRecomputePath = true; }
 		inline AT::I8			IsAtDestination(){ return m_Position == m_Destination; }
-		//---
-		void					LoadMeshs(WORLD& World, void* pBufferFromFile, RENDERER_ABC& Renderer);
 		//---
 		static const AT::I32	PATH_MAX_NODES = 1024;
 		//---

@@ -10,6 +10,10 @@
 				<position x="50" y="50"/>
 				<resource path="Temple/temple.aeasset"/>
 			</npc>
+			<npc>
+				<position x="100" y="100"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</npc>
 		</level>
 	</levels>
 </world>

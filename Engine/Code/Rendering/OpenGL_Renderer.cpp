@@ -173,13 +173,16 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	AT::I8 OPENGL_RENDERER::Build(){
 		//Read INI
-		FILE* SettingsFile = fopen("BasicSettings.ini", "r");
+		FILE* SettingsFile;
+		fopen_s(&SettingsFile, "BasicSettings.ini", "r");
+		if(!SettingsFile)
+			return false;
 		AT::VEC3Df Eye;
-		fscanf(SettingsFile, "EyeX=%f\nEyeY=%f\nEyeZ=%f\n", &Eye.x, &Eye.y, &Eye.z);
+		fscanf_s(SettingsFile, "EyeX=%f\nEyeY=%f\nEyeZ=%f\n", &Eye.x, &Eye.y, &Eye.z);
 		AT::VEC3Df Target;
-		fscanf(SettingsFile, "TargetX=%f\nTargetY=%f\nTargetZ=%f\n",&Target.x, &Target.y, &Target.z);
+		fscanf_s(SettingsFile, "TargetX=%f\nTargetY=%f\nTargetZ=%f\n",&Target.x, &Target.y, &Target.z);
 		AT::VEC3Df Up;
-		fscanf(SettingsFile, "UpX=%f\nUpY=%f\nUpZ=%f\n",&Up.x, &Up.y, &Up.z);
+		fscanf_s(SettingsFile, "UpX=%f\nUpY=%f\nUpZ=%f\n",&Up.x, &Up.y, &Up.z);
 		fclose(SettingsFile);
 		//!!! ORDER MATTERS !!!
 		//TO MOVE TO A BUILD_ENGINE (this is more BUILD SCENE)
@@ -221,7 +224,7 @@ namespace AE{
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	void OPENGL_RENDERER::Init(){
+	AT::I8 OPENGL_RENDERER::Init(){
 		while(!IsDCReady()){
 			Sleep(100); //Wait for window init to wear off
 		}
@@ -235,6 +238,8 @@ namespace AE{
 			m_Status = OPENGL_RENDERER::READY;
 		else
 			m_Status = OPENGL_RENDERER::BUILD_ERROR;
+		//--
+		return m_Status != OPENGL_RENDERER::BUILD_ERROR;
 	}
 	//---------------------------------------------------------------------------
 	void OPENGL_RENDERER::ToggleVSync(){
@@ -278,7 +283,9 @@ namespace AE{
 				m_iPostProcess = 2; //fxaa
 				break;
 			case CONTROLLER::KC_D:
+#ifdef _DEBUG
 				m_bDrawDebug = !m_bDrawDebug;
+#endif
 				break;
 			case CONTROLLER::KC_N:
 				m_iPostProcess = 0; //no post process

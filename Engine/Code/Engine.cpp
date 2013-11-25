@@ -53,7 +53,8 @@ namespace AE{
 		//---
 		ilInit();
 		//--
-		m_pRenderer->Init();
+		if(!m_pRenderer->Init())
+			return;
 		//---
 		m_World.Init(sWorldDBFilename, m_pRenderer, m_pResourceManager);
 		//---
