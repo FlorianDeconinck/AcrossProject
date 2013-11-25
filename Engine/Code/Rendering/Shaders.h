@@ -49,12 +49,23 @@ namespace AE{
 		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL);
 	};
 	//---------------------------------------------------------------------------
+	/*USAGE
+	VERTEX SHADER : (8 float)
+			position	: 3 first float of VBO
+			camera eye  : 3 float pos
+	GEOMETRY SHADER
+			line width    : 1 float
+			maximal depth : 1 float (z in meter)
+	*/
 	class THICK_LINES_COLOR:public COLOR_SHADER{
 	protected :
 		GLint m_viewportSizeUniform;
 		GLint m_lineWidthUniform;
+		GLint m_maxDepthUniform;
 		GLfloat m_ViewportSize[2];
 		AT::I32F m_LineWidth;
+		AT::I32F m_MaxDepth;
+		GLint m_CameraEyePosUniform;
 	public :
 		/*virtual*/ void Init(RENDERER_ABC& Renderer);
 		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);

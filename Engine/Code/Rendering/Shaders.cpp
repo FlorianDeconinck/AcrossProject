@@ -73,8 +73,8 @@ namespace AE{
 		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_View.ToGL());
 		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_Proj.ToGL());
 		glUniformMatrix4fv(RObject.m_uniformModel, 1, GL_FALSE, (GLfloat*)RObject.m_trfModel.ToGL());
-		GL_TOOL::CheckGLError();
 		glUniform2fv(m_uvOffsetUniform, 1, (GLfloat*)&RObject.m_UVOffset);
+		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
 	void TEXTURE_SHADER::BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject/*=NULL*/){
@@ -91,22 +91,30 @@ namespace AE{
 		m_ID = THICK_LINES_3D_SHADER;
 		m_viewportSizeUniform	= glGetUniformLocation(m_Program, "viewportSize");
 		m_lineWidthUniform		= glGetUniformLocation(m_Program, "lineWidth");
+		m_maxDepthUniform		= glGetUniformLocation(m_Program, "in_MaxDepth");
+		m_CameraEyePosUniform	= glGetUniformLocation(m_Program, "in_CameraEyePos");
 		m_ViewportSize[0]		= OPENGL_RENDERER::WIDTH;
 		m_ViewportSize[1]		= OPENGL_RENDERER::HEIGHT;
-		m_LineWidth				= 3.0f;
+		m_LineWidth				= 4.0f;
+		m_MaxDepth              = 8.0f;
 		GL_TOOL::CheckGLError();
+		//--
 	}
 	//-----------------------------------------------------------------------------
 	void THICK_LINES_COLOR::InitObject(const SCENE& Scene, R_OBJECT& Object){
 		Use();
 		COLOR_SHADER::InitObject(Scene, Object);
 		glUniform2fv(m_viewportSizeUniform, 1, (GLfloat*)m_ViewportSize);
-		GL_TOOL::CheckGLError();
 		glUniform1f(m_lineWidthUniform, m_LineWidth);
+		glUniform1f(m_maxDepthUniform, m_MaxDepth);
+		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
 	void THICK_LINES_COLOR::BindDynamicVertexAttrib(RENDERER_ABC& R, R_OBJECT& Object){
 		COLOR_SHADER::BindDynamicVertexAttrib(R, Object);
+		//--
+		glUniform3fv(m_CameraEyePosUniform, 1, (GLfloat*)&R.m_pCurrentCamera->m_Eye);
+		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
 	// BLUR SHADER
