@@ -8,16 +8,17 @@ namespace AE{
 	void GRID_BBOX::Init(GRID& Grid, const AT::VEC2Di BBoxCenter, AT::U32 _HalfWidth, AT::U32 _HalfHeight){
 		m_HalfWidth = _HalfWidth;
 		m_HalfHeight = _HalfHeight;
-		//Update grid occupation
-		for(AT::I32 iH = -m_HalfHeight ; iH <= m_HalfHeight; iH++){
-			for(AT::I32 iW = -m_HalfWidth ; iW <= m_HalfWidth; iW++){
-				AT::I32 X = BBoxCenter.x+iW;
-				X = X < 0 ? 0 : X >= Grid.m_nMapWidth ? Grid.m_nMapWidth-1 : X ;
-				AT::I32 Y = BBoxCenter.y+iH;
-				Y = Y < 0 ? 0 : Y >= Grid.m_nMapHeight ? Grid.m_nMapHeight-1 : Y;
-				Grid.SetTile(X, Y, GRID::STATIC_OBSTACLE);
-			}
-		}
+		//DO NOT UDATE GRID OCCUPATION (higher call will deal with that, such as SetPosition for NPCs)
+// 		//Update grid occupation
+// 		for(AT::I32 iH = -m_HalfHeight ; iH <= m_HalfHeight; iH++){
+// 			for(AT::I32 iW = -m_HalfWidth ; iW <= m_HalfWidth; iW++){
+// 				AT::I32 X = BBoxCenter.x+iW;
+// 				X = X < 0 ? 0 : X >= Grid.m_nMapWidth ? Grid.m_nMapWidth-1 : X ;
+// 				AT::I32 Y = BBoxCenter.y+iH;
+// 				Y = Y < 0 ? 0 : Y >= Grid.m_nMapHeight ? Grid.m_nMapHeight-1 : Y;
+// 				Grid.SetTile(X, Y, GRID::STATIC_OBSTACLE);
+// 			}
+// 		}
 	}
 	//-----------------------------------------------------------------------
 	void GRID_BBOX::UpdateTileStatus(GRID& Grid, const AT::VEC2Di& FromBottomLeft, const AT::VEC2Di& FromTopRight, const AT::VEC2Di& ToBottomLeft, const AT::VEC2Di& ToTopRight, AT::I32 Status) const{

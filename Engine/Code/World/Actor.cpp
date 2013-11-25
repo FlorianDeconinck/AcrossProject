@@ -188,7 +188,7 @@ namespace AE{
 	//-----------------------------------------------------------------------------
 	PLAYER::PLAYER(){
 		m_DirectonInput.Set(0, 0);
-		m_Position.Set(10, 10);
+		m_Position.Set(0, 0);
 		//Configure animator
 		SetAnimatorModule((ANIMATOR_ABC*)new SPRITE_ANIMATOR());
 	}

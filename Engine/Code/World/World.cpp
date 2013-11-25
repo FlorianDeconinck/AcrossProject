@@ -240,6 +240,7 @@ namespace AE{
 			pNpc0->Init(*this, sResourceName);
 		}
 		if(!pNpc0->IsCollisionFree(*this, Position)){
+			pNpc0->Destroy(*this);
 			delete pNpc0;
 			return NULL;
 		}
@@ -252,6 +253,7 @@ namespace AE{
 		PLAYER* pPlayer = new PLAYER();
 		pPlayer->LoadDefaultMeshs(*this, *m_pRenderer);
 		if(!pPlayer->IsCollisionFree(*this, Position)){
+			pPlayer->Destroy(*this);
 			delete pPlayer;
 			return false;
 		}
@@ -285,7 +287,13 @@ namespace AE{
 				SpawnNPC(!res ? NULL : res.attribute("path").value(), AT::VEC2Di(pos.attribute("x").as_int(), pos.attribute("y").as_int()));
 				continue;
 			}
-			//--
+			//-- PLAYER
+			if(!strcmp(node.name(), "player")){
+				pugi::xml_node pos = node.child("position");
+				SpawnPlayer(AT::VEC2Di(pos.attribute("x").as_int(), pos.attribute("y").as_int()));
+				continue;
+			}
+
 		}
 	}
 	//---------------------------------------------------------------------------

@@ -39,6 +39,7 @@ namespace AE{
 		inline AT::VEC2Df		GetInnerPosition()																const	{ return m_InnerTilePosition; }
 		inline void				SetUVOffset(AT::I32 idx, AT::I32F x, AT::I32F y)										{ m_Meshs[idx]->m_UVOffset.x=x; m_Meshs[idx]->m_UVOffset.y=y; }
 		inline AT::VEC2Df		GetUVOffset(AT::I32 idx)														const	{ return m_Meshs[idx]->m_UVOffset; }
+		inline void				Destroy(GRID& Grid)																const	{ m_BBox.EraseGridOccupation(Grid, m_Position); }
 		//---
 		virtual void			Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize)=0;
 		virtual void			SetPosition(GRID& Grid, AT::I32 X, AT::I32 Y)=0;

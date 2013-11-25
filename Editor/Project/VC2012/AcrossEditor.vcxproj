@@ -70,7 +70,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\External\ImGUI;..\..\External\assimp.3.0.1270\include;..\..\..\Engine\Code;..\..\..\Tools\Math\Code;..\..\..\Engine\External\glew.1.9.0.w32\include;..\..\..\External\DevIL-SDK-x86-1.7.8\include;..\..\..\Tools\Memory\Code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>/subsytem:WINDOWS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

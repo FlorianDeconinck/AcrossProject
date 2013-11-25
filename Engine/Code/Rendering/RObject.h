@@ -37,7 +37,7 @@ namespace AE{
 		AT::VEC2Df		m_UVOffset;
 		//--------------------------------------
 		//--------------------------------------
-		R_OBJECT():m_vbo(-1),m_vao(-1),m_ebo(-1),m_VerticesCount(0),m_Elements(NULL),m_ElementsIndexCount(0),m_uniformModel(-1),m_GLDisplayMode(GL_QUADS),m_pShader(NULL),m_TextureId(-1),m_pVerticesBuffer(NULL){}
+		R_OBJECT():m_vbo(-1),m_vao(-1),m_ebo(-1),m_VerticesCount(0),m_Elements(NULL),m_ElementsIndexCount(0),m_uniformModel(-1),m_GLDisplayMode(GL_QUADS),m_pShader(NULL),m_TextureId(-1),m_pVerticesBuffer(NULL),m_UVOffset(0,0){}
 		~R_OBJECT();
 		void LoadMesh(GLuint* DataElements, AT::I32 ElementsCount, AT::I8 bCpyData=false);
 		void Build(AT::I32F* Data, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, STATIC_VERTICES_COLOR_POOL_AE& DataPool, AT::I32 DrawMode, AT::I8 bEbo=true,AT::I8 bEboCpy=false);

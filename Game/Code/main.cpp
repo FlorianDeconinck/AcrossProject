@@ -43,7 +43,7 @@ public :
 			AE::NPC* Npc = World.GetNPC(iNPC);
 			Npc->SetDestination(Npc->GetPosition());
 		}
-		World.SpawnPlayer(AT::VEC2Di(30,30));
+		
 #endif
 		return AE::ENGINE_API_ENTRYPOINTS::NO_MSG;
 	
