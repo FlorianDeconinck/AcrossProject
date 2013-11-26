@@ -22,7 +22,7 @@ namespace AE{
 					BASE_CAMERA();
 		void		LookAt(AT::VEC3Df Eye, AT::VEC3Df Target, AT::VEC3Df Up);
 		void		LookAt();
-		void		BuildProjMatrix(AT::I32F fovy=60.f, AT::I32F aspect=1.0, AT::I32F znear=0.1f, AT::I32F zfar=1000.f);
+		void		BuildProjMatrix(AT::I32F fovy=60.f, AT::I32F aspect=1.0, AT::I32F znear=0.01f, AT::I32F zfar=1000.f);
 		//----
 		virtual	void Update(const WORLD& W)=0;										//at end of each Renderer.Update()
 		virtual void KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown){}		//Call @ end of controller keyboard cb

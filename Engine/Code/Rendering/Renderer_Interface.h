@@ -38,7 +38,7 @@ namespace AE{
 		inline AT::I8	IsDCReady(){ return m_hDC != NULL;};
 		inline void		SetCamera(BASE_CAMERA* pCamera){	
 															m_pCurrentCamera = pCamera;
-															m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)RENDERER_ABC::WIDTH / (float)RENDERER_ABC::HEIGHT, 0.1f, 100.0f );
+															m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)RENDERER_ABC::WIDTH / (float)RENDERER_ABC::HEIGHT, 0.01f, 100.0f );
 															m_pCurrentCamera->LookAt(m_pCurrentCamera->m_Eye, m_pCurrentCamera->m_Target, m_pCurrentCamera->m_Up);
 														}
 		inline void		SetCameraToDefault(){ SetCamera(&m_DefaultCamera); }

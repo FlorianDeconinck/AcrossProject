@@ -23,14 +23,14 @@ void main(){
 		return;
 	float lineWidthThr0;
 	if(vertices[0].fDepth>in_MaxDepth)
-		lineWidthThr0 = 1;
+		lineWidthThr0 = 1.5;
 	else
-		lineWidthThr0 = lineWidth+1 -  lineWidth * (vertices[0].fDepth/in_MaxDepth);
+		lineWidthThr0 = lineWidth+1.5 -  lineWidth * (vertices[0].fDepth/in_MaxDepth);
 	float lineWidthThr1;
 	if(vertices[1].fDepth>in_MaxDepth)
-		lineWidthThr1 = 1;
+		lineWidthThr1 = 1.5;
 	else
-		lineWidthThr1 = lineWidth+1 -  lineWidth * (vertices[1].fDepth/in_MaxDepth);
+		lineWidthThr1 = lineWidth+1.5 -  lineWidth * (vertices[1].fDepth/in_MaxDepth);
 
 	vec3 ndc0 = gl_in[0].gl_Position.xyz / gl_in[0].gl_Position.w;
 	vec3 ndc1 = gl_in[1].gl_Position.xyz / gl_in[1].gl_Position.w;

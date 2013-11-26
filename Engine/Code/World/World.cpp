@@ -76,8 +76,8 @@ namespace AE{
 #ifdef _DEBUG
 	void WORLD::DebugRendererLoad(RENDERER_ABC* pRenderer){
 		AT::I32F* pColor;
-		AT::I32F Red[] = {0.8f, 0.f, 0.f, 1.f};
-		AT::I32F Green[] = {0.f, 0.8f, 0.f, 1.f};
+		AT::I32F Red[] = {0.8f, 0.f, 0.f, 0.8f};
+		AT::I32F Green[] = {0.f, 0.8f, 0.f, 0.8f};
 		AT::I32 Idx = 0;
 		AT::I32 VerticesCount = m_nMapWidth*m_nMapHeight*4;
 		AT::I32F* GridVertices = new AT::I32F[VerticesCount*pRenderer->GetScene().GetColorVertexSize()];
@@ -90,13 +90,13 @@ namespace AE{
 				AT::I32F TextX = iW/(AT::I32F)(m_nMapWidth-1);
 				AT::I32F TextY = iH/(AT::I32F)(m_nMapHeight-1);
 				//One tile
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.f, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.f, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.f, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.f, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
 			}
 		}
@@ -107,7 +107,41 @@ namespace AE{
 		m_pRGridQuad->Build(GridVertices, VerticesCount, NULL, 0, pRenderer->GetScene().GetStaticColorObjectPool(), GL_STREAM_DRAW, false);
 		pRenderer->InitRObject(*m_pRGridQuad, SHADER_ABC::COLOR_3D_SHADER);
 		delete GridVertices;
+		//-----------
+		//-----------
+# if 1
+		VerticesCount = m_nMapWidth*m_nMapHeight*4*4;
+		GridVertices = new AT::I32F[VerticesCount*pRenderer->GetScene().GetColorVertexSize()];
 		//--
+		Idx = 0;
+		for(AT::I32 iH = m_nMapHeight-1  ; iH >=0 ; iH--){
+			for(AT::I32 iW = 0 ; iW < m_nMapWidth ; iW++){
+				AT::I32F TextX = iW/(AT::I32F)(m_nMapWidth-1);
+				AT::I32F TextY = iH/(AT::I32F)(m_nMapHeight-1);
+				//One tile
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				//--
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				//--
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				//--
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+			}
+		}
+
+# else	//--
 		VerticesCount = 2*(m_nMapWidth+1)+2*(m_nMapHeight+1);
 		GridVertices = new AT::I32F[VerticesCount*pRenderer->GetScene().GetColorVertexSize()];
 		Idx = 0;
@@ -123,6 +157,7 @@ namespace AE{
 			SCENE::SetVertexData(GridVertices, Idx, m_nMapWidth*m_TileSize, 0.f, iH*m_TileSize, 0.2f, 0.2f, 0.2f, 0.8f);
 			Idx++;
 		}
+# endif
 		if(m_pRGridLines)
 			delete m_pRGridLines;
 		m_pRGridLines = new R_OBJECT();

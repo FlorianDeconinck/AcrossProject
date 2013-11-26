@@ -202,7 +202,7 @@ namespace AE{
 		m_ShadersAttached[m_ShaderAttachedCount] = &m_ThickLinesColorShader;	m_ShaderAttachedCount++;
 		m_Scene.Load();
 		//Camera
-		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)OPENGL_RENDERER::WIDTH / (float)OPENGL_RENDERER::HEIGHT, 0.1f, 100.0f );
+		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)OPENGL_RENDERER::WIDTH / (float)OPENGL_RENDERER::HEIGHT, 0.01f, 100.0f );
 		m_pCurrentCamera->LookAt(Eye, Target, Up);
 		//FrameBuffer
 		glGenTextures(1, &m_texScreenShaderColorBuffer);
