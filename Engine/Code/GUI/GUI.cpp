@@ -3,9 +3,9 @@
 #include "GUI.h"
 #include "../Rendering/Renderer_Interface.h"
 #include "../Controller/Controller.h"
-#include "./ImGUI/imgui.h"
-#include "./ImGUI/imguiRenderGL3.h"
 //Tool
+#include <imgui.h>
+#include <imguiRenderGL3.h>
 #include <CodeTools.h>
 //-----------------------------------------------------------------------------
 namespace AE{

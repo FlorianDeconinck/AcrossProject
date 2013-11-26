@@ -4,9 +4,6 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{2b03e04b-32b8-4589-b74c-31d4eacad57e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\ImGUi">
-      <UniqueIdentifier>{24c5b688-8180-463f-9acc-2a6a463c5962}</UniqueIdentifier>
-    </Filter>
     <Filter Include="AI">
       <UniqueIdentifier>{821d74e3-490d-4933-921b-b4866fac02e6}</UniqueIdentifier>
     </Filter>
@@ -40,15 +37,6 @@
     <ClInclude Include="..\..\Code\Window.h" />
     <ClInclude Include="..\..\Code\Engine.h" />
     <ClInclude Include="..\..\Code\GlobalDebug.h" />
-    <ClInclude Include="..\..\Code\GUI\ImGUI\imgui.h">
-      <Filter>GUI\ImGUi</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.h">
-      <Filter>GUI\ImGUi</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\GUI\ImGUI\stb_truetype.h">
-      <Filter>GUI\ImGUi</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Code\GUI\GUI.h">
       <Filter>GUI</Filter>
     </ClInclude>
@@ -117,12 +105,6 @@
     <ClCompile Include="..\..\Code\Camera.cpp" />
     <ClCompile Include="..\..\Code\Window.cpp" />
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
-    <ClCompile Include="..\..\Code\GUI\ImGUI\imgui.cpp">
-      <Filter>GUI\ImGUi</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.cpp">
-      <Filter>GUI\ImGUi</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Code\GUI\GUI.cpp">
       <Filter>GUI</Filter>
     </ClCompile>

@@ -58,12 +58,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\..\Engine\Code;..\..\..\External\DevIL-SDK-x86-1.7.8\include;..\..\..\Engine\External\glew.1.9.0.w32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\..\Engine\Code;..\..\..\External\DevIL-SDK-x86-1.7.8\include;..\..\..\Engine\External\glew.1.9.0.w32\include;..\..\..\Engine\External\ImGUI\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\..\..\Engine\Out\$(Configuration)\AE - Engine.lib;..\..\..\Tools\Memory\Out\$(Configuration)\AT - Memory.lib;..\..\..\Tools\Coding\Out\$(Configuration)\AT - Coding.lib;..\..\..\Engine\External\glew.1.9.0.w32\lib\glew32.lib;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\lib\DevIL.lib;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\lib\ilu.lib;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\lib\ilut.lib;opengl32.lib;Xinput9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\..\Engine\Out\$(Configuration)\AE - Engine.lib;..\..\..\Tools\Memory\Out\$(Configuration)\AT - Memory.lib;..\..\..\Tools\Coding\Out\$(Configuration)\AT - Coding.lib;..\..\..\Engine\External\glew.1.9.0.w32\lib\glew32.lib;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\lib\DevIL.lib;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\lib\ilu.lib;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\lib\ilut.lib;..\..\..\Engine\External\ImGUI\lib\ImGUIOGL3.lib;opengl32.lib;Xinput9_1_0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

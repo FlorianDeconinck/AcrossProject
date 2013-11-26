@@ -81,6 +81,7 @@ namespace AE{
 		AT::I32 Idx = 0;
 		AT::I32 VerticesCount = m_nMapWidth*m_nMapHeight*4;
 		AT::I32F* GridVertices = new AT::I32F[VerticesCount*pRenderer->GetScene().GetColorVertexSize()];
+		static AT::I32F yOffset=0.01f;
 		for(AT::I32 iH = m_nMapHeight-1  ; iH >=0 ; iH--){
 			for(AT::I32 iW = 0 ; iW < m_nMapWidth ; iW++){
 				if(GetTile(iW, iH) == WALKABLE)
@@ -90,13 +91,13 @@ namespace AE{
 				AT::I32F TextX = iW/(AT::I32F)(m_nMapWidth-1);
 				AT::I32F TextY = iH/(AT::I32F)(m_nMapHeight-1);
 				//One tile
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
 			}
 		}
@@ -119,24 +120,24 @@ namespace AE{
 				AT::I32F TextX = iW/(AT::I32F)(m_nMapWidth-1);
 				AT::I32F TextY = iH/(AT::I32F)(m_nMapHeight-1);
 				//One tile
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
-				Idx++;
-				//--
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
-				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
 				//--
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 0.1f, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
 				//--
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, 0.1f, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				//--
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
 			}
 		}

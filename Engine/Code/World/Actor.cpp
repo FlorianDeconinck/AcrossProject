@@ -206,7 +206,7 @@ namespace AE{
 		SCENE::SetVertexData(VerticesData, 2,			HalfSize,		1.f, 0.05f, 0.083f, 0);					//1,0
 		SCENE::SetVertexData(VerticesData, 3,		 -HalfSize,		1.f, 0.05f,			 0, 0);					//0,0
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.GetScene().GetStaticTextureObjectPool(), GL_STREAM_DRAW, "Alex_8D_zps374573dc.png", false, false);
+		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.GetScene().GetStaticTextureObjectPool(), GL_STREAM_DRAW, "CharacterSheet/Alex.png", false, false);
 		m_Meshs[0]->m_trfModel.SetT(0.f, 0.f, 0.f);
 		m_Meshs[0]->m_GLDisplayMode = GL_QUADS;
 		R.InitRObject(*m_Meshs[0], SHADER_ABC::TEXTURE_3D_SHADER);

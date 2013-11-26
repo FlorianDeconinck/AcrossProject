@@ -55,7 +55,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;AEACROSSENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\External\DevIL-SDK-x86-1.7.8\include;..\..\External\glew.1.9.0.w32\include;..\..\External\pugixml.1.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Tools\Coding\Code;..\..\..\Tools\Math\Code;..\..\..\Tools\Memory\Code;..\..\External\DevIL-SDK-x86-1.7.8\include;..\..\External\ImGUI\include;..\..\External\glew.1.9.0.w32\include;..\..\External\pugixml.1.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>false</ExceptionHandling>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <ShowIncludes>false</ShowIncludes>
@@ -92,9 +92,6 @@
     <ClInclude Include="..\..\Code\Controller\XboxController.h" />
     <ClInclude Include="..\..\Code\GlobalDebug.h" />
     <ClInclude Include="..\..\Code\GUI\GUI.h" />
-    <ClInclude Include="..\..\Code\GUI\ImGUI\imgui.h" />
-    <ClInclude Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.h" />
-    <ClInclude Include="..\..\Code\GUI\ImGUI\stb_truetype.h" />
     <ClInclude Include="..\..\Code\Camera.h" />
     <ClInclude Include="..\..\Code\Engine.h" />
     <ClInclude Include="..\..\Code\Rendering\OpenGL_Renderer.h" />
@@ -123,8 +120,6 @@
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
     <ClCompile Include="..\..\Code\Camera.cpp" />
     <ClCompile Include="..\..\Code\GUI\GUI.cpp" />
-    <ClCompile Include="..\..\Code\GUI\ImGUI\imgui.cpp" />
-    <ClCompile Include="..\..\Code\GUI\ImGUI\imguiRenderGL3.cpp" />
     <ClCompile Include="..\..\Code\Rendering\OpenGL_Renderer.cpp" />
     <ClCompile Include="..\..\Code\Rendering\RObject.cpp" />
     <ClCompile Include="..\..\Code\Rendering\Shader.cpp" />
