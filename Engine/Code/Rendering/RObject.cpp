@@ -161,7 +161,8 @@ namespace AE{
 				m_TextureId = -1;
 			}
 			ilDeleteImage(ilTexid);
-		}	}
+		}	
+	}
 	//---------------------------------------------------------------------------
 	void R_OBJECT::Draw(RENDERER_ABC& R){
 		if(!m_VerticesCount)

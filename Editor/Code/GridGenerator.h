@@ -24,6 +24,10 @@ namespace AE{
 		//--
 		AT::U32 m_Width;
 		AT::U32 m_Height;
+		//--
+		static const int InputSize = 10;
+		AT::I8 m_WidthTxt[InputSize];
+		AT::I8 m_HeightTxt[InputSize];
 	};
 	//-----------------------------------------------------------------------------
 }//namespace AE

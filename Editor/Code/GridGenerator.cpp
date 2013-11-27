@@ -11,6 +11,8 @@ namespace AE{
 	GRID_GENERATOR::GRID_GENERATOR():m_Width(0),m_Height(0){
 		m_ID = IMPORT_ASSET_MODE;
 		sprintf_s(m_ModuleName, "Grid Generator");
+		sprintf_s(m_WidthTxt, "32");
+		sprintf_s(m_HeightTxt, "32");
 	}
 	//-----------------------------------------------------------------------------
 	ENGINE_API_ENTRYPOINTS::API_MSG	GRID_GENERATOR::Update(AE::ENGINE& Engine, AE::WORLD& World){
@@ -22,13 +24,10 @@ namespace AE{
 	}
 	//-----------------------------------------------------------------------------
 	void GRID_GENERATOR::UpdateNavBarGUI(){
-		AT::I32F W = static_cast<AT::I32F>(m_Width);
-		AT::I32F H = static_cast<AT::I32F>(m_Height);
-		//--
-		imguiSlider("Offset UV : x", &W, 0.f, 1024.f, 0.f);
-		imguiSlider("Offset UV : y", &H, 0.f, 1024.f, 0.f);
-		m_Width		= static_cast<AT::U32>(W);
-		m_Height	= static_cast<AT::U32>(H);
+		imguiTextInput("Grid width :", m_WidthTxt, InputSize);
+		imguiTextInput("Grid height :", m_HeightTxt, InputSize);
+		m_Width		= atoi(m_WidthTxt);
+		m_Height	= atoi(m_HeightTxt);
 		//--
 		bool toggle = imguiButton("Generate grid");
 		if(toggle){

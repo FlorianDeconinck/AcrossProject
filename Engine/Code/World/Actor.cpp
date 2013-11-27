@@ -97,7 +97,7 @@ namespace AE{
 		AT::I32 HalfWidth = (AT::I32)((Max.x - Min.x)/(2*World.GetTileSize()));
 		AT::I32 HalfHeight = (AT::I32)((Max.z - Min.z)/(2*World.GetTileSize()));
 		m_BBox.Init(World, m_Position, HalfWidth, HalfHeight);
-		m_Meshs[0]->m_trfModel.SetT(0.f, 1.0f, 0.f);
+		m_Meshs[0]->m_trfModel.SetT(0.f, 0.0f, 0.f);
 		m_Meshs[0]->m_trfModel.ToGL();
 		m_Meshs[0]->m_GLDisplayMode = GL_TRIANGLES;
 		m_MeshsCount = 1;

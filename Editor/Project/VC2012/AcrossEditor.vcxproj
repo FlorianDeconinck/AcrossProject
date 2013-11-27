@@ -69,7 +69,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\External\assimp.3.0.1270\include;..\..\..\Tools\Coding\Code;..\..\..\Tools\Memory\Code;..\..\..\Engine\Code;..\..\..\Tools\Math\Code;..\..\..\Engine\External\ImGUI\include;..\..\..\Engine\External\glew.1.9.0.w32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\External\assimp.3.0.1270\include;..\..\..\Tools\Coding\Code;..\..\..\Tools\Memory\Code;..\..\..\Engine\Code;..\..\..\Tools\Math\Code;..\..\..\Engine\External\ImGUI\include;..\..\..\Engine\External\glew.1.9.0.w32\include;..\..\..\Engine\External\DevIL-SDK-x86-1.7.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

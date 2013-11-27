@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------------
 namespace AE{
 	//-----------------------------------------------------------------------------
-	ASSET_IMPORTER::ASSET_IMPORTER():m_bImport(true),m_ImportStep(NONE),m_AssetType(ASSET_UNKNOWN_TYPE),m_pImportedObject(NULL){
+	ASSET_IMPORTER::ASSET_IMPORTER():m_bImport(true),m_ImportStep(NONE),m_AssetType(ASSET_UNKNOWN_TYPE),m_pImportedObject(NULL),m_2DSpriteScale(1.f){
 		m_ID = IMPORT_ASSET_MODE;
 		sprintf_s(m_ModuleName, "Asset Importer");
 		memset(m_CurrentModelFilename, 0, sizeof(m_CurrentModelFilename));
@@ -23,6 +23,41 @@ namespace AE{
 
 	}
 	//-----------------------------------------------------------------------------
+	void ASSET_IMPORTER::Load2DSprite(AE::ENGINE& Engine, AE::WORLD& World){
+		m_ImportStep = TRANSLATING;
+		char FilenameToWrite[128];
+		memset(FilenameToWrite, 0, 128*sizeof(char));
+		char* pPoint = strstr(m_CurrentModelTextureFilename, ".");
+		strncpy(FilenameToWrite, m_CurrentModelTextureFilename, size_t(pPoint-m_CurrentModelTextureFilename));
+		strcat(FilenameToWrite, ".aeasset");
+		TRANSLATER_2D_SPRITE::Translate2DSprite(m_AssetType, m_2DSpriteScale, m_CurrentModelTextureFilename, FilenameToWrite);
+		Engine.AddResourceToDB(FilenameToWrite);
+		m_pImportedObject = World.SpawnNPC(FilenameToWrite, AT::VEC2Di(World.GetWorldWidth()/2, World.GetWorldHeight()/2));
+		if(!m_pImportedObject)//problem with the translation
+			m_ImportStep = IMPORT_FAILED;
+		//--
+		m_ImportStep = PARAMETERS_TWEAKING;
+	}
+	//-----------------------------------------------------------------------------
+	void ASSET_IMPORTER::Load3DMesh(AE::ENGINE& Engine, AE::WORLD& World){
+		m_ImportStep = TRANSLATING;
+		char FilenameToWrite[128];
+		memset(FilenameToWrite, 0, 128*sizeof(char));
+		char* pPoint = strstr(m_CurrentModelFilename, ".");
+		strncpy(FilenameToWrite, m_CurrentModelFilename, size_t(pPoint-m_CurrentModelFilename));
+		strcat(FilenameToWrite, ".aeasset");
+		TRANSLATER_3D_SCENE::TEXTURE_PARAMETERS TParameters;
+		TParameters.FilenameToImport =  m_CurrentModelTextureFilename;
+		TParameters.UVOffset.Set(0, 0);
+		TRANSLATER_3D_SCENE::TranslateWithAssImp(m_AssetType, m_CurrentModelFilename, TParameters, FilenameToWrite);
+		Engine.AddResourceToDB(FilenameToWrite);
+		m_pImportedObject = World.SpawnNPC(FilenameToWrite, AT::VEC2Di(World.GetWorldWidth()/2, World.GetWorldHeight()/2));
+		if(!m_pImportedObject)//problem with the translation
+			m_ImportStep = IMPORT_FAILED;
+		//--
+		m_ImportStep = PARAMETERS_TWEAKING;
+	}
+	//-----------------------------------------------------------------------------
 	ENGINE_API_ENTRYPOINTS::API_MSG	ASSET_IMPORTER::Update(AE::ENGINE& Engine, AE::WORLD& World){ 
 		if(m_ImportStep== NONE)
 			return ENGINE_API_ENTRYPOINTS::NO_MSG;
@@ -30,27 +65,24 @@ namespace AE{
 		case LOADING:
 			break;
 		case TRANSLATING:{
-			if(!strlen(m_CurrentModelFilename)){
+			switch (m_AssetType)
+			{
+			case AE::ASSET_3D_MESH:
+				Load3DMesh(Engine, World);
+				break;
+			case AE::ASSET_2D_SPRITE:
+				Load2DSprite(Engine, World);
+				break;
+			case AE::ASSET_UNKNOWN_TYPE:
+			default:
 				m_ImportStep=LOADING;
 				break;
 			}
-			m_ImportStep = TRANSLATING;
-			char FilenameToWrite[128];
-			memset(FilenameToWrite, 0, 128*sizeof(char));
-			char* pPoint = strstr(m_CurrentModelFilename, ".");
-			strncpy(FilenameToWrite, m_CurrentModelFilename, size_t(pPoint-m_CurrentModelFilename));
-			strcat(FilenameToWrite, ".aeasset");
-			TRANSLATER_3D_SCENE::TEXTURE_PARAMETERS TParameters;
-			TParameters.FilenameToImport =  m_CurrentModelTextureFilename;
-			TParameters.UVOffset.Set(0, 0);
-			TRANSLATER_3D_SCENE::TranslateWithAssImp(m_AssetType, m_CurrentModelFilename, TParameters, FilenameToWrite);
-			Engine.AddResourceToDB(FilenameToWrite);
-			
-			m_pImportedObject = World.SpawnNPC(FilenameToWrite, AT::VEC2Di(World.GetWorldWidth()/2, World.GetWorldHeight()/2));
-			if(!m_pImportedObject)//problem with the translation
-				m_ImportStep = IMPORT_FAILED;
-			//--
-			m_ImportStep = PARAMETERS_TWEAKING;
+
+			if((m_AssetType == ASSET_3D_MESH && !strlen(m_CurrentModelFilename)) || (m_AssetType == ASSET_2D_SPRITE && !strlen(m_CurrentModelTextureFilename))){
+				m_ImportStep=LOADING;
+				break;
+			}
 			break;
 		}
 		case PARAMETERS_TWEAKING:
@@ -74,6 +106,7 @@ namespace AE{
 			m_pImportedObject = NULL;
 			m_AssetType=ASSET_UNKNOWN_TYPE;
 			m_ImportStep=NONE;
+			m_2DSpriteScale=1.f;
 			break;
 		}
 		case IMPORT_FAILED:
@@ -124,8 +157,8 @@ namespace AE{
 					if(!m_pImportedObject)
 						break;
 					AT::VEC2Df uvOffset = m_pImportedObject->GetUVOffset(0);
-					imguiSlider("Offset UV : x", &uvOffset.x, -1.f, 1.f, 0.f);
-					imguiSlider("Offset UV : y", &uvOffset.y, -1.f, 1.f, 0.f);
+					imguiSlider("Offset UV : x", &uvOffset.x, -1.f, 1.f, 3.f);
+					imguiSlider("Offset UV : y", &uvOffset.y, -1.f, 1.f, 3.f);
 					m_pImportedObject->SetUVOffset(0, uvOffset.x, uvOffset.y);
 					bool toggle = imguiButton("Save final model");
 					if(toggle)
@@ -167,8 +200,12 @@ namespace AE{
 		imguiBeginScrollArea("Load & translate model",  RENDERER_ABC::WIDTH/2 - 300, RENDERER_ABC::HEIGHT/2 - 125 , 600, 250 , &NavBarScrollArea);
 		imguiSeparatorLine();
 		//--
+		m_AssetType = imguiCheck("3D Mesh", m_AssetType==ASSET_TYPE::ASSET_3D_MESH) ? ASSET_TYPE::ASSET_3D_MESH : m_AssetType;
+		m_AssetType = imguiCheck("2D Sprite", m_AssetType==ASSET_TYPE::ASSET_2D_SPRITE) ? ASSET_TYPE::ASSET_2D_SPRITE : m_AssetType;
+		//--
+		imguiSeparatorLine();
 		char msg[256];
-		bool toggle = imguiButton("Model path");
+		bool toggle = imguiButton("Model path", m_AssetType!=ASSET_TYPE::ASSET_2D_SPRITE);
 		if(toggle)
 			PopLoadDialog(m_CurrentModelFilename);
 		sprintf_s(msg, "Model : %s", m_CurrentModelFilename);
@@ -178,10 +215,6 @@ namespace AE{
 			PopLoadDialog(m_CurrentModelTextureFilename);		
 		sprintf_s(msg, "Texture : %s", m_CurrentModelTextureFilename);
 		imguiLabel(msg);
-		//--
-		imguiSeparatorLine();
-		m_AssetType = imguiCheck("3D Mesh", m_AssetType==ASSET_TYPE::ASSET_3D_MESH) ? ASSET_TYPE::ASSET_3D_MESH : m_AssetType;
-		m_AssetType = imguiCheck("2D Billboard", m_AssetType==ASSET_TYPE::ASSET_2D_BILLBOARD) ? ASSET_TYPE::ASSET_2D_BILLBOARD : m_AssetType;
 		//--
 		imguiSeparatorLine();
 		toggle = imguiButton("Translate model to engine format (write into \"ModelName\".aeasset)");

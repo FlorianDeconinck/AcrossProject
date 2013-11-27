@@ -41,6 +41,10 @@ namespace AE{
 		char					m_CurrentModelTextureFilename[128];
 		ASSET_TYPE				m_AssetType;
 		NPC*					m_pImportedObject;
+		AT::I32F				m_2DSpriteScale;
+		//--
+		void Load3DMesh(AE::ENGINE& Engine, AE::WORLD& World);
+		void Load2DSprite(AE::ENGINE& Engine, AE::WORLD& World);
 	};
 	//-----------------------------------------------------------------------------
 }//namespace AE

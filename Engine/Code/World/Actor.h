@@ -16,6 +16,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	class ACTOR_ABC{
 		friend class DEFAULT_ANIMATOR;
+		friend class HOVERING_ANIMATOR;
 		friend class SPRITE_ANIMATOR;
 	public :
 								ACTOR_ABC();

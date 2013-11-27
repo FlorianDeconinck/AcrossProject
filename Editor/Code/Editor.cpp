@@ -55,7 +55,7 @@ namespace AE{
 		if (Controller.m_Scroll > 0)
 			Mscroll = -2;
 		//--
-		imguiBeginFrame(Controller.m_MouseX, RENDERER_ABC::HEIGHT-38-Controller.m_MouseY, MouseButton, Mscroll);
+		imguiBeginFrame(Controller.m_MouseX, RENDERER_ABC::HEIGHT-38-Controller.m_MouseY, MouseButton, Mscroll, Controller.GetLastASCII());
 		//--
 		if(m_pCurrentModule)
 			m_pCurrentModule->UpdateGUI(Engine);

@@ -42,11 +42,17 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	class DEFAULT_ANIMATOR:ANIMATOR_ABC{
 		public :
-								DEFAULT_ANIMATOR():m_AnimationAngle(0){}
+								DEFAULT_ANIMATOR(){}
 		/*virtual*/ void Update(const WORLD& World, const ACTOR_ABC& Actor, const ANIMATION_ORDER AnimationOrder);
 		/*virtual*/ void PopulateAnimationDictionnary(){};
-		protected :
-			AT::I32F m_AnimationAngle;
+	};
+	//---------------------------------------------------------------------------
+	class HOVERING_ANIMATOR:ANIMATOR_ABC{
+						 HOVERING_ANIMATOR():m_AnimationAngle(0){}
+		/*virtual*/ void Update(const WORLD& World, const ACTOR_ABC& Actor, const ANIMATION_ORDER AnimationOrder);
+		/*virtual*/ void PopulateAnimationDictionnary(){};		
+	protected :
+		AT::I32F m_AnimationAngle;
 	};
 	//---------------------------------------------------------------------------
 }//namespace AE

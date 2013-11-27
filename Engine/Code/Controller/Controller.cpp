@@ -31,6 +31,10 @@ namespace AE{
 	}
 	//---------------------------------------------------------------------------
 	CONTROLLER::ACROSS_KEY_CODE CONTROLLER::ConvertKeyCodeFromWin32ToAcrossKey(AT::U32 Win32KeyCode){
+		BYTE keystate[2566];
+		GetKeyboardState((PBYTE)keystate);
+		if(ToAscii(Win32KeyCode, 0/*MapVirtualKey(Win32KeyCode, 0)*/ , keystate, (LPWORD)&m_LastASCII, 0)!=1)
+			m_LastASCII = 0;
 		switch(Win32KeyCode){
 			case VK_LEFT:	
 				return KC_LEFT;
@@ -82,6 +86,8 @@ namespace AE{
 			//-- CBs --
 			m_pRenderer->KeyboardCB(KC, bDown);
 			m_pRenderer->m_pCurrentCamera->KeyboardCB(KC, bDown);
+		}else{
+			m_LastASCII = 0;
 		}
 	}
 	//--------------------------------------------------------------------------
