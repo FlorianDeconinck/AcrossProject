@@ -10,8 +10,8 @@
 #include <string.h>
 #ifdef _WIN32
 #include <windows.h>
-#include <atlbase.h>
-#include <atlwin.h>
+//#include <atlbase.h>
+//#include <atlwin.h>
 #endif
 //---------------------------------------------------------------------------
 #pragma warning(disable : 4996)
@@ -99,7 +99,7 @@ namespace AE{
 					if(TrackMouseEvent(&tm))
 						m_bTrackMouse = true;
 				}
-				m_pController->OnMouseMoveCallback(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+				m_pController->OnMouseMoveCallback(LOWORD(lParam), HIWORD(lParam));
 				break;
 			}case WM_APPCOMMAND:{
 				int cmd = GET_APPCOMMAND_LPARAM(lParam);

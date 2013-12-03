@@ -171,12 +171,28 @@ namespace AE{
 		fclose(SettingsFile);
 		//!!! ORDER MATTERS !!!
 		//TO MOVE TO A BUILD_ENGINE (this is more BUILD SCENE)
+		//TODO : Think of a loader (Flav)
 		//Shaders
-		m_ColorShader.Load(*this, "color.vs", "color.fs");
-		m_TextureShader.Load(*this, "texture.vs", "texture.fs");
-		m_ThickLinesColorShader.Load(*this, "thickLines.vs", "thickLines.fs", "thickLines.gs");
-		m_BlurShader.Load(*this, "blur.vs", "blur.fs");
-		m_FXAAShader.Load(*this, "blur.vs", "FXAA.fs");
+		if (m_ColorShader.Load(*this, "color.vs", "color.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_ColorShader;
+			m_ShaderAttachedCount++;
+		}
+		if (m_TextureShader.Load(*this, "texture.vs", "texture.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_TextureShader;
+			m_ShaderAttachedCount++;
+		}
+		if (m_ThickLinesColorShader.Load(*this, "thickLines.vs", "thickLines.fs", "thickLines.gs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_ThickLinesColorShader;
+			m_ShaderAttachedCount++;
+		}
+		if (m_BlurShader.Load(*this, "blur.vs", "blur.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_BlurShader;
+			m_ShaderAttachedCount++;
+		}
+		if (m_FXAAShader.Load(*this, "blur.vs", "FXAA.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_FXAAShader;
+			m_ShaderAttachedCount++;
+		}
 		//Enable test
 		glEnable( GL_DEPTH_TEST );
 		//Build obj
@@ -342,7 +358,7 @@ namespace AE{
 	//--------------------------------------------------------------------------
 	void OPENGL_RENDERER::InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID ID){
 		for(AT::I32 iShader = 0 ; iShader < m_ShaderAttachedCount ; ++iShader){
-			SHADER_ABC* pShader =m_ShadersAttached[iShader];
+			SHADER_ABC* pShader = m_ShadersAttached[iShader];
 			if(pShader->m_ID == ID){
 				pShader->InitObject(m_Scene, R);
 				R.m_pShader = pShader;

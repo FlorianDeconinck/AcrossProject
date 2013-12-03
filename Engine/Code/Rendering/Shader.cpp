@@ -28,34 +28,38 @@ namespace AE{
 	}
 	//---------------------------------------------------------------------------
 	AT::I8 /*bSuccess*/ SHADER_ABC::Load(RENDERER_ABC& Renderer, char* _VertexFilename, char* _FragmentFilename, AT::I8* _GeometryFilename/*=NULL*/){
+		int compileSucceed = true;
 		//Vertex
 		strcpy_s(m_VertexFilename, _VertexFilename);
 		m_Vertex = glCreateShader(GL_VERTEX_SHADER);
-		LoadAndCompileShaderFromFile(m_VertexFilename, m_Vertex);
+		compileSucceed &= LoadAndCompileShaderFromFile(m_VertexFilename, m_Vertex);
 		//Fragment
 		strcpy_s(m_FragmentFilename, _FragmentFilename);
 		m_Fragment	= glCreateShader(GL_FRAGMENT_SHADER);
-		LoadAndCompileShaderFromFile(m_FragmentFilename	, m_Fragment);
+		compileSucceed &= LoadAndCompileShaderFromFile(m_FragmentFilename, m_Fragment);
 		//Geometry
 		if(_GeometryFilename){
 			strcpy_s(m_GeometryFilename, _GeometryFilename);
 			m_Geometry = glCreateShader(GL_GEOMETRY_SHADER);
-			LoadAndCompileShaderFromFile(m_GeometryFilename, m_Geometry);
+			compileSucceed &= LoadAndCompileShaderFromFile(m_GeometryFilename, m_Geometry);
 		}
-		//Build program
-		m_Program = glCreateProgram();
-		glAttachShader(m_Program, m_Vertex);
-		glAttachShader(m_Program, m_Fragment);
-		if(_GeometryFilename)
-			glAttachShader(m_Program, m_Geometry);
-		glBindFragDataLocation(m_Program, 0, "outColor");
-		glLinkProgram(m_Program);
-		Init(Renderer);
-		GL_TOOL::CheckGLError();
-		return glGetError() == GL_NO_ERROR;
+		//If compile Succeed, build program
+		if (compileSucceed){
+			m_Program = glCreateProgram();
+			glAttachShader(m_Program, m_Vertex);
+			glAttachShader(m_Program, m_Fragment);
+			if (_GeometryFilename)
+				glAttachShader(m_Program, m_Geometry);
+			glBindFragDataLocation(m_Program, 0, "outColor");
+			glLinkProgram(m_Program);
+			Init(Renderer);
+			GL_TOOL::CheckGLError();
+			return glGetError() == GL_NO_ERROR;
+		}
+		else return false;
 	}
 	//---------------------------------------------------------------------------
-	void SHADER_ABC::LoadAndCompileShaderFromFile(const char* Name, GLuint& Shader){
+	AT::I8 /*bSuccess*/ SHADER_ABC::LoadAndCompileShaderFromFile(const char* Name, GLuint& Shader){
 		char ShaderFilename[512];
 		sprintf_s(ShaderFilename, "../Engine/Code/Rendering/Shaders_GLSL/%s",Name);
 		std::ifstream ShaderFile(ShaderFilename);
@@ -71,6 +75,7 @@ namespace AE{
 		ShaderFile.close();
 		glShaderSource(Shader, 1, (const GLchar**)&buffer, NULL);
 		glCompileShader(Shader);
+		// Log compilation results
 		char LogBuffer[512];
 		glGetShaderInfoLog(Shader, 512, NULL, LogBuffer); 
 		if(strcmp(LogBuffer,"")){
@@ -78,6 +83,15 @@ namespace AE{
 		}
 		std::cout << LogBuffer <<std::endl;
 		delete buffer;
+
+		// If something in compilation were wrong
+		GLint glCompileStatus;
+		glGetShaderiv(Shader, GL_COMPILE_STATUS, &glCompileStatus);
+		if (glCompileStatus == GL_FALSE){
+			std::cout << "Compilation of " << Name << " fails. See GL's output." << std::endl;
+		}
+
+		return glCompileStatus == GL_TRUE;
 	}
 	//---------------------------------------------------------------------------
 	void SHADER_ABC::Use(){
