@@ -6,14 +6,17 @@
 //Windows
 #include <wtypes.h>
 #include <wingdi.h>
+//Tools
+#include <StackAllocator.h>
 //-----------------------------------------------------------------------------
 namespace AE{
 	class CONTROLLER;
 	class WORLD;
 	class GUI;
 	class RENDERER_ABC{
+		friend class R_OBJECT;
 	public :
-		RENDERER_ABC():m_hDC(NULL),m_hMainWnd(NULL),m_pController(NULL),m_pWorld(NULL),m_ShaderAttachedCount(0){
+		RENDERER_ABC():m_hDC(NULL),m_hMainWnd(NULL),m_pController(NULL),m_pWorld(NULL),m_ShaderAttachedCount(0),m_DynamicAllocator(102400000){
 #ifdef _DEBUG
 			m_bDrawDebug = true;
 #endif
@@ -21,7 +24,7 @@ namespace AE{
 		}
 		~RENDERER_ABC(){}
 		//---
-		virtual void	Init()=0;
+		virtual AT::I8	Init()=0;
 		virtual void	Update(GUI& Gui, CONTROLLER& C, WORLD& W)=0;
 		virtual void	SwapDrawBuffers()=0;
 		//---
@@ -35,7 +38,7 @@ namespace AE{
 		inline AT::I8	IsDCReady(){ return m_hDC != NULL;};
 		inline void		SetCamera(BASE_CAMERA* pCamera){	
 															m_pCurrentCamera = pCamera;
-															m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)RENDERER_ABC::WIDTH / (float)RENDERER_ABC::HEIGHT, 0.1f, 100.0f );
+															m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)RENDERER_ABC::WIDTH / (float)RENDERER_ABC::HEIGHT, 0.01f, 100.0f );
 															m_pCurrentCamera->LookAt(m_pCurrentCamera->m_Eye, m_pCurrentCamera->m_Target, m_pCurrentCamera->m_Up);
 														}
 		inline void		SetCameraToDefault(){ SetCamera(&m_DefaultCamera); }
@@ -49,15 +52,17 @@ namespace AE{
 		AT::I8				m_bDrawDebug;
 #endif
 	protected :
-		WORLD*				m_pWorld;
-		SCENE				m_Scene;
-		HDC					m_hDC;
+		WORLD*						m_pWorld;
+		SCENE						m_Scene;
+		HDC							m_hDC;
 		static const AT::I32 MAX_SHADERS_ATTACHED = 1024;
 		//--
-		CONTROLLER*			m_pController;
-		ARCBALL_CAMERA		m_DefaultCamera;
-		SHADER_ABC*			m_ShadersAttached[MAX_SHADERS_ATTACHED];
-		AT::I32				m_ShaderAttachedCount;
+		CONTROLLER*					m_pController;
+		ARCBALL_CAMERA				m_DefaultCamera;
+		SHADER_ABC*					m_ShadersAttached[MAX_SHADERS_ATTACHED];
+		AT::I32						m_ShaderAttachedCount;
+		//--
+		AT::STACK_ALLOCATOR_UNSAFE	m_DynamicAllocator; //(~100Mo)
 	};
 }//namespace AE
 //-----------------------------------------------------------------------------

@@ -6,6 +6,7 @@
 //Tool
 #include <AcrossTypes.h>
 #include <CodeTools.h>
+#include <StackAllocator.h>
 //std
 #include <vector>
 //-----------------------------------------------------------------------------
@@ -71,30 +72,38 @@ namespace AE{
 			STATUS_COUNT,
 		};
 		//--
-		inline	AT::I32		GetWorldHeight()							  { return m_nMapHeight; }
-		inline	AT::I32		GetWorldWidth()							const { return m_nMapWidth; }
-		inline	AT::I32		GetNPCCount()							const { return m_NPCArrays.size(); }
-		inline	AT::I32		GetPlayerCount()						const { return m_Players.size(); }
-		inline	NPC*		GetNPC(AT::I32 index)					const { return m_NPCArrays[index]; }
-		inline	AT::I32F	GetTileSize()							const { return m_TileSize; }
-		inline	AT::I32F	GetElapsedTimeSinceUdpateInMS()			const { return m_ElapsedTimeSinceLastUpdate_ms; }
-		inline	AT::VEC2Df	GetPlayerWorldPos(AT::I32 PlayerIdx)	const { AT::VEC2Di& V = m_Players[PlayerIdx]->GetPosition(); return AT::VEC2Df((AT::I32F)V.x, (AT::I32F)V.y)*m_TileSize + m_Players[PlayerIdx]->GetInnerPosition(); }
+							WORLD(AT::I32F _TileSize=0.1f);
+							~WORLD();
 		//--
-				AT::I8		SpawnNPC(const AT::I8* sResourceName=NULL, const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
+		inline	AT::I32		GetWorldHeight()								{ return m_nMapHeight; }
+		inline	AT::I32		GetWorldWidth()							const	{ return m_nMapWidth; }
+		inline	AT::I32		GetNPCCount()							const	{ return m_NPCArrays.size(); }
+		inline	AT::I32		GetPlayerCount()						const	{ return m_Players.size(); }
+		inline	NPC*		GetNPC(AT::I32 index)					const	{ return m_NPCArrays[index]; }
+		inline	AT::I32F	GetTileSize()							const	{ return m_TileSize; }
+		inline	AT::I32F	GetElapsedTimeSinceUdpateInMS()			const	{ return m_ElapsedTimeSinceLastUpdate_ms; }
+		inline	AT::VEC2Df	GetPlayerWorldPos(AT::I32 PlayerIdx)	const	{ AT::VEC2Di& V    = m_Players[PlayerIdx]->GetPosition(); return AT::VEC2Df((AT::I32F)V.x, (AT::I32F)V.y)*m_TileSize + m_Players[PlayerIdx]->GetInnerPosition(); }
+		inline	void		ClearNPC()										{ for(AT::U32 iNPC = 0 ; iNPC < m_NPCArrays.size() ; ++iNPC) delete m_NPCArrays[iNPC]; m_NPCArrays.clear(); }
+		//--
+				NPC*		SpawnNPC(const AT::I8* sResourceName=NULL, const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
 				AT::I8		SpawnPlayer(const AT::VEC2Di& Position=AT::VEC2Di(0,0));
 				void		LoadLevel(const AT::I8* sLevelName);
 				void		SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S);
 		//--
-	protected:
+		inline AT::STACK_ALLOCATOR_UNSAFE&	GetAllocator() { return m_DynamicAllocator; };
+		inline RENDERER_ABC&				GetRenderer() { return *m_pRenderer; }
+		inline RESOURCE_MANAGER_ABC&		GetResourceManager() { return *m_pResourceManager; }
 		//--
-			 WORLD(AT::I32F _TileSize=0.1f);
-			 ~WORLD();
+	protected :
 		void Init(const AT::I8* sWorldDBFilename, RENDERER_ABC* R, RESOURCE_MANAGER_ABC* pResourceManager);
-		void LoadGridFromFile(const AT::I8* Filename);
 		void Update(AT::I64F elapsedTime_ms, const CONTROLLER& C);
+	private :
+		void LoadGridFromFile(const AT::I8* Filename);
 		void RenderNPC(RENDERER_ABC& R, AT::I32 NPCIdx);
 		void RenderPlayer(RENDERER_ABC& R, AT::I32 PlayerIdx);
+#ifdef _DEBUG
 		void DebugDraw(RENDERER_ABC& R);
+#endif
 		//--
 		STATUS GetStatus(){ return m_Status; }
 		//--
@@ -103,16 +112,18 @@ namespace AE{
 		R_OBJECT*	m_pRGridQuad;
 		R_OBJECT*	m_pRGridLines;
 #endif
-		AT::I32F				m_TileSize; //size of a single tile in meter
-		AT::I32F				m_ElapsedTimeSinceLastUpdate_ms;
-		STATUS					m_Status;
-		std::vector<NPC*>		m_NPCArrays;
-		std::vector<PLAYER*>	m_Players;
+		AT::I32F					m_TileSize; //size of a single tile in meter
+		AT::I32F					m_ElapsedTimeSinceLastUpdate_ms;
+		STATUS						m_Status;
+		std::vector<NPC*>			m_NPCArrays;
+		std::vector<PLAYER*>		m_Players;
 		//--
-		RENDERER_ABC*			m_pRenderer;
-		RESOURCE_MANAGER_ABC*	m_pResourceManager;
+		RENDERER_ABC*				m_pRenderer;
+		RESOURCE_MANAGER_ABC*		m_pResourceManager;
 		//--
-		AT::I8					m_sWorldDBFilename[128];
+		AT::I8						m_sWorldDBFilename[128];
+		//--
+		AT::STACK_ALLOCATOR_UNSAFE	m_DynamicAllocator; //~100Mo
 	};
 	//-----------------------------------------------------------------------------
 }//namespace AE

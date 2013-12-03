@@ -17,10 +17,11 @@ namespace AE{
 		std::uniform_real_distribution<AT::I64F>::param_type ParamReal(0.0, 1.0);
 		m_DistributionReal.param(ParamReal);
 		//---------------
-		//TMP
+		//!!!TMP
 		//Module choice system should remove that
-		m_pRenderer = new OPENGL_RENDERER();
-		m_pResourceManager = (RESOURCE_MANAGER_ABC*)new XML_STATIC_RESOURCE_MANAGER();
+		m_pRenderer			= OPENGL_RENDERER::getInstance();
+		m_pResourceManager	= XML_STATIC_RESOURCE_MANAGER::getInstance();
+		//!!!TMP
 		//---------------
 		m_MainWindow.SetNames("AcrossEngineMainWindow", "Across Engine");	
 		m_Controller.SetDependancies(m_pRenderer);
@@ -52,7 +53,8 @@ namespace AE{
 		//---
 		ilInit();
 		//--
-		m_pRenderer->Init();
+		if(!m_pRenderer->Init())
+			return;
 		//---
 		m_World.Init(sWorldDBFilename, m_pRenderer, m_pResourceManager);
 		//---
@@ -127,4 +129,4 @@ namespace AE{
 	}
 	//---------------------------------------------------------------------------
 }//namespace AE
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------

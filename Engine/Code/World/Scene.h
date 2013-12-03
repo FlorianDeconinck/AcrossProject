@@ -47,13 +47,6 @@ namespace AE{
 		static AT::I32 SetVertexData(AT::I32F* v, AT::I32 index, AT::I32F x, AT::I32F y, AT::I32F z, AT::I32F r, AT::I32F g, AT::I32F b, AT::I32F a);
 		static AT::I32 SetVertexData(AT::I32F* v, AT::I32 index, AT::I32F x, AT::I32F y, AT::I32F z, AT::I32F tx, AT::I32F ty);
 		void AddStaticObject(R_OBJECT* pObject);
-		//--TEMPORARY--
-		R_OBJECT* ObjectZero(){
-			if(StaticObjectCount>0)
-				return StaticObject[0];
-			return NULL;
-		}
-		//--END TEMPORARY--
 		void SCENE::SpawnCube_Quads(AT::I32F Size, AT::I32F*& VerticesData, AT::I32& VerticesCount, GLuint*& ElementsData, AT::I32& ElementsCount, const AT::I32F* ColorRGBA);
 		void SCENE::SpawnCube_Lines(AT::I32F Size, AT::I32F*& VerticesData, AT::I32& VerticesCount, GLuint*& ElementsData, AT::I32& ElementsCount);
 	};

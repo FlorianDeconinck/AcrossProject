@@ -1,16 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\Code\AcrossEditor.cpp" />
     <ClCompile Include="..\..\Code\Resources\Translater.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Code\Editor.cpp" />
-    <ClCompile Include="..\..\Code\AssetImporter.cpp" />
+    <ClCompile Include="..\..\Code\AcrossEditor.cpp" />
+    <ClCompile Include="..\..\Code\AssetImporter.cpp">
+      <Filter>Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\GridGenerator.cpp">
+      <Filter>World Generation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resources">
       <UniqueIdentifier>{8d01a5e7-2d71-4433-b513-00e0020f6ca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Importer">
+      <UniqueIdentifier>{ac2429ad-4918-48c6-8a5d-031e279ff770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World Generation">
+      <UniqueIdentifier>{b49ca09a-2250-4490-8b28-445a0486a450}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +30,11 @@
     </ClInclude>
     <ClInclude Include="..\..\Code\Editor.h" />
     <ClInclude Include="..\..\Code\EditorModule.h" />
-    <ClInclude Include="..\..\Code\AssetImporter.h" />
+    <ClInclude Include="..\..\Code\AssetImporter.h">
+      <Filter>Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\GridGenerator.h">
+      <Filter>World Generation</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

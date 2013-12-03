@@ -1,8 +1,9 @@
 //---------------------------------------------------------------------------
 //Project
 #include "Profiler.h"
-#include "../External/ImGUI/imgui.h"
-#include "../External/ImGUI/imguiRenderGL3.h"
+//Tool
+#include <imgui.h>
+#include <imguiRenderGL3.h>
 //GL
 #include <GL/glew.h>
 #include <GL/gl.h>

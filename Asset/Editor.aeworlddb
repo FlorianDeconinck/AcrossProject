@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<world>
+	<desc>
+		<name>Editor DB</name>
+	</desc>
+	<levels>
+		<level name="Editor">
+			<grid name="GeneratedGrid.aegd"/>
+		</level>
+	</levels>
+</world>

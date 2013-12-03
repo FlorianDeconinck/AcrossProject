@@ -3,6 +3,8 @@
 #include "Translater.h"
 //Tools
 #include <Vec3D.h>
+//DevIL
+#include <IL/il.h>
 //STD
 #include <assert.h>
 #include <minmax.h>
@@ -81,7 +83,7 @@ namespace AE{
 	//------------------------------------------------------------
 	void assimpToInternal_MeshIndices(FILE* pFileEngine, const aiMesh& Mesh){
 		AT::I32 FaceCount = Mesh.mNumFaces*Mesh.mFaces[0].mNumIndices;
-		fwrite((void*)&FaceCount, sizeof(Mesh.mNumFaces), 1, pFileEngine);
+		fwrite((void*)&FaceCount, sizeof(FaceCount), 1, pFileEngine);
 		for(AT::U32 iFace = 0 ; iFace < Mesh.mNumFaces ; ++iFace){
 			//nNumIndices must be 3 or triangulation is OFF !
 			assert(Mesh.mFaces[iFace].mNumIndices == 3);
@@ -89,7 +91,7 @@ namespace AE{
 		}
 	}
 	//------------------------------------------------------------
-	AT::I8 TRANSLATER_3D_SCENE::TranslateWithAssImp(const AT::I8* FilenameToImport, const AT::I8* FilenameToWrite){
+	AT::I8 TRANSLATER_3D_SCENE::TranslateWithAssImp(ASSET_TYPE AssetType, const AT::I8* FilenameToImport, const TEXTURE_PARAMETERS& TextureParameters, const AT::I8* FilenameToWrite){
 		const aiScene* scene = aiImportFile(FilenameToImport, 
 			aiProcess_CalcTangentSpace       | 
 			aiProcess_Triangulate            |
@@ -102,9 +104,14 @@ namespace AE{
 			aiReleaseImport(scene);
 			return false;
 		}
-		//Write down Engine asset format
+		//--
+		//Asset type
+		fwrite((void*)&AssetType, sizeof(ASSET_TYPE), 1, pFileEngine);
+		//--
+		//Write down vertex & indices
 		if(scene->HasMeshes()){
 			assimpToInternal_BoudingBoxComputation(pFileEngine, *scene);
+			fwrite((void*)&scene->mNumMeshes, sizeof(scene->mNumMeshes), 1, pFileEngine);
 			for(AT::U32 iMesh = 0 ; iMesh < scene->mNumMeshes ; ++iMesh){
 				aiMesh& Mesh = *scene->mMeshes[iMesh];
 				if(!Mesh.HasFaces())
@@ -114,9 +121,97 @@ namespace AE{
 			}
 		}
 		//--
+		//Write down texture
+		if(TextureParameters.FilenameToImport){
+			size_t len = strlen(TextureParameters.FilenameToImport);
+			fwrite((void*)&len, sizeof(size_t), 1, pFileEngine);
+			fwrite((void*)TextureParameters.FilenameToImport, sizeof(AT::I8), len, pFileEngine);
+			fwrite((void*)&TextureParameters.UVOffset.x, sizeof(AT::I32F), 1, pFileEngine);
+			fwrite((void*)&TextureParameters.UVOffset.y, sizeof(AT::I32F), 1, pFileEngine);
+		}else{
+			size_t len = -1;
+			fwrite((void*)&len, sizeof(size_t), 1, pFileEngine);
+		}
+		//--
+		//Write last zero
+		AT::I8 Zero = 0;
+		fwrite((void*)&Zero, sizeof(AT::I8), 1, pFileEngine);
+		//--
 		aiReleaseImport(scene);
 		fclose(pFileEngine);
 		return true;
 	}
+	//-----------------------------------------------------------------------------
+	// TRANSLATER 2D SPRITE
+	//-----------------------------------------------------------------------------
+	AT::I8 TRANSLATER_2D_SPRITE::Translate2DSprite(ASSET_TYPE AssetType, AT::I32F Scale/*Meters per 100 pixel*/, const AT::I8* SpriteFilename, const AT::I8* FilenameToWrite){
+		FILE* pFileEngine = fopen(FilenameToWrite, "wb");
+		if(!pFileEngine)
+			return false;
+		//--
+		AT::U32 W=0;
+		AT::U32	H=0;
+		ILuint ilTexid;
+		ilGenImages(1, &ilTexid); 
+		ilBindImage(ilTexid); 
+		if(ilLoadImage(SpriteFilename) && ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)){
+			W = ilGetInteger(IL_IMAGE_WIDTH);
+			H = ilGetInteger(IL_IMAGE_HEIGHT);
+		}
+		ilDeleteImage(ilTexid);
+		AT::I32F fHalfWidth = ((W/2)/100.f)*Scale;
+		AT::I32F fHeight = (H/100.f)*Scale;
+		//--
+		//Asset type
+		fwrite((void*)&AssetType, sizeof(ASSET_TYPE), 1, pFileEngine);
+		//--
+		//Write down BBox
+		aiVector3D min, max;
+		min.x = -fHalfWidth; min.y = 0.f;		min.z = 0.f;
+		max.x =  fHalfWidth; max.y = fHeight;	max.z = 0.f;
+		fwrite(&min, sizeof(min.x), 3, pFileEngine);
+		fwrite(&max, sizeof(max.x), 3, pFileEngine);
+		//--
+		//Write down vertex & indices
+		AT::I32 MeshCount = 1;
+		fwrite((void*)&MeshCount, sizeof(MeshCount), 1, pFileEngine);
+		//--
+		AT::I32 nUV = 1;
+		fwrite((void*)&nUV, sizeof(nUV), 1, pFileEngine);
+		//--
+		AT::U32 mNumVertices = 4;
+		fwrite((void*)&mNumVertices, sizeof(mNumVertices), 1, pFileEngine);
+		//--
+		AT::I32F vertex[4][5];
+		vertex[0][0] = -fHalfWidth; vertex[0][1] = 0.f;		vertex[0][2] = 0.f; vertex[0][3] = 1.f; vertex[0][4] = 1.f;
+		vertex[1][0] = -fHalfWidth; vertex[1][1] = fHeight; vertex[1][2] = 0.f; vertex[1][3] = 1.f; vertex[1][4] = 0.f;
+		vertex[2][0] =  fHalfWidth; vertex[2][1] = fHeight; vertex[2][2] = 0.f; vertex[2][3] = 0.f; vertex[2][4] = 0.f;
+		vertex[3][0] =  fHalfWidth; vertex[3][1] = 0.f;		vertex[3][2] = 0.f; vertex[3][3] = 0.f; vertex[3][4] = 1.f;
+		fwrite((void*)&vertex, sizeof(vertex), 1, pFileEngine);
+		//--
+		AT::I32 IndicesCount = 6;
+		fwrite((void*)&IndicesCount, sizeof(IndicesCount), 1, pFileEngine);
+		//--
+		AT::U32 Indices[6];
+		Indices[0] = 0; Indices[1] = 1; Indices[2] = 2;
+		Indices[3] = 2; Indices[4] = 3; Indices[5] = 0;
+		fwrite((void*)&Indices, sizeof(Indices), 1, pFileEngine);
+		//--
+		//Write down texture
+		size_t len = strlen(SpriteFilename);
+		fwrite((void*)&len, sizeof(size_t), 1, pFileEngine);
+		fwrite((void*)SpriteFilename, sizeof(AT::I8), len, pFileEngine);
+		AT::VEC2Df UVOffset(0,0);
+		fwrite((void*)&UVOffset.x, sizeof(AT::I32F), 1, pFileEngine);
+		fwrite((void*)&UVOffset.y, sizeof(AT::I32F), 1, pFileEngine);
+		//--
+		//Write last zero
+		AT::I8 Zero = 0;
+		fwrite((void*)&Zero, sizeof(AT::I8), 1, pFileEngine);
+		//--
+		fclose(pFileEngine);
+		return true;
+	}
+	//-----------------------------------------------------------------------------
 }//namespace AE
 //-----------------------------------------------------------------------------

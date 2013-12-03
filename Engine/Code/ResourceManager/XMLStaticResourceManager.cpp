@@ -15,7 +15,7 @@ namespace AE{
 		}
 	};
 	//-----------------------------------------------------------------------------
-	XML_STATIC_RESOURCE_MANAGER::XML_STATIC_RESOURCE_MANAGER():m_Stack_Allocator(1000000),m_MarkerAfterInit(0){
+	XML_STATIC_RESOURCE_MANAGER::XML_STATIC_RESOURCE_MANAGER():m_Stack_Allocator(102400000),m_MarkerAfterInit(0){
 	}
 	//-----------------------------------------------------------------------------
 	void XML_STATIC_RESOURCE_MANAGER::InitResourceDB(const AT::I8* sResourceDataBaseName){
@@ -28,12 +28,18 @@ namespace AE{
 		pugi::xpath_node_set nodes = databaseDoc.select_nodes(".//resource");
 		for (pugi::xpath_node_set::const_iterator it = nodes.begin(); it != nodes.end(); ++it){
 			pugi::xpath_node node = *it;
-			RESOURCE& Resource = *(RESOURCE*)m_Stack_Allocator.alloc(sizeof(RESOURCE));
-			Resource = *(RESOURCE*)new(RESOURCE)();
-			m_Database_Dictionnary.insert(std::make_pair(node.node().attribute("path").value(), Resource));
+			RESOURCE* pResource = (RESOURCE*)m_Stack_Allocator.alloc(sizeof(RESOURCE));
+			pResource = new(pResource)RESOURCE();
+			m_Database_Dictionnary.insert(std::make_pair(node.node().attribute("path").value(), *pResource));
 		}
 		//--
 		m_MarkerAfterInit = m_Stack_Allocator.getMarker();
+	}
+	//-----------------------------------------------------------------------------
+	void XML_STATIC_RESOURCE_MANAGER::AddResrouceToDB(const AT::I8* sResourceName){
+		RESOURCE& Resource = *(RESOURCE*)m_Stack_Allocator.alloc(sizeof(RESOURCE));
+		Resource = *(RESOURCE*)new(RESOURCE)();
+		m_Database_Dictionnary.insert(std::make_pair(sResourceName, Resource));
 	}
 	//-----------------------------------------------------------------------------
 	void* XML_STATIC_RESOURCE_MANAGER::LoadResource(const AT::I8* sResourceName){

@@ -48,9 +48,10 @@ namespace AE{
 		};
 		MOUSE_BUTTON		m_MouseButton;
 		AT::I8				m_bQuit;
-		AT::I8				m_Padding[3];
+		AT::I8				m_LastASCII;
+		AT::I8				m_Padding[2];
 		//--
-						CONTROLLER():m_pRenderer(NULL),m_bQuit(false),m_MouseButton(NO_BUTTON){}
+						CONTROLLER():m_pRenderer(NULL),m_bQuit(false),m_MouseButton(NO_BUTTON),m_LastASCII(0){}
 		ACROSS_KEY_CODE ConvertCmdCodeFromWin32ToAcrossKey(AT::U32 Win32CmdCode);
 		ACROSS_KEY_CODE ConvertKeyCodeFromWin32ToAcrossKey(AT::U32 Win32KeyCode);
 		void			OnKeyboardCallback(ACROSS_KEY_CODE KC, AT::I8 bDown);
@@ -66,6 +67,7 @@ namespace AE{
 		inline void			SetDependancies(RENDERER_ABC* _R){m_pRenderer = _R;}
 		inline MOUSE_BUTTON	GetClickedMouseButton() const { return m_MouseButton; }
 		inline AT::I32		GetWheelScroll()		const { return m_Scroll; }
+		inline AT::I8		GetLastASCII()			const { return m_LastASCII; }
 	};
 	//---------------------------------------------------------------------------
 	static DWORD __stdcall ControllerThread_CB(LPVOID Param){

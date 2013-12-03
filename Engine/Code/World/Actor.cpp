@@ -6,6 +6,7 @@
 #include "../AI/Pathfinder.h"
 #include "../Animation/Animator.h"
 #include "../Animation/SpriteAnimator.h"
+#include "../ResourceManager/Asset_Types.h"
 //STD
 #include <cmath>
 #include <random>
@@ -90,6 +91,18 @@ namespace AE{
 		SetAnimatorModule((ANIMATOR_ABC*)new DEFAULT_ANIMATOR());
 	}
 	//-----------------------------------------------------------------------------
+	void NPC::Init(WORLD& World, const AT::I8* sResourceName){
+		AT::VEC3Df Min,Max;
+		m_Meshs[0] = R_OBJECT::CreateRObject(World.GetRenderer(), World.GetResourceManager(), sResourceName, Min, Max);
+		AT::I32 HalfWidth = (AT::I32)((Max.x - Min.x)/(2*World.GetTileSize()));
+		AT::I32 HalfHeight = (AT::I32)((Max.z - Min.z)/(2*World.GetTileSize()));
+		m_BBox.Init(World, m_Position, HalfWidth, HalfHeight);
+		m_Meshs[0]->m_trfModel.SetT(0.f, 0.0f, 0.f);
+		m_Meshs[0]->m_trfModel.ToGL();
+		m_Meshs[0]->m_GLDisplayMode = GL_TRIANGLES;
+		m_MeshsCount = 1;
+	}
+	//-----------------------------------------------------------------------------
 	AT::I32F trunc(AT::I32F a){
 		return a>0 ? std::floor(a) : ceil(a);
 	//-----------------------------------------------------------------------------
@@ -171,67 +184,11 @@ namespace AE{
 		}
 	}
 	//-----------------------------------------------------------------------------
-	void NPC::LoadMeshs(WORLD& World, void* pBufferFromFile, RENDERER_ABC& Renderer){
-		char* ptr = (char*)pBufferFromFile;
-		//Load bounding box & compute grid-occupation bounding box
-		AT::VEC3Df Min(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1], ((AT::I32F*)ptr)[2]);
-		ptr += 3*sizeof(AT::I32F);
-		AT::VEC3Df Max(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1], ((AT::I32F*)ptr)[2]);
-		ptr += 3*sizeof(AT::I32F);
-		AT::I32 HalfWidth = (AT::I32)((Max.x - Min.x)/(2*World.GetTileSize()));
-		AT::I32 HalfHeight = (AT::I32)((Max.z - Min.z)/(2*World.GetTileSize()));
-		m_BBox.Init(World, m_Position, HalfWidth, HalfHeight);
-		//Load UV channels count
-		AT::I32 nUV = *(AT::I32*)ptr;
-		ptr += sizeof(AT::I32);
-		AT::I32 pixelInformationLength;
-		SHADER_ABC::SHADERS_ID Shader;
-		if(nUV==1){
-			pixelInformationLength = 5;	//vertex 3d position + uv 
-			Shader = SHADER_ABC::TEXTURE_3D_SHADER;
-		}else if(nUV!=0){
-			assert(false);				//multiple uv channels, not handled
-			return;
-		}else{
-			pixelInformationLength = 7; //vertex 3d position + 4d color vector
-			Shader = SHADER_ABC::COLOR_3D_SHADER;
-		}
-		//Load Vertices
-		AT::I32 VerticeCount = *(AT::I32*)ptr;
-		ptr += sizeof(VerticeCount);
-		AT::I32F* pVerticesBuffer = (AT::I32F*)ptr;
-		ptr += VerticeCount*pixelInformationLength*sizeof(AT::I32F);
-		//Load Indices
-		AT::I32 IndicesCount = *(AT::I32*)ptr;
-		ptr += sizeof(IndicesCount);
-		GLuint* pIndicesBuffer = (GLuint*)ptr;
-		//---
-		m_MeshsCount = 1;
-		//--
-		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, "companion_cubeColor.png");
-		m_Meshs[0]->m_trfModel.SetT(0.f, 1.0f, 0.f);
-		m_Meshs[0]->m_trfModel.ToGL();
-		m_Meshs[0]->m_GLDisplayMode = GL_TRIANGLES;
-		Renderer.InitRObject(*m_Meshs[0], Shader);
-		//--
-// 		R.GetScene().SpawnCube_Lines(0.5f, pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount);
-// 		m_Meshs[1] = new R_OBJECT();
-// 		m_Meshs[1]->m_GLDisplayMode = GL_LINES;
-// 		m_Meshs[1]->Build(pCubeData, CubeVerticesCount, pCubeDataElements, CubeElementsCount, R.GetScene().GetStaticColorObjectPool(), GL_STATIC_DRAW, true, true);
-// 		m_Meshs[1]->m_trfModel.SetT(0.f, 1.0f, 0.f);
-// 		R.InitRObject(*m_Meshs[1], SHADER_ABC::THICK_LINES_3D_SHADER);
-// 		delete pCubeDataElements;
-// 		delete pCubeData;	
-		//--
-//		m_BBox.Init(Grid, m_Position, 3, 3);
-	}
-	//-----------------------------------------------------------------------------
 	// PLAYER
 	//-----------------------------------------------------------------------------
 	PLAYER::PLAYER(){
 		m_DirectonInput.Set(0, 0);
-		m_Position.Set(10, 10);
+		m_Position.Set(0, 0);
 		//Configure animator
 		SetAnimatorModule((ANIMATOR_ABC*)new SPRITE_ANIMATOR());
 	}
@@ -249,7 +206,7 @@ namespace AE{
 		SCENE::SetVertexData(VerticesData, 2,			HalfSize,		1.f, 0.05f, 0.083f, 0);					//1,0
 		SCENE::SetVertexData(VerticesData, 3,		 -HalfSize,		1.f, 0.05f,			 0, 0);					//0,0
 		m_Meshs[0] = new R_OBJECT();
-		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.GetScene().GetStaticTextureObjectPool(), GL_STREAM_DRAW, "Alex_8D_zps374573dc.png", false, false);
+		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.GetScene().GetStaticTextureObjectPool(), GL_STREAM_DRAW, "CharacterSheet/Alex.png", false, false);
 		m_Meshs[0]->m_trfModel.SetT(0.f, 0.f, 0.f);
 		m_Meshs[0]->m_GLDisplayMode = GL_QUADS;
 		R.InitRObject(*m_Meshs[0], SHADER_ABC::TEXTURE_3D_SHADER);

@@ -11,6 +11,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <iostream>
+#include <minmax.h>
 //Defines
 #define DEBUG_PATHFINDER()  0
 #define JPS()				1 //Based on the paper by Harabor and Grastien (http://users.cecs.anu.edu.au/~dharabor/data/papers/harabor-grastien-socs12.pdf)

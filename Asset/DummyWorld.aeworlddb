@@ -6,9 +6,16 @@
 	<levels>
 		<level name="Cubes Land">
 			<grid name="BasicGrid.aegd"/>
+			<player>
+				<position x="10" y="10"/>
+			</player>
 			<npc>
-				<position x="50" y="50"/>
-				<resource path="mayaexport.aeasset"/>
+				<position x="60" y="60"/>
+				<resource path="Temple/temple.aeasset"/>
+			</npc>
+			<npc>
+				<position x="100" y="100"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
 			</npc>
 		</level>
 	</levels>

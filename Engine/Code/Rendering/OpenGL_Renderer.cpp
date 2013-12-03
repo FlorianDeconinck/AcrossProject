@@ -38,7 +38,7 @@ namespace AE{
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			//--
 #ifdef _DEBUG
-			m_pWorld->DebugDraw(*this);
+			W.DebugDraw(*this);
 #endif
 			//--
 			//Render scene
@@ -48,14 +48,14 @@ namespace AE{
 				m_Scene.RenderAtom(*this);
 			//--
 			//Render NPC
-			Count = m_pWorld->GetNPCCount();
+			Count = W.GetNPCCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_pWorld->RenderNPC(*this, iObj);
+				W.RenderNPC(*this, iObj);
 			//--
 			//Render players
-			Count = m_pWorld->GetPlayerCount();
+			Count = W.GetPlayerCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_pWorld->RenderPlayer(*this, iObj);	
+				W.RenderPlayer(*this, iObj);	
 			//--
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glDisable(GL_BLEND);
@@ -72,7 +72,7 @@ namespace AE{
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			//--
 #ifdef _DEBUG
-			m_pWorld->DebugDraw(*this);
+			W.DebugDraw(*this);
 #endif
 			//--
 			//Render scene (decor)
@@ -82,12 +82,12 @@ namespace AE{
 				m_Scene.RenderAtom(*this);
 			//--
 			//Render NPC
-			Count = m_pWorld->GetNPCCount();
+			Count = W.GetNPCCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_pWorld->RenderNPC(*this, iObj);
-			Count = m_pWorld->GetPlayerCount();
+				W.RenderNPC(*this, iObj);
+			Count = W.GetPlayerCount();
 			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_pWorld->RenderPlayer(*this, iObj);
+				W.RenderPlayer(*this, iObj);
 			//--
 		}
 		//-----------------------------
@@ -173,13 +173,16 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	AT::I8 OPENGL_RENDERER::Build(){
 		//Read INI
-		FILE* SettingsFile = fopen("BasicSettings.ini", "r");
+		FILE* SettingsFile;
+		fopen_s(&SettingsFile, "BasicSettings.ini", "r");
+		if(!SettingsFile)
+			return false;
 		AT::VEC3Df Eye;
-		fscanf(SettingsFile, "EyeX=%f\nEyeY=%f\nEyeZ=%f\n", &Eye.x, &Eye.y, &Eye.z);
+		fscanf_s(SettingsFile, "EyeX=%f\nEyeY=%f\nEyeZ=%f\n", &Eye.x, &Eye.y, &Eye.z);
 		AT::VEC3Df Target;
-		fscanf(SettingsFile, "TargetX=%f\nTargetY=%f\nTargetZ=%f\n",&Target.x, &Target.y, &Target.z);
+		fscanf_s(SettingsFile, "TargetX=%f\nTargetY=%f\nTargetZ=%f\n",&Target.x, &Target.y, &Target.z);
 		AT::VEC3Df Up;
-		fscanf(SettingsFile, "UpX=%f\nUpY=%f\nUpZ=%f\n",&Up.x, &Up.y, &Up.z);
+		fscanf_s(SettingsFile, "UpX=%f\nUpY=%f\nUpZ=%f\n",&Up.x, &Up.y, &Up.z);
 		fclose(SettingsFile);
 		//!!! ORDER MATTERS !!!
 		//TO MOVE TO A BUILD_ENGINE (this is more BUILD SCENE)
@@ -209,7 +212,7 @@ namespace AE{
 		glEnable( GL_DEPTH_TEST );
 		m_Scene.Load();
 		//Camera
-		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)OPENGL_RENDERER::WIDTH / (float)OPENGL_RENDERER::HEIGHT, 0.1f, 100.0f );
+		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)OPENGL_RENDERER::WIDTH / (float)OPENGL_RENDERER::HEIGHT, 0.01f, 100.0f );
 		m_pCurrentCamera->LookAt(Eye, Target, Up);
 		//FrameBuffer
 		glGenTextures(1, &m_texScreenShaderColorBuffer);
@@ -231,7 +234,7 @@ namespace AE{
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	void OPENGL_RENDERER::Init(){
+	AT::I8 OPENGL_RENDERER::Init(){
 		while(!IsDCReady()){
 			Sleep(100); //Wait for window init to wear off
 		}
@@ -245,6 +248,8 @@ namespace AE{
 			m_Status = OPENGL_RENDERER::READY;
 		else
 			m_Status = OPENGL_RENDERER::BUILD_ERROR;
+		//--
+		return m_Status != OPENGL_RENDERER::BUILD_ERROR;
 	}
 	//---------------------------------------------------------------------------
 	void OPENGL_RENDERER::ToggleVSync(){
@@ -288,7 +293,9 @@ namespace AE{
 				m_iPostProcess = 2; //fxaa
 				break;
 			case CONTROLLER::KC_D:
+#ifdef _DEBUG
 				m_bDrawDebug = !m_bDrawDebug;
+#endif
 				break;
 			case CONTROLLER::KC_N:
 				m_iPostProcess = 0; //no post process

@@ -5,6 +5,7 @@
 #include "Renderer_Interface.h"
 //AT
 #include <AcrossTypes.h>
+#include <Singleton.h>
 //GL
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -13,7 +14,11 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	typedef void (*GENBUFFERS) ( GLsizei, GLuint* );
 	//---------------------------------------------------------------------------
-	class OPENGL_RENDERER:public RENDERER_ABC{
+	class OPENGL_RENDERER:public RENDERER_ABC, public AT::SINGLETON<OPENGL_RENDERER>{
+		friend class AT::SINGLETON<OPENGL_RENDERER>;
+	protected :
+		OPENGL_RENDERER();
+		~OPENGL_RENDERER();
 	public : 
 		//----------------------------
 		enum STATUS{
@@ -27,10 +32,10 @@ namespace AE{
 		};
 		//----------------------------
 	private:
-		HGLRC				m_hGLRC;
-		GLuint				m_frameBuffer;
-		GLuint				m_rboDepthStencil;
-		AT::I8				m_bVSync;
+		HGLRC						m_hGLRC;
+		GLuint						m_frameBuffer;
+		GLuint						m_rboDepthStencil;
+		AT::I8						m_bVSync;
 	public:
 		STATUS				m_Status;
 		GLuint				m_texScreenShaderColorBuffer;
@@ -42,10 +47,7 @@ namespace AE{
 		BLUR_SHADER			m_BlurShader;
 		FXAA_SHADER			m_FXAAShader;
 		//----
-					OPENGL_RENDERER();
-					~OPENGL_RENDERER();
-		//----
-		/*virtual*/ void		Init();
+		/*virtual*/ AT::I8		Init();
 		/*virtual*/ void		Update(GUI& Gui, CONTROLLER& C, WORLD& W);
 		/*virtual*/ void		SwapDrawBuffers();
 		/*virtual*/ void		InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID);
