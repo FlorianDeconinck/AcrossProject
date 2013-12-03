@@ -42,7 +42,7 @@ namespace AE{
 		virtual void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject)=0;
 		virtual void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL)=0;
 	protected :
-		void LoadAndCompileShaderFromFile(const AT::I8* Name, GLuint& Shader);
+		AT::I8 /*bSuccess*/ LoadAndCompileShaderFromFile(const AT::I8* Name, GLuint& Shader);
 	};
 	//---------------------------------------------------------------------------
 	class POST_PROCESSING_SCREEN_SHADER:public SHADER_ABC{

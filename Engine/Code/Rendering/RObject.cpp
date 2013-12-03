@@ -162,9 +162,12 @@ namespace AE{
 	void R_OBJECT::Draw(RENDERER_ABC& R){
 		if(!m_VerticesCount)
 			return;
-		m_pShader->Use();
-		m_pShader->BindDynamicVertexAttrib(R, *this);
-		m_pShader->BindDynamicFragmentAttrib(R, this);
+
+		if (m_pShader){
+			m_pShader->Use();
+			m_pShader->BindDynamicVertexAttrib(R, *this);
+			m_pShader->BindDynamicFragmentAttrib(R, this);
+		}
 		glBindVertexArray(m_vao);
 		GL_TOOL::CheckGLError();
 		if(!m_ElementsIndexCount){
