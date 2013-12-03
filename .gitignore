@@ -41,3 +41,16 @@ Tools/Memory/Out
 Tools/Coding/Out
 Tools/Math/Out
 Asset/CompanionCube/Data
+App/OpenGL-XML-Grid2D/Editor/Out/Debug/AE - Editor.exe
+App/OpenGL-XML-Grid2D/Editor/Out/Debug/DevIL.dll
+App/OpenGL-XML-Grid2D/Editor/Out/Debug/glew32.dll
+App/OpenGL-XML-Grid2D/Editor/Out/Release/AE - Editor.exe
+App/OpenGL-XML-Grid2D/Editor/Out/Release/Assimp32.dll
+App/OpenGL-XML-Grid2D/Editor/Out/Release/DevIL.dll
+App/OpenGL-XML-Grid2D/Editor/Out/Release/glew32.dll
+App/OpenGL-XML-Grid2D/Game/Out/Debug/DevIL.dll
+App/OpenGL-XML-Grid2D/Game/Out/Debug/Game.exe
+App/OpenGL-XML-Grid2D/Game/Out/Debug/glew32.dll
+App/OpenGL-XML-Grid2D/Game/Out/Release/Assimp32.dll
+App/OpenGL-XML-Grid2D/Game/Out/Release/DevIL.dll
+App/OpenGL-XML-Grid2D/Game/Out/Release/glew32.dll
