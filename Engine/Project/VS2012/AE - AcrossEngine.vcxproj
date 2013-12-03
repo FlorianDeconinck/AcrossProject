@@ -88,38 +88,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Code\AI\Pathfinder.h" />
-    <ClInclude Include="..\..\Code\Animation\Animator.h" />
-    <ClInclude Include="..\..\Code\Animation\SpriteAnimator.h" />
+    <ClInclude Include="..\..\Code\Animation\Animator_Interface.h" />
     <ClInclude Include="..\..\Code\Controller\Controller.h" />
     <ClInclude Include="..\..\Code\Controller\XboxController.h" />
+    <ClInclude Include="..\..\Code\Engine_Descriptors.h" />
     <ClInclude Include="..\..\Code\GlobalDebug.h" />
     <ClInclude Include="..\..\Code\GUI\GUI.h" />
     <ClInclude Include="..\..\Code\Camera.h" />
     <ClInclude Include="..\..\Code\Engine.h" />
+    <ClInclude Include="..\..\Code\Manager_Interface.h" />
+    <ClInclude Include="..\..\Code\Renderer_Interface.h" />
     <ClInclude Include="..\..\Code\Rendering\OpenGL_Renderer.h" />
-    <ClInclude Include="..\..\Code\Rendering\Renderer_Interface.h" />
     <ClInclude Include="..\..\Code\Rendering\RObject.h" />
     <ClInclude Include="..\..\Code\Rendering\RObject_Static_Memory.h" />
     <ClInclude Include="..\..\Code\Rendering\Shader.h" />
     <ClInclude Include="..\..\Code\Rendering\Shaders.h" />
     <ClInclude Include="..\..\Code\ResourceManager\Asset_Types.h" />
-    <ClInclude Include="..\..\Code\ResourceManager\Manager_Interface.h" />
     <ClInclude Include="..\..\Code\ResourceManager\XMLStaticResourceManager.h" />
     <ClInclude Include="..\..\Code\Window.h" />
-    <ClInclude Include="..\..\Code\World\Actor.h" />
-    <ClInclude Include="..\..\Code\World\GridBBox.h" />
-    <ClInclude Include="..\..\Code\World\Scene.h" />
-    <ClInclude Include="..\..\Code\World\World.h" />
+    <ClInclude Include="..\..\Code\World\2DGrid\Actor.h" />
+    <ClInclude Include="..\..\Code\World\2DGrid\Actor_Interface.h" />
+    <ClInclude Include="..\..\Code\World\2DGrid\AI\Pathfinder.h" />
+    <ClInclude Include="..\..\Code\World\2DGrid\Animator\Animator_Basics.h" />
+    <ClInclude Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.h" />
+    <ClInclude Include="..\..\Code\World\2DGrid\GridBBox.h" />
+    <ClInclude Include="..\..\Code\World\2DGrid\World_2DGrid.h" />
+    <ClInclude Include="..\..\Code\World\StaticRenderObject.h" />
+    <ClInclude Include="..\..\Code\World_Interface.h" />
     <ClInclude Include="..\..\External\pugixml.1.2\src\pugiconfig.hpp" />
     <ClInclude Include="..\..\External\pugixml.1.2\src\pugixml.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Code\AI\Pathfinder.cpp" />
-    <ClCompile Include="..\..\Code\Animation\Animator.cpp" />
-    <ClCompile Include="..\..\Code\Animation\SpriteAnimator.cpp" />
     <ClCompile Include="..\..\Code\Controller\Controller.cpp" />
     <ClCompile Include="..\..\Code\Engine.cpp" />
+    <ClCompile Include="..\..\Code\Engine_Descriptors.cpp" />
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
     <ClCompile Include="..\..\Code\Camera.cpp" />
     <ClCompile Include="..\..\Code\GUI\GUI.cpp" />
@@ -129,10 +131,13 @@
     <ClCompile Include="..\..\Code\Rendering\Shaders.cpp" />
     <ClCompile Include="..\..\Code\ResourceManager\XMLStaticResourceManager.cpp" />
     <ClCompile Include="..\..\Code\Window.cpp" />
-    <ClCompile Include="..\..\Code\World\Actor.cpp" />
-    <ClCompile Include="..\..\Code\World\GridBBox.cpp" />
-    <ClCompile Include="..\..\Code\World\Scene.cpp" />
-    <ClCompile Include="..\..\Code\World\World.cpp" />
+    <ClCompile Include="..\..\Code\World\2DGrid\Actor.cpp" />
+    <ClCompile Include="..\..\Code\World\2DGrid\AI\Pathfinder.cpp" />
+    <ClCompile Include="..\..\Code\World\2DGrid\Animator\Animator_Basics.cpp" />
+    <ClCompile Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.cpp" />
+    <ClCompile Include="..\..\Code\World\2DGrid\GridBBox.cpp" />
+    <ClCompile Include="..\..\Code\World\2DGrid\World_2DGrid.cpp" />
+    <ClCompile Include="..\..\Code\World\StaticRenderObject.cpp" />
     <ClCompile Include="..\..\External\pugixml.1.2\src\pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>

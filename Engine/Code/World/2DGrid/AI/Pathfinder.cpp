@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "Pathfinder.h"
-#include "../World/World.h"
-#include "../GlobalDebug.h"
+#include "../World_2DGrid.h"
+#include "../../../GlobalDebug.h"
 #ifdef _DEBUG
-	#include "../Engine.h"
+	#include "../../../Engine.h"
 #endif
 //STD
 #include <cstdlib>

@@ -10,11 +10,12 @@
 	//---------------------------------------------------------------------------
 	namespace AE{
 		class RENDERER_ABC;
-		class WORLD;
+		class WORLD_2DGRID;
+		class WORLD_ABC;
 		class CONTROLLER;
 		//--
 		extern RENDERER_ABC*							g_pRenderer;
-		extern WORLD*									g_pWorld;
+		extern WORLD_ABC*								g_pWorld;
 		extern CONTROLLER*								g_pController;
 		//--
 		extern AT::I64F									g_PathfinderDebug_MeanProcessTime;

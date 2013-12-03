@@ -1,7 +1,7 @@
 #pragma once
 //---------------------------------------------------------------------------
 //Project
-#include "Manager_Interface.h"
+#include "../Manager_Interface.h"
 //Tools
 #include <StackAllocator.h>
 //STD

@@ -4,9 +4,6 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{2b03e04b-32b8-4589-b74c-31d4eacad57e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AI">
-      <UniqueIdentifier>{821d74e3-490d-4933-921b-b4866fac02e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering">
       <UniqueIdentifier>{de443f16-c637-40f9-8dbb-cca1143460d9}</UniqueIdentifier>
     </Filter>
@@ -31,6 +28,15 @@
     <Filter Include="World">
       <UniqueIdentifier>{57670808-aeb4-4187-bb3a-04a1f494d024}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World\2DGrid">
+      <UniqueIdentifier>{5d81d1ff-07b7-4185-8091-b4f58afdc7dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\2DGrid\AI">
+      <UniqueIdentifier>{fa851326-89ff-4cc7-b4b2-81eebffc2d09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\2DGrid\Animator">
+      <UniqueIdentifier>{1d56835f-7f11-443e-9b02-6d9a9caaa60c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\Camera.h" />
@@ -39,9 +45,6 @@
     <ClInclude Include="..\..\Code\GlobalDebug.h" />
     <ClInclude Include="..\..\Code\GUI\GUI.h">
       <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\AI\Pathfinder.h">
-      <Filter>AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Code\Controller\Controller.h">
       <Filter>Controller</Filter>
@@ -61,18 +64,6 @@
     <ClInclude Include="..\..\Code\Rendering\Shaders.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Code\Animation\Animator.h">
-      <Filter>Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\Animation\SpriteAnimator.h">
-      <Filter>Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\ResourceManager\Manager_Interface.h">
-      <Filter>Resource Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\Rendering\Renderer_Interface.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Code\Rendering\OpenGL_Renderer.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -85,20 +76,39 @@
     <ClInclude Include="..\..\External\pugixml.1.2\src\pugixml.hpp">
       <Filter>External\pugixml</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Code\World\Actor.h">
-      <Filter>World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\World\GridBBox.h">
-      <Filter>World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\World\Scene.h">
-      <Filter>World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Code\World\World.h">
-      <Filter>World</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Code\ResourceManager\Asset_Types.h">
       <Filter>Resource Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World_Interface.h" />
+    <ClInclude Include="..\..\Code\Animation\Animator_Interface.h">
+      <Filter>Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Engine_Descriptors.h" />
+    <ClInclude Include="..\..\Code\Renderer_Interface.h" />
+    <ClInclude Include="..\..\Code\Manager_Interface.h" />
+    <ClInclude Include="..\..\Code\World\2DGrid\Actor.h">
+      <Filter>World\2DGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\2DGrid\Actor_Interface.h">
+      <Filter>World\2DGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\2DGrid\GridBBox.h">
+      <Filter>World\2DGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\2DGrid\World_2DGrid.h">
+      <Filter>World\2DGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\StaticRenderObject.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\2DGrid\AI\Pathfinder.h">
+      <Filter>World\2DGrid\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\2DGrid\Animator\Animator_Basics.h">
+      <Filter>World\2DGrid\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.h">
+      <Filter>World\2DGrid\Animator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +117,6 @@
     <ClCompile Include="..\..\Code\GlobalDebug.cpp" />
     <ClCompile Include="..\..\Code\GUI\GUI.cpp">
       <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Code\AI\Pathfinder.cpp">
-      <Filter>AI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Code\Controller\Controller.cpp">
       <Filter>Controller</Filter>
@@ -124,12 +131,6 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Code\Engine.cpp" />
-    <ClCompile Include="..\..\Code\Animation\Animator.cpp">
-      <Filter>Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Code\Animation\SpriteAnimator.cpp">
-      <Filter>Animator</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Code\Rendering\OpenGL_Renderer.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -139,17 +140,27 @@
     <ClCompile Include="..\..\External\pugixml.1.2\src\pugixml.cpp">
       <Filter>External\pugixml</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Code\World\Actor.cpp">
+    <ClCompile Include="..\..\Code\Engine_Descriptors.cpp" />
+    <ClCompile Include="..\..\Code\World\2DGrid\Actor.cpp">
+      <Filter>World\2DGrid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\2DGrid\GridBBox.cpp">
+      <Filter>World\2DGrid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\2DGrid\World_2DGrid.cpp">
+      <Filter>World\2DGrid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\StaticRenderObject.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Code\World\GridBBox.cpp">
-      <Filter>World</Filter>
+    <ClCompile Include="..\..\Code\World\2DGrid\AI\Pathfinder.cpp">
+      <Filter>World\2DGrid\AI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Code\World\Scene.cpp">
-      <Filter>World</Filter>
+    <ClCompile Include="..\..\Code\World\2DGrid\Animator\Animator_Basics.cpp">
+      <Filter>World\2DGrid\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Code\World\World.cpp">
-      <Filter>World</Filter>
+    <ClCompile Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.cpp">
+      <Filter>World\2DGrid\Animator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,7 @@ namespace AE{
 		~ASSET_IMPORTER();
 	public :
 		//--
-		/*virtual*/ ENGINE_API_ENTRYPOINTS::API_MSG	Update(AE::ENGINE& Engine, AE::WORLD& World);
+		/*virtual*/ ENGINE_API_ENTRYPOINTS::API_MSG	Update(AE::ENGINE& Engine, AE::WORLD_2DGRID& World);
 		/*virtual*/ void							UpdateGUI(const AE::ENGINE& Engine);
 		/*virtual*/ void							UpdateNavBarGUI();
 		//--
@@ -43,8 +43,8 @@ namespace AE{
 		NPC*					m_pImportedObject;
 		AT::I32F				m_2DSpriteScale;
 		//--
-		void Load3DMesh(AE::ENGINE& Engine, AE::WORLD& World);
-		void Load2DSprite(AE::ENGINE& Engine, AE::WORLD& World);
+		void Load3DMesh(AE::ENGINE& Engine, AE::WORLD_2DGRID& World);
+		void Load2DSprite(AE::ENGINE& Engine, AE::WORLD_2DGRID& World);
 	};
 	//-----------------------------------------------------------------------------
 }//namespace AE

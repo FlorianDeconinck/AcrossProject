@@ -23,7 +23,7 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
-	void COLOR_SHADER::InitObject(const SCENE& Scene, R_OBJECT& Object){
+	void COLOR_SHADER::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
 		Use();
 		glBindVertexArray(Object.m_vao);
 		glEnableVertexAttribArray(m_posAttrib);
@@ -58,7 +58,7 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
-	void TEXTURE_SHADER::InitObject(const SCENE& Scene, R_OBJECT& Object){
+	void TEXTURE_SHADER::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
 		Use();
 		glBindVertexArray(Object.m_vao);
 		glEnableVertexAttribArray(m_posAttrib);
@@ -101,7 +101,7 @@ namespace AE{
 		//--
 	}
 	//-----------------------------------------------------------------------------
-	void THICK_LINES_COLOR::InitObject(const SCENE& Scene, R_OBJECT& Object){
+	void THICK_LINES_COLOR::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
 		Use();
 		COLOR_SHADER::InitObject(Scene, Object);
 		glUniform2fv(m_viewportSizeUniform, 1, (GLfloat*)m_ViewportSize);
@@ -140,7 +140,7 @@ namespace AE{
 		m_blurRadiusUniform = glGetUniformLocation(m_Program, "blurRadius");
 	}
 	//-----------------------------------------------------------------------------
-	void BLUR_SHADER::InitObject(const SCENE& Scene, R_OBJECT& Object){
+	void BLUR_SHADER::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
 	}
 	//-----------------------------------------------------------------------------
 	void BLUR_SHADER::BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject){
@@ -178,7 +178,7 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
-	void FXAA_SHADER::InitObject(const SCENE& Scene, R_OBJECT& Object){
+	void FXAA_SHADER::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
 
 	}
 	//-----------------------------------------------------------------------------

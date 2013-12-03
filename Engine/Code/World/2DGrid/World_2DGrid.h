@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "Actor.h"
+#include "../../World_Interface.h"
 //Tool
 #include <AcrossTypes.h>
 #include <CodeTools.h>
@@ -60,7 +61,8 @@ namespace AE{
 	class SHADER_ABC;
 	class CONTROLLER;
 	class RESOURCE_MANAGER_ABC;
-	class WORLD:public GRID{
+	class WORLD_2DGRID:public WORLD_ABC, public GRID, public AT::SINGLETON<WORLD_2DGRID>{
+		friend class AT::SINGLETON<WORLD_2DGRID>;
 		friend class OPENGL_RENDERER;
 		friend class ENGINE;
 	public:	
@@ -72,17 +74,15 @@ namespace AE{
 			STATUS_COUNT,
 		};
 		//--
-							WORLD(AT::I32F _TileSize=0.1f);
-							~WORLD();
+							WORLD_2DGRID(AT::I32F _TileSize=0.1f);
+							~WORLD_2DGRID();
 		//--
 		inline	AT::I32		GetWorldHeight()								{ return m_nMapHeight; }
 		inline	AT::I32		GetWorldWidth()							const	{ return m_nMapWidth; }
 		inline	AT::I32		GetNPCCount()							const	{ return m_NPCArrays.size(); }
-		inline	AT::I32		GetPlayerCount()						const	{ return m_Players.size(); }
 		inline	NPC*		GetNPC(AT::I32 index)					const	{ return m_NPCArrays[index]; }
 		inline	AT::I32F	GetTileSize()							const	{ return m_TileSize; }
 		inline	AT::I32F	GetElapsedTimeSinceUdpateInMS()			const	{ return m_ElapsedTimeSinceLastUpdate_ms; }
-		inline	AT::VEC2Df	GetPlayerWorldPos(AT::I32 PlayerIdx)	const	{ AT::VEC2Di& V    = m_Players[PlayerIdx]->GetPosition(); return AT::VEC2Df((AT::I32F)V.x, (AT::I32F)V.y)*m_TileSize + m_Players[PlayerIdx]->GetInnerPosition(); }
 		inline	void		ClearNPC()										{ for(AT::U32 iNPC = 0 ; iNPC < m_NPCArrays.size() ; ++iNPC) delete m_NPCArrays[iNPC]; m_NPCArrays.clear(); }
 		//--
 				NPC*		SpawnNPC(const AT::I8* sResourceName=NULL, const AT::VEC2Di& Position=AT::VEC2Di(0,0), const AT::I32F* ColorRGBA=NULL);
@@ -90,20 +90,21 @@ namespace AE{
 				void		LoadLevel(const AT::I8* sLevelName);
 				void		SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S);
 		//--
-		inline AT::STACK_ALLOCATOR_UNSAFE&	GetAllocator() { return m_DynamicAllocator; };
-		inline RENDERER_ABC&				GetRenderer() { return *m_pRenderer; }
-		inline RESOURCE_MANAGER_ABC&		GetResourceManager() { return *m_pResourceManager; }
+		inline AT::STACK_ALLOCATOR_UNSAFE&	GetAllocator()									{ return m_DynamicAllocator; };
+		inline RENDERER_ABC&				GetRenderer()							const	{ return *m_pRenderer; }
+		inline RESOURCE_MANAGER_ABC&		GetResourceManager()					const	{ return *m_pResourceManager; }
 		//--
+		/*virtual*/ inline	AT::I32		GetPlayerCount()							const	{ return m_Players.size(); }
+		/*virtual*/	inline	AT::VEC3Df	GetPlayerWorldPosition(AT::I32 PlayerIdx)	const	{ AT::VEC2Di& V    = m_Players[PlayerIdx]->GetPosition(); AT::VEC2Df P = AT::VEC2Df((AT::I32F)V.x, (AT::I32F)V.y)*m_TileSize + m_Players[PlayerIdx]->GetInnerPosition(); return AT::VEC3Df(P.x, P.y, 0); }
+		/*virtual*/ void UpdatePreRender();													
 	protected :
-		void Init(const AT::I8* sWorldDBFilename, RENDERER_ABC* R, RESOURCE_MANAGER_ABC* pResourceManager);
-		void Update(AT::I64F elapsedTime_ms, const CONTROLLER& C);
+		/*virtual*/ void Update(AT::I64F elapsedTime_ms, const CONTROLLER& C);
+		/*virtual*/ void Init(const AT::I8* sWorldDBFilename, RENDERER_ABC* R, RESOURCE_MANAGER_ABC* pResourceManager);
+#ifdef _DEBUG
+		/*virtual */void DebugDraw(RENDERER_ABC& R);
+#endif
 	private :
 		void LoadGridFromFile(const AT::I8* Filename);
-		void RenderNPC(RENDERER_ABC& R, AT::I32 NPCIdx);
-		void RenderPlayer(RENDERER_ABC& R, AT::I32 PlayerIdx);
-#ifdef _DEBUG
-		void DebugDraw(RENDERER_ABC& R);
-#endif
 		//--
 		STATUS GetStatus(){ return m_Status; }
 		//--

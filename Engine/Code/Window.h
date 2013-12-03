@@ -8,9 +8,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	#ifdef _WIN32
 		#include <wtypes.h>
-		typedef HANDLE PLT_HANDLE;
 		typedef HINSTANCE PLT_HINSTANCE;
-		typedef HWND PLT_HWND;
 	#endif
 	//---------------------------------------------------------------------------
 	class RENDERER_ABC;

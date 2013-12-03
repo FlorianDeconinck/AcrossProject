@@ -5,12 +5,14 @@
 #include <CodeTools.h>
 //Engine
 #include "OpenGL_Renderer.h"
-#include "../Controller/Controller.h"
 #include "RObject.h"
-#include "../World/World.h"
 #include "Shader.h"
 #include "../GlobalDebug.h"
+#include "../World_Interface.h"
+#include "../Manager_Interface.h"
 #include "../GUI/GUI.h"
+#include "../ResourceManager/Asset_Types.h"
+#include "../Controller/Controller.h"
 //GL
 #include <GL\wglew.h>
 //---------------------------------------------------------------------------
@@ -25,9 +27,10 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//---------------------------------------------------------------------------
-	void OPENGL_RENDERER::Update(GUI& Gui, CONTROLLER& C, WORLD& W){
+	void OPENGL_RENDERER::Update(GUI& Gui, CONTROLLER& C, WORLD_ABC& World){
 		//-----------------------------
-		m_pCurrentCamera->Update(W);
+		World.UpdatePreRender();
+		m_pCurrentCamera->Update(World);
 		//-----------------------------
 		if(m_iPostProcess){
 			glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
@@ -38,24 +41,14 @@ namespace AE{
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			//--
 #ifdef _DEBUG
-			W.DebugDraw(*this);
+			World.DebugDraw(*this);
 #endif
 			//--
-			//Render scene
-			m_Scene.PreRender();
-			AT::I32 Count = m_Scene.ObjectCount();
-			for (int iObj = 0 ; iObj < Count ; ++iObj)
-				m_Scene.RenderAtom(*this);
-			//--
-			//Render NPC
-			Count = W.GetNPCCount();
-			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				W.RenderNPC(*this, iObj);
-			//--
-			//Render players
-			Count = W.GetPlayerCount();
-			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				W.RenderPlayer(*this, iObj);	
+			//Render objects
+			AT::I32 count = m_Objects.size();
+			for(int iObj = 0 ; iObj < count ; ++iObj){
+				m_Objects[iObj]->Draw(*this);
+			}
 			//--
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glDisable(GL_BLEND);
@@ -72,29 +65,21 @@ namespace AE{
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			//--
 #ifdef _DEBUG
-			W.DebugDraw(*this);
+			World.DebugDraw(*this);
 #endif
 			//--
-			//Render scene (decor)
-			m_Scene.PreRender();
-			int Count = m_Scene.ObjectCount();
-			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				m_Scene.RenderAtom(*this);
-			//--
-			//Render NPC
-			Count = W.GetNPCCount();
-			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				W.RenderNPC(*this, iObj);
-			Count = W.GetPlayerCount();
-			for (AT::I32 iObj = 0 ; iObj < Count ; ++iObj)
-				W.RenderPlayer(*this, iObj);
+			//Render objects
+			AT::I32 count = m_Objects.size();
+			for(int iObj = 0 ; iObj < count ; ++iObj){
+				m_Objects[iObj]->Draw(*this);
+			}
 			//--
 		}
 		//-----------------------------
 #ifdef _DEBUG	
 		g_Profiler.StartSubTimer("GUI");
 #endif
-		Gui.Update(C, *this, W);
+		Gui.Update(C, *this, World);
 #ifdef _DEBUG	
 		g_Profiler.StopSubTimer("GUI");
 #endif
@@ -200,7 +185,6 @@ namespace AE{
 		m_ShadersAttached[m_ShaderAttachedCount] = &m_BlurShader;							m_ShaderAttachedCount++;
 		m_ShadersAttached[m_ShaderAttachedCount] = &m_FXAAShader;							m_ShaderAttachedCount++;
 		m_ShadersAttached[m_ShaderAttachedCount] = &m_ThickLinesColorShader;	m_ShaderAttachedCount++;
-		m_Scene.Load();
 		//Camera
 		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)OPENGL_RENDERER::WIDTH / (float)OPENGL_RENDERER::HEIGHT, 0.01f, 100.0f );
 		m_pCurrentCamera->LookAt(Eye, Target, Up);
@@ -259,6 +243,101 @@ namespace AE{
 // 		GL_TOOL::CheckGLError();
 // 		wglDeleteContext(m_hGLRC);		
 // 		GL_TOOL::CheckGLError();
+	}
+	//--------------------------------------------------------------------------
+	R_OBJECT* OPENGL_RENDERER::CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax){
+		void* pBuffer = ResourceManager.LoadResource(sResourceName);
+		if(!pBuffer)
+			return NULL;
+		//--
+		char* ptr = (char*)pBuffer;
+		//Asset type
+		ASSET_TYPE AssetType = *(ASSET_TYPE*)ptr;
+		ptr+= sizeof(ASSET_TYPE);
+		assert(AssetType!=ASSET_UNKNOWN_TYPE);
+		//Load bounding box & compute grid-occupation bounding box
+		BBoxMin.Set(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1], ((AT::I32F*)ptr)[2]);
+		ptr += 3*sizeof(AT::I32F);
+		BBoxMax.Set(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1], ((AT::I32F*)ptr)[2]);
+		ptr += 3*sizeof(AT::I32F);
+		//Mesh number
+		AT::I32 MeshsCount = (AT::I32)*(AT::U32*)ptr;
+		ptr += sizeof(AT::U32);
+		//Load UV channels count
+		AT::I32 nUV = *(AT::I32*)ptr;
+		ptr += sizeof(AT::I32);
+		AT::I32 pixelInformationLength;
+		SHADER_ABC::SHADERS_ID Shader;
+		if(nUV==1){
+			pixelInformationLength = 5;	//vertex 3d position + uv 
+			Shader = SHADER_ABC::TEXTURE_3D_SHADER;
+		}else if(nUV!=0){
+			assert(false);				//multiple uv channels, not handled
+			return NULL;
+		}else{
+			pixelInformationLength = 7; //vertex 3d position + 4d color vector
+			Shader = SHADER_ABC::COLOR_3D_SHADER;
+		}
+		//Load Vertices
+		AT::I32 VerticeCount = *(AT::I32*)ptr;
+		ptr += sizeof(VerticeCount);
+		AT::I32F* pVerticesBuffer = (AT::I32F*)ptr;
+		ptr += VerticeCount*pixelInformationLength*sizeof(AT::I32F);
+		//Load Indices
+		AT::I32 IndicesCount = *(AT::I32*)ptr;
+		ptr += sizeof(IndicesCount);
+		GLuint* pIndicesBuffer = (GLuint*)ptr;
+		ptr += IndicesCount*sizeof(GLuint);
+		//!!!!!!TMP
+		//One mesh read for the moment
+		for(AT::I32 iMeshToSkip=0 ; iMeshToSkip < MeshsCount-1 ; ++iMeshToSkip){
+			//skip UV channels count
+			AT::I32 nUV = *(AT::I32*)ptr;
+			ptr += sizeof(AT::I32);
+			AT::I32 pixelInformationLength;
+			if(nUV==1){
+				pixelInformationLength = 5;	//vertex 3d position + uv 
+			}else if(nUV!=0){
+				assert(false);				//multiple uv channels, not handled
+				return NULL;
+			}else{
+				pixelInformationLength = 7; //vertex 3d position + 4d color vector
+			}
+			//Load Vertices
+			AT::I32 VerticeCount = *(AT::I32*)ptr;
+			ptr += sizeof(VerticeCount);
+			ptr += VerticeCount*pixelInformationLength*sizeof(AT::I32F);
+			//Load Indices
+			AT::I32 IndicesCount = *(AT::I32*)ptr;
+			ptr += sizeof(IndicesCount);
+			ptr += IndicesCount*sizeof(GLuint);
+		}
+		//!!!!!!TMP
+		//Load Texture
+		AT::I8*		TextureFilename;
+		AT::VEC2Df	UVOffset;
+		size_t len = *(size_t*)ptr;
+		ptr += sizeof(size_t);
+		AT::I8 DefaultNoTexture[22];
+		sprintf_s(DefaultNoTexture, "DefaultNoTexture.png\0");
+		if(len > 0){
+			TextureFilename = (AT::I8*)ptr;
+			ptr += len*sizeof(AT::I8);
+			UVOffset.Set(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1]);
+			ptr += 2*sizeof(AT::I32F);
+		}else{
+			TextureFilename = DefaultNoTexture;
+		}
+		//---
+		R_OBJECT* pRObject = (R_OBJECT*)m_DynamicAllocator.alloc(sizeof(R_OBJECT));
+		pRObject = new(pRObject) R_OBJECT();
+		m_Objects.push_back(pRObject);
+		pRObject->m_UVOffset = UVOffset;
+		pRObject->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, TextureFilename);
+		//--
+		pRObject->m_GLDisplayMode = GL_TRIANGLES;
+		InitRObject(*pRObject, Shader);
+		return pRObject;
 	}
 	//--------------------------------------------------------------------------
 	void OPENGL_RENDERER::InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID ID){

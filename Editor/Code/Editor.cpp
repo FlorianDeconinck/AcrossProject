@@ -3,6 +3,8 @@
 #include "Editor.h"
 #include "AssetImporter.h"
 #include "GridGenerator.h"
+//Engine
+#include <World/2DGrid/World_2DGrid.h>
 //Tool
 #include <imgui.h>
 #include <imguiRenderGL3.h>
@@ -18,20 +20,28 @@ namespace AE{
 
 	}
 	//---------------------------------------------------------------------------
-	ENGINE_API_ENTRYPOINTS::API_MSG ACROSS_EDITOR::InitCallback(AE::ENGINE& E, AE::WORLD& World, AE::CONTROLLER& C){ 
+	ENGINE_API_ENTRYPOINTS::API_MSG ACROSS_EDITOR::InitCallback(AE::ENGINE& E, AE::WORLD_ABC& W, AE::CONTROLLER& C){ 
+		//Regular cast because EDITOR is setting up the engine in main()
+		WORLD_2DGRID& World = (WORLD_2DGRID&)W;
+		//--
 		World.LoadLevel("Editor");
 		//--
-		return ENGINE_API_ENTRYPOINTS::NO_MSG; 
+		return ENGINE_API_ENTRYPOINTS::AE_API_OK; 
 	}
 	//---------------------------------------------------------------------------
-	ENGINE_API_ENTRYPOINTS::API_MSG ACROSS_EDITOR::UpdateCallback(AE::ENGINE& Engine, AE::WORLD& World, AE::CONTROLLER& Controller){
-		API_MSG Msg = NO_MSG;
+	ENGINE_API_ENTRYPOINTS::API_MSG ACROSS_EDITOR::UpdateCallback(AE::ENGINE& Engine, AE::WORLD_ABC& W, AE::CONTROLLER& Controller){
+		//Regular cast because EDITOR is setting up the engine in main()
+		WORLD_2DGRID& World = (WORLD_2DGRID&)W;
+		//--
+		API_MSG Msg = AE_API_OK;
 		if(m_pCurrentModule)
 			Msg = m_pCurrentModule->Update(Engine, World);
 		return Msg; 
 	}
 	//--------------------------------------------------------------------------
-	ENGINE_API_ENTRYPOINTS::API_MSG ACROSS_EDITOR::RenderCallback(AE::ENGINE& Engine, AE::WORLD& World, AE::CONTROLLER& Controller){
+	ENGINE_API_ENTRYPOINTS::API_MSG ACROSS_EDITOR::RenderCallback(AE::ENGINE& Engine, AE::WORLD_ABC& W, AE::CONTROLLER& Controller){
+		//Regular cast because EDITOR is setting up the engine in main()
+		WORLD_2DGRID& World = (WORLD_2DGRID&)W;
 		//--
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -63,7 +73,7 @@ namespace AE{
 		//--
 		imguiRenderGLDraw(RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT);
 		//--
-		return NO_MSG; 
+		return AE_API_OK; 
 	}
 	//---------------------------------------------------------------------------
 	void ACROSS_EDITOR::RenderNavBar(){

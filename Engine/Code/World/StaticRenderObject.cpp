@@ -1,5 +1,5 @@
 //Project
-#include "Scene.h"
+#include "StaticRenderObject.h"
 #include "../Rendering/Shader.h"
 #include "../Rendering/RObject.h"
 //Tool
@@ -8,18 +8,15 @@
 #include <memory.h>
 namespace AE{
 	//---------------------------------------------------------------------------
-	SCENE::SCENE():RenderObjectIdx(0){
-		StaticObjectCount = 0;
-		memset(StaticObject, 0, MAX_STATIC_OBJECT*sizeof(R_OBJECT*));
+	STATIC_RENDER_OBJECT::STATIC_RENDER_OBJECT(){
 		StaticColorObjectPool.AllocateFromScratch(INITIAL_MEMORY_SIZE);
 		StaticTextureObjectPool.AllocateFromScratch(INITIAL_MEMORY_SIZE);
 	}
 	//---------------------------------------------------------------------------
-	SCENE::~SCENE(){
-		Reset();
+	STATIC_RENDER_OBJECT::~STATIC_RENDER_OBJECT(){
 	}
 	//---------------------------------------------------------------------------
-	AT::I32 SCENE::SetVertexData(AT::I32F* v, AT::I32 index, AT::I32F x, AT::I32F y, AT::I32F z, AT::I32F r, AT::I32F g, AT::I32F b, AT::I32F a){
+	AT::I32 STATIC_RENDER_OBJECT::SetVertexData(AT::I32F* v, AT::I32 index, AT::I32F x, AT::I32F y, AT::I32F z, AT::I32F r, AT::I32F g, AT::I32F b, AT::I32F a){
 		index = index*7;
 		v[index] = x;	index++;
 		v[index] = y;	index++;
@@ -31,7 +28,7 @@ namespace AE{
 		return index;
 	}
 	//---------------------------------------------------------------------------
-	AT::I32 SCENE::SetVertexData(AT::I32F* v, AT::I32 index, AT::I32F x, AT::I32F y, AT::I32F z, AT::I32F tx, AT::I32F ty){
+	AT::I32 STATIC_RENDER_OBJECT::SetVertexData(AT::I32F* v, AT::I32 index, AT::I32F x, AT::I32F y, AT::I32F z, AT::I32F tx, AT::I32F ty){
 		index = index*5;
 		v[index] = x;	index++;
 		v[index] = y;	index++;
@@ -41,42 +38,7 @@ namespace AE{
 		return index;
 	}
 	//---------------------------------------------------------------------------
-	void SCENE::Load(){
-		Reset();
-	}
-	//---------------------------------------------------------------------------
-	void SCENE::AddStaticObject(R_OBJECT* R){
-		//--
-		StaticObject[StaticObjectCount] = R;
-		StaticObjectCount++;
-		//--		
-	}
-	//---------------------------------------------------------------------------
-	void SCENE::Reset(){
-		for(AT::I32 iObj = 0 ; iObj < StaticObjectCount ; ++iObj){
-			delete StaticObject[iObj];
-			StaticObject[iObj] = NULL;
-		}
-		StaticColorObjectPool.QuickReset();
-	}
-	//---------------------------------------------------------------------------
-	void SCENE::SetModelUniform(AT::I32 UniformModelIndex){
-		for(AT::I32 iObj = 0 ; iObj < StaticObjectCount ; ++iObj){
-			StaticObject[iObj]->m_uniformModel = UniformModelIndex;
-		}
-	}
-	//---------------------------------------------------------------------------
-	void SCENE::PreRender(){
-		RenderObjectIdx=0;
-	}
-	//---------------------------------------------------------------------------
-	void SCENE::RenderAtom(RENDERER_ABC& R){
-		R_OBJECT& Object = *StaticObject[RenderObjectIdx];
-		Object.Draw(R);
-		RenderObjectIdx++;
-	}
-	//---------------------------------------------------------------------------
-	void SCENE::SpawnCube_Quads(AT::I32F Size, AT::I32F*& VerticesData, AT::I32& VerticesCount, GLuint*& ElementsData, AT::I32& ElementsCount, const AT::I32F* ColorRGBA){
+	void STATIC_RENDER_OBJECT::SpawnCube_Quads(AT::I32F Size, AT::I32F*& VerticesData, AT::I32& VerticesCount, GLuint*& ElementsData, AT::I32& ElementsCount, const AT::I32F* ColorRGBA){
 		VerticesCount = 8; 
 		VerticesData = new AT::I32F[VerticesCount*StaticColorObjectPool.VertexMemSize];
 		AT::I32F HalfSize = Size/2.f;
@@ -107,7 +69,7 @@ namespace AE{
 		ElementsData[20] = 2;		ElementsData[21] = 1;		ElementsData[22] = 5;	ElementsData[23] = 6;
 	}
 	//---------------------------------------------------------------------------
-	void SCENE::SpawnCube_Lines(AT::I32F Size, AT::I32F*& VerticesData, AT::I32& VerticesCount, GLuint*& ElementsData, AT::I32& ElementsCount){
+	void STATIC_RENDER_OBJECT::SpawnCube_Lines(AT::I32F Size, AT::I32F*& VerticesData, AT::I32& VerticesCount, GLuint*& ElementsData, AT::I32& ElementsCount){
 		VerticesCount = 8;
 		VerticesData = new AT::I32F[VerticesCount*StaticColorObjectPool.VertexMemSize];
 		AT::I32F HalfSize = Size/2.f;

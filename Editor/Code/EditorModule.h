@@ -20,7 +20,7 @@ namespace AE{
 		EDITOR_MODE	m_ID;
 		AT::I8		m_ModuleName[64];
 		//--
-		virtual ENGINE_API_ENTRYPOINTS::API_MSG	Update(AE::ENGINE& Engine, AE::WORLD& World)=0;
+		virtual ENGINE_API_ENTRYPOINTS::API_MSG	Update(AE::ENGINE& Engine, AE::WORLD_2DGRID& World)=0;
 		virtual void							UpdateGUI(const AE::ENGINE& Engine)=0;
 		virtual void							UpdateNavBarGUI()=0;
 		//--

@@ -45,8 +45,6 @@ namespace AE{
 		void Build(AT::I32F* DataVertices, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, AT::I32 DrawMode, const AT::I8* TextureFilename=NULL);
 		void Draw(RENDERER_ABC& R);
 		//--------------------------------------
-		static R_OBJECT* CreateRObject(RENDERER_ABC& Renderer, RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax);
-		//--------------------------------------
 	protected :
 		void SetNextElementIdx(AT::I32 idx);
 	};

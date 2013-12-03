@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 //Project
 #include "Camera.h"
-#include "./World/World.h"
-#include "./Rendering/Renderer_Interface.h"
+#include "./World/2DGrid/World_2DGrid.h"
+#include "Renderer_Interface.h"
 #include "./GUI/GUI.h"
 //STD
 #include <math.h>
@@ -187,7 +187,7 @@ namespace AE{
 		m_Target.Zero();
 	}
 	//---------------------------------------------------------------------------
-	void ARCBALL_CAMERA::Update(const WORLD& W){
+	void ARCBALL_CAMERA::Update(const WORLD_ABC& W){
 		if(!m_bDirty)
 			return;
 		//--
@@ -243,11 +243,11 @@ namespace AE{
 		m_TargetToEye = AT::QUAT<AT::I32F>::RotateAngleAxis(m_TargetToEye, AT_DEG_TO_RAD(theta_in_degree), 0, 1.f, 0); //behind
 	}
 	//---------------------------------------------------------------------------
-	void ZELDA_CAMERA::Update(const WORLD& W){
+	void ZELDA_CAMERA::Update(const WORLD_ABC& W){
 		if(W.GetPlayerCount()<=0)
 			return;
 		//--
-		AT::VEC2Df Player0WorldPos = W.GetPlayerWorldPos(0);
+		AT::VEC3Df Player0WorldPos = W.GetPlayerWorldPosition(0);
 		//--
 		m_Target = AT::VEC3Df(Player0WorldPos.x, 0, Player0WorldPos.y);
 		//--

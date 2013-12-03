@@ -9,7 +9,7 @@
 //---------------------------------------------------------------------------
 namespace AE{
 	//---
-	class WORLD;
+	class WORLD_ABC;
 	//---
 	class BASE_CAMERA{
 	public:
@@ -24,7 +24,7 @@ namespace AE{
 		void		LookAt();
 		void		BuildProjMatrix(AT::I32F fovy=60.f, AT::I32F aspect=1.0, AT::I32F znear=0.01f, AT::I32F zfar=1000.f);
 		//----
-		virtual	void Update(const WORLD& W)=0;										//at end of each Renderer.Update()
+		virtual	void Update(const WORLD_ABC& W)=0;										//at end of each Renderer.Update()
 		virtual void KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown){}		//Call @ end of controller keyboard cb
 		virtual void MouseMoveCB(const CONTROLLER& C, AT::I32 X, AT::I32 Y){}		//Call @ end of mouse move cb
 		virtual void MouseScrollCB(AT::I32 DelatWheel){}							
@@ -33,7 +33,7 @@ namespace AE{
 	class CLASSIC_CAMERA:public BASE_CAMERA{
 	public :
 		//--
-		/*virtual*/	void Update(const WORLD& W){}	
+		/*virtual*/	void Update(const WORLD_ABC& W){}	
 		/*virtual*/ void KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown);
 		//--
 	};
@@ -41,7 +41,7 @@ namespace AE{
 	class ARCBALL_CAMERA:public BASE_CAMERA{
 	public:
 						 ARCBALL_CAMERA();
-		/*virtual*/	void Update(const WORLD& W);
+		/*virtual*/	void Update(const WORLD_ABC& W);
 		/*virtual*/ void MouseMoveCB(const CONTROLLER& C, AT::I32 X, AT::I32 Y);
 		/*virtual*/ void MouseScrollCB(AT::I32 DeltaWheel);
 	protected:
@@ -58,7 +58,7 @@ namespace AE{
 	public:
 						ZELDA_CAMERA();
 		//--
-		/*virtual*/	void Update(const WORLD& W);
+		/*virtual*/	void Update(const WORLD_ABC& W);
 		//--
 	protected:
 		AT::I32F	m_DistanceToPlayer;

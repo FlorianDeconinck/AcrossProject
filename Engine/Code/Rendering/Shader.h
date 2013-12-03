@@ -9,7 +9,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	class RENDERER_ABC;
 	class R_OBJECT;
-	class SCENE;
+	class STATIC_RENDER_OBJECT;
 	class SHADER_ABC{
 	protected :
 		AT::I8 m_FragmentFilename[256];
@@ -38,7 +38,7 @@ namespace AE{
 		AT::I8 /*bSuccess*/ Load(RENDERER_ABC& Renderer, AT::I8* _VertexFilename, AT::I8* _FragmentFilename, AT::I8* _GeometryFilename=NULL);
 		void Use();
 		virtual void Init(RENDERER_ABC& Renderer)=0;
-		virtual void InitObject(const SCENE& Scene, R_OBJECT& Object)=0;
+		virtual void InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object)=0;
 		virtual void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject)=0;
 		virtual void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL)=0;
 	protected :

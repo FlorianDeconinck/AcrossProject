@@ -22,7 +22,7 @@ namespace AE{
 		GLint m_viewUniform;
 		GLint m_projUniform;
 		/*virtual*/ void Init(RENDERER_ABC& Renderer);
-		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
+		/*virtual*/ void InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object);
 		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
 		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL){}
 	};
@@ -44,7 +44,7 @@ namespace AE{
 		GLint m_projUniform;
 		GLint m_uvOffsetUniform;
 		/*virtual*/ void Init(RENDERER_ABC& Renderer);
-		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
+		/*virtual*/ void InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object);
 		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
 		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL);
 	};
@@ -68,7 +68,7 @@ namespace AE{
 		GLint m_CameraEyePosUniform;
 	public :
 		/*virtual*/ void Init(RENDERER_ABC& Renderer);
-		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
+		/*virtual*/ void InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object);
 		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
 	};
 	//---------------------------------------------------------------------------
@@ -84,7 +84,7 @@ namespace AE{
 		BLUR_SHADER();
 		~BLUR_SHADER(){}
 		/*virtual*/ void DeferedInit(RENDERER_ABC& Renderer);
-		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
+		/*virtual*/ void InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object);
 		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
 		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL);
 	};
@@ -103,7 +103,7 @@ namespace AE{
 		GLfloat textCoordOffsetArray[2];
 	public : 
 		/*virtual*/ void DeferedInit(RENDERER_ABC& Renderer);
-		/*virtual*/ void InitObject(const SCENE& Scene, R_OBJECT& Object);
+		/*virtual*/ void InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object);
 		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
 		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject=NULL);
 	};

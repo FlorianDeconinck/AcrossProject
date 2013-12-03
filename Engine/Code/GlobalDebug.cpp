@@ -3,7 +3,7 @@
 	namespace AE{
 		//--
 		RENDERER_ABC*							g_pRenderer;
-		WORLD*									g_pWorld;
+		WORLD_ABC*								g_pWorld;
 		CONTROLLER*								g_pController;
 		//--
 		AT::I64F								g_PathfinderDebug_MeanProcessTime = -1.0;

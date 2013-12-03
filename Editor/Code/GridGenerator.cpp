@@ -15,8 +15,8 @@ namespace AE{
 		sprintf_s(m_HeightTxt, "32");
 	}
 	//-----------------------------------------------------------------------------
-	ENGINE_API_ENTRYPOINTS::API_MSG	GRID_GENERATOR::Update(AE::ENGINE& Engine, AE::WORLD& World){
-		return ENGINE_API_ENTRYPOINTS::NO_MSG;
+	ENGINE_API_ENTRYPOINTS::API_MSG	GRID_GENERATOR::Update(AE::ENGINE& Engine, AE::WORLD_2DGRID& World){
+		return ENGINE_API_ENTRYPOINTS::AE_API_OK;
 	}
 	//-----------------------------------------------------------------------------
 	void GRID_GENERATOR::UpdateGUI(const AE::ENGINE& Engine){

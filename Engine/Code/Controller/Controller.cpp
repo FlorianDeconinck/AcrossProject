@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 //Project
 #include "Controller.h"
-#include "../Rendering/Renderer_Interface.h"
+#include "../Renderer_Interface.h"
 #include "../Rendering/RObject.h"
 #include "../Window.h"
 #include "../GlobalDebug.h"

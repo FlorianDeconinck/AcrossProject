@@ -4,6 +4,8 @@
 //Project
 #include "AssetImporter.h"
 #include "./Resources/Translater.h"
+//Engine
+#include <World/2DGrid/World_2DGrid.h>
 //Tools
 #include <imgui.h>
 //Windows
@@ -23,7 +25,7 @@ namespace AE{
 
 	}
 	//-----------------------------------------------------------------------------
-	void ASSET_IMPORTER::Load2DSprite(AE::ENGINE& Engine, AE::WORLD& World){
+	void ASSET_IMPORTER::Load2DSprite(AE::ENGINE& Engine, AE::WORLD_2DGRID& World){
 		m_ImportStep = TRANSLATING;
 		char FilenameToWrite[128];
 		memset(FilenameToWrite, 0, 128*sizeof(char));
@@ -39,7 +41,7 @@ namespace AE{
 		m_ImportStep = PARAMETERS_TWEAKING;
 	}
 	//-----------------------------------------------------------------------------
-	void ASSET_IMPORTER::Load3DMesh(AE::ENGINE& Engine, AE::WORLD& World){
+	void ASSET_IMPORTER::Load3DMesh(AE::ENGINE& Engine, AE::WORLD_2DGRID& World){
 		m_ImportStep = TRANSLATING;
 		char FilenameToWrite[128];
 		memset(FilenameToWrite, 0, 128*sizeof(char));
@@ -58,9 +60,9 @@ namespace AE{
 		m_ImportStep = PARAMETERS_TWEAKING;
 	}
 	//-----------------------------------------------------------------------------
-	ENGINE_API_ENTRYPOINTS::API_MSG	ASSET_IMPORTER::Update(AE::ENGINE& Engine, AE::WORLD& World){ 
+	ENGINE_API_ENTRYPOINTS::API_MSG	ASSET_IMPORTER::Update(AE::ENGINE& Engine, AE::WORLD_2DGRID& World){ 
 		if(m_ImportStep== NONE)
-			return ENGINE_API_ENTRYPOINTS::NO_MSG;
+			return ENGINE_API_ENTRYPOINTS::AE_API_OK;
 		switch(m_ImportStep){
 		case LOADING:
 			break;
@@ -114,7 +116,7 @@ namespace AE{
 		default:
 			break;
 		}
-		return ENGINE_API_ENTRYPOINTS::NO_MSG; 
+		return ENGINE_API_ENTRYPOINTS::AE_API_OK; 
 	}
 	//-----------------------------------------------------------------------------
 	void ASSET_IMPORTER::UpdateGUI(const AE::ENGINE& Engine){

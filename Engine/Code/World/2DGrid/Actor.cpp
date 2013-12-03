@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "Actor.h"
-#include "../Rendering/Renderer_Interface.h"
-#include "World.h"
-#include "../AI/Pathfinder.h"
-#include "../Animation/Animator.h"
-#include "../Animation/SpriteAnimator.h"
-#include "../ResourceManager/Asset_Types.h"
+#include "World_2DGrid.h"
+#include "AI/Pathfinder.h"
+#include "Animator/SpriteAnimator.h"
+#include "Animator/Animator_Basics.h"
+#include "../../Renderer_Interface.h"
+#include "../../ResourceManager/Asset_Types.h"
 //STD
 #include <cmath>
 #include <random>
@@ -64,22 +64,16 @@ namespace AE{
 		m_BBox.Init(Grid, m_Position, 3, 3);
 	}
 	//-----------------------------------------------------------------------------
-	void ACTOR_ABC::Draw(const WORLD& W, RENDERER_ABC& R, AT::I32F TileSize){
-		//------
+	void ACTOR_ABC::Animate(const WORLD_2DGRID& World){
 		//Update animation
-		m_pAnimator->Update(W, *this, ANIMATOR_ABC::WALK);
-		//------
-		//Draw
-		for(AT::I32 iRO = 0 ; iRO < m_MeshsCount ; iRO++){
-			m_Meshs[iRO]->Draw(R);
-		}
+		m_pAnimator->Update(World, *this, ANIMATOR_ABC<WORLD_2DGRID, ACTOR_ABC>::WALK);
 	}
 	//-----------------------------------------------------------------------------
 	AT::I8 ACTOR_ABC::IsWithinBorders(const GRID& Grid, const AT::VEC2Di& Pos) const { 
 		return Pos.x-m_BBox.m_HalfWidth >= 0 &&  Pos.x+m_BBox.m_HalfWidth < Grid.m_nMapWidth && Pos.y-m_BBox.m_HalfHeight >= 0 && Pos.y+m_BBox.m_HalfHeight < Grid.m_nMapHeight; 
 	}
 	//-----------------------------------------------------------------------------
-	void ACTOR_ABC::SetAnimatorModule(ANIMATOR_ABC* pAnimator){
+	void ACTOR_ABC::SetAnimatorModule(ANIMATOR_2D_GRID* pAnimator){
 		m_pAnimator = pAnimator; m_pAnimator->PopulateAnimationDictionnary(); 
 	}
 	//-----------------------------------------------------------------------------
@@ -88,12 +82,12 @@ namespace AE{
 	NPC::NPC():m_Destination(0, 0),m_NextMove(0,0),m_sizePath(0),m_iPath(0){
 		m_bRecomputePath = false;
 		//Configuration of ANIMATOR
-		SetAnimatorModule((ANIMATOR_ABC*)new DEFAULT_ANIMATOR());
+		SetAnimatorModule((ANIMATOR_2D_GRID*)new DEFAULT_ANIMATOR());
 	}
 	//-----------------------------------------------------------------------------
-	void NPC::Init(WORLD& World, const AT::I8* sResourceName){
+	void NPC::Init(WORLD_2DGRID& World, const AT::I8* sResourceName){
 		AT::VEC3Df Min,Max;
-		m_Meshs[0] = R_OBJECT::CreateRObject(World.GetRenderer(), World.GetResourceManager(), sResourceName, Min, Max);
+		m_Meshs[0] = World.GetRenderer().CreateRObject(World.GetResourceManager(), sResourceName, Min, Max);
 		AT::I32 HalfWidth = (AT::I32)((Max.x - Min.x)/(2*World.GetTileSize()));
 		AT::I32 HalfHeight = (AT::I32)((Max.z - Min.z)/(2*World.GetTileSize()));
 		m_BBox.Init(World, m_Position, HalfWidth, HalfHeight);
@@ -190,7 +184,7 @@ namespace AE{
 		m_DirectonInput.Set(0, 0);
 		m_Position.Set(0, 0);
 		//Configure animator
-		SetAnimatorModule((ANIMATOR_ABC*)new SPRITE_ANIMATOR());
+		SetAnimatorModule((ANIMATOR_2D_GRID*)new SPRITE_ANIMATOR());
 	}
 	//-----------------------------------------------------------------------------
 	void PLAYER::LoadDefaultMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA/*=NULL*/){
@@ -201,10 +195,10 @@ namespace AE{
 		AT::I32F* VerticesData = new AT::I32F[VerticesCount*R.GetScene().GetTextureVertexSize()];
 		AT::I32F  HalfSize = 0.3f;
 		AT::I32F  Height = 1.f;
-		SCENE::SetVertexData(VerticesData, 0,		 -HalfSize,		0.f, 0.05f,			 0, 0.125f);		//0,1
-		SCENE::SetVertexData(VerticesData, 1,			HalfSize,		0.f, 0.05f, 0.083f, 0.125f);		//1,1
-		SCENE::SetVertexData(VerticesData, 2,			HalfSize,		1.f, 0.05f, 0.083f, 0);					//1,0
-		SCENE::SetVertexData(VerticesData, 3,		 -HalfSize,		1.f, 0.05f,			 0, 0);					//0,0
+		STATIC_RENDER_OBJECT::SetVertexData(VerticesData, 0,		 -HalfSize,		0.f, 0.05f,			 0, 0.125f);		//0,1
+		STATIC_RENDER_OBJECT::SetVertexData(VerticesData, 1,			HalfSize,		0.f, 0.05f, 0.083f, 0.125f);		//1,1
+		STATIC_RENDER_OBJECT::SetVertexData(VerticesData, 2,			HalfSize,		1.f, 0.05f, 0.083f, 0);					//1,0
+		STATIC_RENDER_OBJECT::SetVertexData(VerticesData, 3,		 -HalfSize,		1.f, 0.05f,			 0, 0);					//0,0
 		m_Meshs[0] = new R_OBJECT();
 		m_Meshs[0]->Build(VerticesData, VerticesCount, NULL, 0, R.GetScene().GetStaticTextureObjectPool(), GL_STREAM_DRAW, "CharacterSheet/Alex.png", false, false);
 		m_Meshs[0]->m_trfModel.SetT(0.f, 0.f, 0.f);

@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //Project
 #include "GUI.h"
-#include "../Rendering/Renderer_Interface.h"
+#include "../Renderer_Interface.h"
 #include "../Controller/Controller.h"
 //Tool
 #include <imgui.h>
@@ -24,7 +24,7 @@ namespace AE{
 		imguiRenderGLDestroy();
 	}
 	//-----------------------------------------------------------------------------
-	void GUI::Update(CONTROLLER& C, OPENGL_RENDERER& R, WORLD& W){
+	void GUI::Update(CONTROLLER& C, OPENGL_RENDERER& R, WORLD_ABC& W){
 		if(!m_bDraw)
 			return;
 		//Convert mouse button into ImGUI

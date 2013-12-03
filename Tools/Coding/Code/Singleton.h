@@ -8,15 +8,15 @@ namespace AT{
 	public:
 		//------------------------------------------------------------------------
 		static T *getInstance(){
-			if (NULL == _singleton)
+			if (!_singleton)
 				_singleton = new T;
 			return (static_cast<T*> (_singleton));
 		}
 		//------------------------------------------------------------------------
 		static void kill(){
-			if (NULL != _singleton){
+			if (_singleton){
 				delete _singleton;
-				_singleton = NULL;
+				_singleton = 0;
 			}
 		}
 		//------------------------------------------------------------------------
@@ -24,7 +24,7 @@ namespace AT{
 		static T *_singleton;
 	};
 	//-----------------------------------------------------------------------------
-	template <typename T> T *SINGLETON<T>::_singleton = NULL;
+	template <typename T> T *SINGLETON<T>::_singleton = 0;
 	//-----------------------------------------------------------------------------
 }//namespace AT
 //-----------------------------------------------------------------------------

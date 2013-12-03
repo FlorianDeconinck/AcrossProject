@@ -1,12 +1,12 @@
 //---------------
 //Project
-#include "World.h"
+#include "World_2DGrid.h"
 #include "Actor.h"
-#include "../Rendering/Renderer_Interface.h"
-#include "../ResourceManager/Manager_Interface.h"
-#include "../Controller/Controller.h"
-#include "../Rendering/RObject.h"
-#include "../Rendering/Shaders.h"
+#include "../../Renderer_Interface.h"
+#include "../../Manager_Interface.h"
+#include "../../Controller/Controller.h"
+#include "../../Rendering/RObject.h"
+#include "../../Rendering/Shaders.h"
 //Tools
 #include <CodeTools.h>
 #include "Vec3D.h"
@@ -52,7 +52,7 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	//WORLD
 	//---------------------------------------------------------------------------
-	WORLD::WORLD(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Players(NULL),m_ElapsedTimeSinceLastUpdate_ms(0),m_DynamicAllocator(102400000){
+	WORLD_2DGRID::WORLD_2DGRID(AT::I32F _TileSize/*=0.1f*/):m_TileSize(_TileSize),m_Players(NULL),m_ElapsedTimeSinceLastUpdate_ms(0),m_DynamicAllocator(102400000){
 		m_sWorldDBFilename[0]='\0';
 		m_TileSize = 0.1f;
 #ifdef _DEBUG
@@ -61,11 +61,11 @@ namespace AE{
 #endif
 	}
 	//---------------------------------------------------------------------------
-	WORLD::~WORLD(){
+	WORLD_2DGRID::~WORLD_2DGRID(){
 
 	}
 	//---------------------------------------------------------------------------
-	void WORLD::LoadGridFromFile(const AT::I8* Filename){
+	void WORLD_2DGRID::LoadGridFromFile(const AT::I8* Filename){
 		LoadFromFile(Filename);
 #ifdef _DEBUG
 		//Load display debug for grid
@@ -74,7 +74,7 @@ namespace AE{
 	}
 	//---------------------------------------------------------------------------
 #ifdef _DEBUG
-	void WORLD::DebugRendererLoad(RENDERER_ABC* pRenderer){
+	void WORLD_2DGRID::DebugRendererLoad(RENDERER_ABC* pRenderer){
 		AT::I32F* pColor;
 		AT::I32F Red[] = {0.8f, 0.f, 0.f, 0.8f};
 		AT::I32F Green[] = {0.f, 0.8f, 0.f, 0.8f};
@@ -91,13 +91,13 @@ namespace AE{
 				AT::I32F TextX = iW/(AT::I32F)(m_nMapWidth-1);
 				AT::I32F TextY = iH/(AT::I32F)(m_nMapHeight-1);
 				//One tile
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,	pColor[0], pColor[1], pColor[2], pColor[3]);
 				Idx++;
 			}
 		}
@@ -120,24 +120,24 @@ namespace AE{
 				AT::I32F TextX = iW/(AT::I32F)(m_nMapWidth-1);
 				AT::I32F TextY = iH/(AT::I32F)(m_nMapHeight-1);
 				//One tile
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
-				Idx++;
-				//--
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
-				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
 				//--
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,	0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
 				//--
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
-				SCENE::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)iW*m_TileSize,	 yOffset, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				//--
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)iH*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
+				Idx++;
+				STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, (AT::I32F)(iW+1)*m_TileSize, yOffset, (AT::I32F)(iH+1)*m_TileSize,		0.2f, 0.2f, 0.2f, 0.8f);
 				Idx++;
 			}
 		}
@@ -147,15 +147,15 @@ namespace AE{
 		GridVertices = new AT::I32F[VerticesCount*pRenderer->GetScene().GetColorVertexSize()];
 		Idx = 0;
 		for(AT::I32 iW = 0  ; iW <= m_nMapWidth ; iW++){
-			SCENE::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, 0.f, 0.f, 0.f, 0.f, 0.8f);
+			STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, 0.f, 0.f, 0.f, 0.f, 0.8f);
 			Idx++;
-			SCENE::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, m_nMapHeight*m_TileSize, 0.2f, 0.2f, 0.2f, 0.8f);
+			STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, iW*m_TileSize, 0.f, m_nMapHeight*m_TileSize, 0.2f, 0.2f, 0.2f, 0.8f);
 			Idx++;
 		}
 		for(AT::I32 iH = 0  ; iH <= m_nMapHeight ; iH++){
-			SCENE::SetVertexData(GridVertices, Idx, 0.f, 0.f, iH*m_TileSize, 0.f, 0.f, 0.f, 1.f);
+			STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, 0.f, 0.f, iH*m_TileSize, 0.f, 0.f, 0.f, 1.f);
 			Idx++;
-			SCENE::SetVertexData(GridVertices, Idx, m_nMapWidth*m_TileSize, 0.f, iH*m_TileSize, 0.2f, 0.2f, 0.2f, 0.8f);
+			STATIC_RENDER_OBJECT::SetVertexData(GridVertices, Idx, m_nMapWidth*m_TileSize, 0.f, iH*m_TileSize, 0.2f, 0.2f, 0.2f, 0.8f);
 			Idx++;
 		}
 # endif
@@ -170,7 +170,15 @@ namespace AE{
 	}
 #endif
 	//---------------------------------------------------------------------------
-	void WORLD::Init(const AT::I8* sWorldDBFilename, RENDERER_ABC* pRenderer, RESOURCE_MANAGER_ABC* pResourceManager){
+	void WORLD_2DGRID::UpdatePreRender(){
+		//Update animations
+		for(AT::U32 iNpc = 0 ; iNpc < m_NPCArrays.size() ; iNpc++)
+			m_NPCArrays[iNpc]->Animate(*this);
+		for(AT::U32 iPlayer = 0 ; iPlayer < m_Players.size() ; iPlayer++)
+			m_Players[iPlayer]->Animate(*this);
+	}		
+	//---------------------------------------------------------------------------
+	void WORLD_2DGRID::Init(const AT::I8* sWorldDBFilename, RENDERER_ABC* pRenderer, RESOURCE_MANAGER_ABC* pResourceManager){
 		m_pRenderer = pRenderer;
 		m_pResourceManager = pResourceManager;
 		if(sWorldDBFilename)
@@ -178,7 +186,7 @@ namespace AE{
 		m_pResourceManager->InitResourceDB(m_sWorldDBFilename);
 	}
 	//---------------------------------------------------------------------------
-	void WORLD::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
+	void WORLD_2DGRID::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
 		m_ElapsedTimeSinceLastUpdate_ms = (AT::I32F)elapsedTime_ms;
 		//Update NPC
 		AT::I32 NpcCount = m_NPCArrays.size();
@@ -196,20 +204,8 @@ namespace AE{
 			Player.Update(*this, elapsedTime_ms, m_TileSize);
 		}
 	}
-	//--------------------------------------------------------------------------
-	void WORLD::RenderNPC(RENDERER_ABC& R, AT::I32 NPCIdx){
-		NPC& Npc = *m_NPCArrays[NPCIdx];
-		Npc.Draw(*this, R, m_TileSize);
-		GL_TOOL::CheckGLError();
-	}
-	//--------------------------------------------------------------------------
-	void WORLD::RenderPlayer(RENDERER_ABC& R, AT::I32 PlayerIdx){
-		m_Players[PlayerIdx]->Draw(*this, R, m_TileSize);
-		GL_TOOL::CheckGLError();
-	}
-	//--------------------------------------------------------------------------
 #ifdef _DEBUG
-	void WORLD::DebugDraw(RENDERER_ABC& R){
+	void WORLD_2DGRID::DebugDraw(RENDERER_ABC& R){
 		if(!R.m_bDrawDebug)
 			return;
 		if(m_pRGridLines && m_pRGridQuad){
@@ -267,7 +263,7 @@ namespace AE{
 	//--------------------------------------------------------------------------
 	// WORLD : Game interface
 	//--------------------------------------------------------------------------
-	NPC* WORLD::SpawnNPC(const AT::I8* sResourceName/*=NULL*/, const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
+	NPC* WORLD_2DGRID::SpawnNPC(const AT::I8* sResourceName/*=NULL*/, const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/, const AT::I32F* ColorRGBA/*=NULL*/){
 		NPC* pNpc0 = (NPC*)m_DynamicAllocator.alloc(sizeof(NPC));
 		pNpc0 = new(pNpc0)NPC();
 		if(!sResourceName)
@@ -285,7 +281,7 @@ namespace AE{
 		return pNpc0;
 	}
 	//---------------------------------------------------------------------------
-	AT::I8 WORLD::SpawnPlayer(const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/){
+	AT::I8 WORLD_2DGRID::SpawnPlayer(const AT::VEC2Di& Position/*=AT::VEC2Di(0,0)*/){
 		PLAYER* pPlayer = new PLAYER();
 		pPlayer->LoadDefaultMeshs(*this, *m_pRenderer);
 		if(!pPlayer->IsCollisionFree(*this, Position)){
@@ -298,7 +294,7 @@ namespace AE{
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	void WORLD::LoadLevel(const AT::I8* sLevelName){
+	void WORLD_2DGRID::LoadLevel(const AT::I8* sLevelName){
 		//--
 		pugi::xml_document doc;
 		std::ifstream stream(m_sWorldDBFilename);
@@ -333,7 +329,7 @@ namespace AE{
 		}
 	}
 	//---------------------------------------------------------------------------
-	void WORLD::SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S){
+	void WORLD_2DGRID::SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S){
 		SetTile(tilePos.x, tilePos.y, S);
 	}
 	//---------------------------------------------------------------------------

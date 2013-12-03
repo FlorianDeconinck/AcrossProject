@@ -2,7 +2,8 @@
 #pragma once
 //---------------------------------------------------------------------------
 //Engine
-#include "../Rendering/RObject.h"
+#include "../../Rendering/RObject.h"
+#include "../../Animation/Animator_Interface.h"
 #include "GridBBox.h"
 //Tools
 #include "Vec2D.h"
@@ -11,8 +12,10 @@
 namespace AE{
 	class RENDERER_ABC;
 	class GRID;
-	class ANIMATOR_ABC;
-	class WORLD;
+	class WORLD_2DGRID;
+	//---------------------------------------------------------------------------
+	class ACTOR_ABC;
+	typedef ANIMATOR_ABC<WORLD_2DGRID, ACTOR_ABC> ANIMATOR_2D_GRID;
 	//---------------------------------------------------------------------------
 	class ACTOR_ABC{
 		friend class DEFAULT_ANIMATOR;
@@ -22,10 +25,10 @@ namespace AE{
 								ACTOR_ABC();
 		virtual					~ACTOR_ABC();
 		//---
-		void					Draw(const WORLD& W, RENDERER_ABC& R, AT::I32F TileSize);
+		void					Animate(const WORLD_2DGRID& W);
 		void					LoadDefaultMeshs(GRID& Grid, RENDERER_ABC& R, const AT::I32F* ColorRGBA=NULL);
 		AT::I8					IsWithinBorders(const GRID& Grid, const AT::VEC2Di& Pos) const;
-		void					SetAnimatorModule(ANIMATOR_ABC* pAnimator);
+		void					SetAnimatorModule(ANIMATOR_2D_GRID* pAnimator);
 		//---
 		inline R_OBJECT**		GetRenderingObjects(AT::I32& MeshsCount)										const	{ MeshsCount = m_MeshsCount ; return (R_OBJECT**)m_Meshs; }
 		inline AT::I8			IsCollisionFreeFromSelf(const GRID& Grid, const AT::VEC2Di& PosToTest)			const	{ return m_BBox.IsCollisionFree(Grid, m_Position, PosToTest); }
@@ -79,7 +82,7 @@ namespace AE{
 		AT::VEC2Di				m_LastPosition;
 		//---
 	private :
-		ANIMATOR_ABC*			m_pAnimator;
+		ANIMATOR_2D_GRID*		m_pAnimator;
 	public:
 #ifdef _DEBUG
 		AT::I8					m_bDebugPathfind;
@@ -90,7 +93,7 @@ namespace AE{
 	public:
 								NPC();
 		//---
-		void					Init(WORLD& World, const AT::I8* sResourceName);
+		void					Init(WORLD_2DGRID& World, const AT::I8* sResourceName);
 		/*virtual*/ void		Update(GRID& Grid, AT::I64F elapsedTime_ms, AT::I32F tileSize);
 		inline /*virtual*/ void	SetPosition(GRID& Grid, AT::I32 X, AT::I32 Y){ m_BBox.UpdateGridOccupation(Grid, m_Position, AT::VEC2Di(X, Y)) ; m_Position.x = m_NextMove.x = X; m_Position.y = m_NextMove.y = Y; }
 		inline /*virtual*/ void	SetPosition(GRID& Grid, const AT::VEC2Di& NewPosition){ m_BBox.UpdateGridOccupation(Grid, m_Position, NewPosition); m_Position = m_NextMove = NewPosition; }
