@@ -78,9 +78,6 @@ namespace AE{
 		// Log compilation results
 		char LogBuffer[512];
 		glGetShaderInfoLog(Shader, 512, NULL, LogBuffer); 
-		if(strcmp(LogBuffer,"")){
-			Break();
-		}
 		std::cout << LogBuffer <<std::endl;
 		delete buffer;
 
