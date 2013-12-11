@@ -113,6 +113,8 @@
     <ClInclude Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.h" />
     <ClInclude Include="..\..\Code\World\2DGrid\GridBBox.h" />
     <ClInclude Include="..\..\Code\World\2DGrid\World_2DGrid.h" />
+    <ClInclude Include="..\..\Code\World\3DGrid\GameObject.h" />
+    <ClInclude Include="..\..\Code\World\3DGrid\World_3DGrid.h" />
     <ClInclude Include="..\..\Code\World\StaticRenderObject.h" />
     <ClInclude Include="..\..\Code\World_Interface.h" />
     <ClInclude Include="..\..\External\pugixml.1.2\src\pugiconfig.hpp" />
@@ -137,6 +139,8 @@
     <ClCompile Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.cpp" />
     <ClCompile Include="..\..\Code\World\2DGrid\GridBBox.cpp" />
     <ClCompile Include="..\..\Code\World\2DGrid\World_2DGrid.cpp" />
+    <ClCompile Include="..\..\Code\World\3DGrid\GameObject.cpp" />
+    <ClCompile Include="..\..\Code\World\3DGrid\World_3DGrid.cpp" />
     <ClCompile Include="..\..\Code\World\StaticRenderObject.cpp" />
     <ClCompile Include="..\..\External\pugixml.1.2\src\pugixml.cpp" />
   </ItemGroup>

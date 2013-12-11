@@ -37,6 +37,9 @@
     <Filter Include="World\2DGrid\Animator">
       <UniqueIdentifier>{1d56835f-7f11-443e-9b02-6d9a9caaa60c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World\3DGrid">
+      <UniqueIdentifier>{d78a0810-76b3-401a-855f-ef99a7f4e320}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\Camera.h" />
@@ -110,6 +113,12 @@
     <ClInclude Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.h">
       <Filter>World\2DGrid\Animator</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Code\World\3DGrid\World_3DGrid.h">
+      <Filter>World\3DGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\3DGrid\GameObject.h">
+      <Filter>World\3DGrid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Camera.cpp" />
@@ -161,6 +170,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.cpp">
       <Filter>World\2DGrid\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\3DGrid\World_3DGrid.cpp">
+      <Filter>World\3DGrid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\3DGrid\GameObject.cpp">
+      <Filter>World\3DGrid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

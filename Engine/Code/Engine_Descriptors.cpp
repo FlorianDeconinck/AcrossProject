@@ -5,6 +5,7 @@
 //Modules
 #include "./Rendering/OpenGL_Renderer.h"
 #include "./World/2DGrid/World_2DGrid.h"
+#include "./World/3DGrid/World_3DGrid.h"
 #include "./ResourceManager/XMLStaticResourceManager.h"
 //---------------------------------------------------------------------------
 namespace AE{
@@ -38,6 +39,9 @@ namespace AE{
 		switch (WorldModule){
 			case GRID_2D:
 				pEngine->m_pWorld = WORLD_2DGRID::getInstance();
+				break;
+			case GRID_3D:
+				pEngine->m_pWorld = WORLD_3DGRID::getInstance();
 				break;
 			default:
 				AEMsg = ENGINE::AE_ERROR_ENGINE_MODULE_INIT;
