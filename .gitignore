@@ -55,3 +55,12 @@ App/OpenGL-XML-Grid2D/Game/Out/Debug/glew32.dll
 App/OpenGL-XML-Grid2D/Game/Out/Release/Assimp32.dll
 App/OpenGL-XML-Grid2D/Game/Out/Release/DevIL.dll
 App/OpenGL-XML-Grid2D/Game/Out/Release/glew32.dll
+App/OpenGL-XML-Grid3D/Editor/Out/Debug/Assimp32d.dll
+App/OpenGL-XML-Grid3D/Editor/Out/Debug/DevIL.dll
+App/OpenGL-XML-Grid3D/Editor/Out/Debug/Editor.exe
+App/OpenGL-XML-Grid3D/Editor/Out/Debug/glew32.dll
+App/OpenGL-XML-Grid3D/Game/Out/Debug/DevIL.dll
+App/OpenGL-XML-Grid3D/Game/Out/Debug/Game.exe
+App/OpenGL-XML-Grid3D/Game/Out/Debug/glew32.dll
+App/OpenGL-XML-Grid3D/Game/Out/Release/DevIL.dll
+App/OpenGL-XML-Grid3D/Game/Out/Release/glew32.dll
