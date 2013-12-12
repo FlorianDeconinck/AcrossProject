@@ -131,6 +131,12 @@
     <ClInclude Include="..\..\Code\Rendering\DeferredRendering\DeferredRendering.h">
       <Filter>Rendering\DeferredRendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\Light.h">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\SpotLight.h">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Camera.cpp" />
@@ -195,6 +201,12 @@
     <ClCompile Include="..\..\Code\Rendering\DeferredRendering\DeferredRendering.cpp">
       <Filter>Rendering\DeferredRendering</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\Light.cpp">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\SpotLight.cpp">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Code\Rendering\Shaders_GLSL\blur.fs">
@@ -231,6 +243,12 @@
       <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass.vs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Spot.fs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Spot.vs">
       <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
   </ItemGroup>

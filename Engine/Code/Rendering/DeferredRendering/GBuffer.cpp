@@ -18,6 +18,8 @@ namespace AE{
 		for (AT::I32 iTex = 0; iTex < GBUFFER_TEXTURES_COUNT; iTex++) {
 			glBindTexture(GL_TEXTURE_2D, m_textures[iTex]);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, WinWidth, WinHeight, 0, GL_RGB, GL_FLOAT, NULL);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + iTex, GL_TEXTURE_2D, m_textures[iTex], 0);
 		}
 		//Depth
@@ -44,7 +46,15 @@ namespace AE{
 	}
 	//-----------------------------------------------------------------------------
 	void GBUFFER::BindToRead(){
+#if CHECK_GEOMETRY_PASS()
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_fbo);
+#else
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		for (AT::U32 i = 0; i < GBUFFER_TEXTURES_COUNT-1; i++) {
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, m_textures[GBUFFER_TEXTURES_POSITION + i]);
+		}
+#endif
 	}
 	//-----------------------------------------------------------------------------
 	void GBUFFER::Read(GBUFFER_TEXTURES TexID){

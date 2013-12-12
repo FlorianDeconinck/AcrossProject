@@ -7,6 +7,8 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 //-----------------------------------------------------------------------------
+#define CHECK_GEOMETRY_PASS() 0
+//-----------------------------------------------------------------------------
 namespace AE{
 	struct GBUFFER{
 		enum GBUFFER_TEXTURES{

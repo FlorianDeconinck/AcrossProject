@@ -202,6 +202,10 @@ namespace AE{
 			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_TexShader;
 			m_ShaderAttachedCount++;
 		}
+		if (m_DeferredRenderer.m_LightShaderSpot.Load(*this, "../DeferredRendering/GLSL/LightPass_Spot.vs", "../DeferredRendering/GLSL/LightPass_Spot.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_LightShaderSpot;
+			m_ShaderAttachedCount++;
+		}
 		//Enable test
 		glEnable( GL_DEPTH_TEST );
 		//Camera
@@ -244,6 +248,8 @@ namespace AE{
 		//--
 		if (m_Mode == DEFERRED)
 			m_DeferredRenderer.Init();
+		//--
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_SPOT, AT::VEC3Df(0, 4.f, 0), 5.f);
 		//--
 		return m_Status != OPENGL_RENDERER::BUILD_ERROR;
 	}
