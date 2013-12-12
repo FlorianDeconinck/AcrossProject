@@ -17,6 +17,8 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 		m_colAttrib = glGetAttribLocation(m_Program, "vertex_color");
 		GL_TOOL::CheckGLError();
+		m_norAttrib = glGetAttribLocation(m_Program, "in_normal");
+		GL_TOOL::CheckGLError();
 		m_viewUniform = glGetUniformLocation(m_Program, "in_view");
 		GL_TOOL::CheckGLError();
 		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
@@ -27,9 +29,12 @@ namespace AE{
 		Use();
 		glBindVertexArray(Object.m_vao);
 		glEnableVertexAttribArray(m_posAttrib);
-		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, Scene.GetColorVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetColorPositionOffset()*sizeof(AT::I32F)));
+		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, 10*sizeof(AT::I32F), (void*)(0*sizeof(AT::I32F)));
 		glEnableVertexAttribArray(m_colAttrib);
-		glVertexAttribPointer(m_colAttrib, 4, GL_FLOAT, GL_FALSE, Scene.GetColorVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetColorOffset()*sizeof(AT::I32F)));
+		glVertexAttribPointer(m_colAttrib, 4, GL_FLOAT, GL_FALSE, 10*sizeof(AT::I32F), (void*)(3*sizeof(AT::I32F)));
+		glEnableVertexAttribArray(m_posAttrib);
+		glVertexAttribPointer(m_norAttrib, 3, GL_FLOAT, GL_FALSE, 10*sizeof(AT::I32F), (void*)(7*sizeof(AT::I32F)));
+		glEnableVertexAttribArray(m_norAttrib);
 		Object.m_uniformModel = glGetUniformLocation(m_Program, "in_model");
 		GL_TOOL::CheckGLError();
 	}
@@ -50,6 +55,8 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 		m_texAttrib = glGetAttribLocation(m_Program, "in_texels");
 		GL_TOOL::CheckGLError();
+		m_norAttrib = glGetAttribLocation(m_Program, "in_normal");
+		GL_TOOL::CheckGLError();
 		m_viewUniform = glGetUniformLocation(m_Program, "in_view");
 		GL_TOOL::CheckGLError();
 		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
@@ -62,9 +69,11 @@ namespace AE{
 		Use();
 		glBindVertexArray(Object.m_vao);
 		glEnableVertexAttribArray(m_posAttrib);
-		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, Scene.GetTextureVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetTexturePositionOffset()*sizeof(AT::I32F)));
+		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, 8*sizeof(AT::I32F), (void*)(0*sizeof(AT::I32F)));
 		glEnableVertexAttribArray(m_texAttrib);
-		glVertexAttribPointer(m_texAttrib, 2, GL_FLOAT, GL_FALSE, Scene.GetTextureVertexSize()*sizeof(AT::I32F), (void*)(Scene.GetTextureOffset()*sizeof(AT::I32F)));
+		glVertexAttribPointer(m_texAttrib, 2, GL_FLOAT, GL_FALSE, 8*sizeof(AT::I32F), (void*)(3*sizeof(AT::I32F)));
+		glEnableVertexAttribArray(m_norAttrib);
+		glVertexAttribPointer(m_norAttrib, 3, GL_FLOAT, GL_FALSE, 8*sizeof(AT::I32F), (void*)(5*sizeof(AT::I32F)));
 		Object.m_uniformModel = glGetUniformLocation(m_Program, "in_model");
 		GL_TOOL::CheckGLError();
 	}

@@ -64,10 +64,14 @@ namespace AE{
 		//--
 		if(nUV==1){
 			for(AT::U32 iVert = 0 ; iVert < Mesh.mNumVertices ; ++iVert){
+				//-- Pos --
 				fwrite((void*)&Mesh.mVertices[iVert], 3*sizeof(Mesh.mVertices[0].x), 1, pFileEngine);
+				//-- Texel --
 				fwrite((void*)&Mesh.mTextureCoords[nUV-1][iVert].x, sizeof(Mesh.mTextureCoords[nUV-1][0].x), 1, pFileEngine);
 				AT::I32F y = 1-Mesh.mTextureCoords[nUV-1][iVert].y;
 				fwrite((void*)&y, sizeof(Mesh.mTextureCoords[nUV-1][0].x), 1, pFileEngine);
+				//-- Normal --
+				fwrite((void*)&Mesh.mNormals[iVert], 3*sizeof(Mesh.mNormals[0].x), 1, pFileEngine);
 			}
 		}else if(nUV!=0){
 			assert(false);
@@ -77,6 +81,7 @@ namespace AE{
 			for(AT::U32 iVert = 0 ; iVert < Mesh.mNumVertices ; ++iVert){
 				fwrite((void*)&Mesh.mVertices[iVert], 3*sizeof(Mesh.mVertices[0].x), 1, pFileEngine);
 				fwrite(Color, 4*sizeof(Color[0]), 1, pFileEngine);
+				fwrite((void*)&Mesh.mNormals[iVert], 3*sizeof(Mesh.mNormals[0].x), 1, pFileEngine);
 			}
 		}
 	}

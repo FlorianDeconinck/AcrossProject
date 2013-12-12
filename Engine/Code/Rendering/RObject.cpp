@@ -118,7 +118,7 @@ namespace AE{
 		m_trfModel.Identity();
 	}
 	//---------------------------------------------------------------------------
-	void R_OBJECT::Build(AT::I32F* DataVertices, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, AT::I32 DrawMode, const AT::I8* TextureFilename/*=NULL*/){
+	void R_OBJECT::Build(AT::I32 pixelInformationLength, AT::I32F* DataVertices, AT::I32 VerticesCount, GLuint* DataElements, AT::I32 ElementsCount, AT::I32 DrawMode, const AT::I8* TextureFilename/*=NULL*/){
 		m_Elements = DataElements;
 		m_ElementsIndexCount = ElementsCount;
 		m_VerticesCount = VerticesCount;
@@ -130,7 +130,7 @@ namespace AE{
 		//VBO
 		glGenBuffers(1, &m_vbo); 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-		glBufferData(GL_ARRAY_BUFFER, VerticesCount*7*sizeof(AT::I32F), DataVertices, DrawMode);
+		glBufferData(GL_ARRAY_BUFFER, VerticesCount*pixelInformationLength*sizeof(AT::I32F), DataVertices, DrawMode);
 		GL_TOOL::CheckGLError();
 		if(ElementsCount){
 			glGenBuffers(1, &m_ebo);

@@ -3,6 +3,7 @@
 //Engine
 #include "Shaders.h"
 #include "../Renderer_Interface.h"
+#include "./DeferredRendering/DeferredRendering.h"
 //AT
 #include <AcrossTypes.h>
 #include <Singleton.h>
@@ -31,15 +32,23 @@ namespace AE{
 			STATUS_COUNT,
 		};
 		//----------------------------
+		enum MODE{
+			FORWARD=0,
+			DEFERRED,
+			MODE_COUNT
+		};
+		//----------------------------
 	private:
-		HGLRC						m_hGLRC;
-		GLuint						m_frameBuffer;
-		GLuint						m_rboDepthStencil;
-		AT::I8						m_bVSync;
+		HGLRC				m_hGLRC;
+		GLuint				m_frameBuffer;
+		GLuint				m_rboDepthStencil;
+		AT::I8				m_bVSync;
+		DEFERRED_RENDERER	m_DeferredRenderer;
 	public:
 		STATUS				m_Status;
 		GLuint				m_texScreenShaderColorBuffer;
 		AT::I32				m_iPostProcess; //0 : nothin - 1 : blur - 2 :fxaa
+		MODE				m_Mode;
 		//--
 		COLOR_SHADER		m_ColorShader;
 		TEXTURE_SHADER		m_TextureShader;
