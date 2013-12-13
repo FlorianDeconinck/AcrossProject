@@ -1,6 +1,7 @@
 #version 150
 
 in vec2 vs_texels;
+in vec3 vs_normal;
 
 out vec4 outColor;
 

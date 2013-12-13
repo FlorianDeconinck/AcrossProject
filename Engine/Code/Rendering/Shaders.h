@@ -9,15 +9,17 @@
 namespace AE{
 	//---------------------------------------------------------------------------
 	/*USAGE
-	VERTEX SHADER : (8 float)
+	VERTEX SHADER : (10 float)
 			position	: 3 first float of VBO
-			color		: 3 next float of VBO
+			color		: 4 next float of VBO
+			normal      : 3 next float of VBO
 	FRAGMENT SHADER (no attrib)
 	*/
 	class COLOR_SHADER:public SHADER_ABC{
 	protected :
 		GLint m_posAttrib;
 		GLint m_colAttrib;
+		GLint m_norAttrib;
 	public : 
 		GLint m_viewUniform;
 		GLint m_projUniform;
@@ -31,6 +33,7 @@ namespace AE{
 	VERTEX SHADER : (8 float)
 			position	: 3 first float of VBO
 			texels		: 2 next float of VBO
+			normal      : 3 next float of VBO
 	FRAGMENT SHADER ( )
 			uvOffset    : 2 float added to texel coordinates
 	*/
@@ -38,7 +41,7 @@ namespace AE{
 	protected :
 		GLint m_posAttrib;
 		GLint m_texAttrib;
-
+		GLint m_norAttrib;
 	public : 
 		GLint m_viewUniform;
 		GLint m_projUniform;

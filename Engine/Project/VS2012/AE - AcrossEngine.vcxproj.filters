@@ -37,6 +37,15 @@
     <Filter Include="World\2DGrid\Animator">
       <UniqueIdentifier>{1d56835f-7f11-443e-9b02-6d9a9caaa60c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World\3DGrid">
+      <UniqueIdentifier>{d78a0810-76b3-401a-855f-ef99a7f4e320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\DeferredRendering">
+      <UniqueIdentifier>{87ab6f0b-67fa-4227-b211-2ac399d8d580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\DeferredRendering\GLSL">
+      <UniqueIdentifier>{6034f12d-f5d8-42a8-affd-d123794bda98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Code\Camera.h" />
@@ -110,6 +119,24 @@
     <ClInclude Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.h">
       <Filter>World\2DGrid\Animator</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Code\World\3DGrid\World_3DGrid.h">
+      <Filter>World\3DGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\World\3DGrid\GameObject.h">
+      <Filter>World\3DGrid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\GBuffer.h">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\DeferredRendering.h">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\Light.h">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\SpotLight.h">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Camera.cpp" />
@@ -162,6 +189,24 @@
     <ClCompile Include="..\..\Code\World\2DGrid\Animator\SpriteAnimator.cpp">
       <Filter>World\2DGrid\Animator</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Code\World\3DGrid\World_3DGrid.cpp">
+      <Filter>World\3DGrid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\World\3DGrid\GameObject.cpp">
+      <Filter>World\3DGrid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\GBuffer.cpp">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\DeferredRendering.cpp">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\Light.cpp">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\SpotLight.cpp">
+      <Filter>Rendering\DeferredRendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Code\Rendering\Shaders_GLSL\blur.fs">
@@ -193,6 +238,18 @@
     </None>
     <None Include="..\..\Code\Rendering\Shaders_GLSL\thickLines.vs">
       <Filter>Rendering\Shaders_GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass.fs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass.vs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Spot.fs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Spot.vs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
   </ItemGroup>
 </Project>

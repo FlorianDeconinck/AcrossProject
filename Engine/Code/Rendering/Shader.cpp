@@ -50,7 +50,6 @@ namespace AE{
 			glAttachShader(m_Program, m_Fragment);
 			if (_GeometryFilename)
 				glAttachShader(m_Program, m_Geometry);
-			glBindFragDataLocation(m_Program, 0, "outColor");
 			glLinkProgram(m_Program);
 			Init(Renderer);
 			GL_TOOL::CheckGLError();

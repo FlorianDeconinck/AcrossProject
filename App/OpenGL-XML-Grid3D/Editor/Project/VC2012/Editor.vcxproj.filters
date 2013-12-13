@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\Code\AcrossEditor.cpp" />
+    <ClCompile Include="..\..\Code\AssetImporter.cpp" />
+    <ClCompile Include="..\..\Code\Editor.cpp" />
+    <ClCompile Include="..\..\Code\Resources\Translater.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Code\AssetImporter.h" />
+    <ClInclude Include="..\..\Code\Editor.h" />
+    <ClInclude Include="..\..\Code\EditorModule.h" />
+    <ClInclude Include="..\..\Code\Resources\Translater.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{7ca83f91-daf9-4363-8740-77670d7daca5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

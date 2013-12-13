@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<world>
+	<desc>
+		<name>3D Game Testbed</name>
+	</desc>
+	<levels>
+		<level name="Test Bed #1">
+			<gameobject>
+				<position x="0" y="0" z="0"/>
+				<resource path="Shape/shape.aeasset"/>
+			</gameobject>
+		</level>
+	</levels>
+</world>

@@ -327,6 +327,7 @@ namespace AE{
 			}
 
 		}
+		stream.close();
 	}
 	//---------------------------------------------------------------------------
 	void WORLD_2DGRID::SetTileStatus(AT::VEC2Di tilePos, MAP_TAG S){

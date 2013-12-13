@@ -18,7 +18,7 @@
 //---------------------------------------------------------------------------
 namespace AE{
 	//---------------------------------------------------------------------------
-	OPENGL_RENDERER::OPENGL_RENDERER():m_iPostProcess(2),m_hGLRC(NULL),m_bVSync(false),m_Status(UNIT){
+	OPENGL_RENDERER::OPENGL_RENDERER() :m_iPostProcess(2), m_hGLRC(NULL), m_bVSync(false), m_Status(UNIT), m_Mode(DEFERRED){
 
 	}
 	//---------------------------------------------------------------------------
@@ -32,49 +32,54 @@ namespace AE{
 		World.UpdatePreRender();
 		m_pCurrentCamera->Update(World);
 		//-----------------------------
-		if(m_iPostProcess){
-			glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
-			glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glEnable(GL_DEPTH_TEST);
-			glEnable( GL_BLEND );
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			//--
-#ifdef _DEBUG
-			World.DebugDraw(*this);
-#endif
-			//--
-			//Render objects
-			AT::I32 count = m_Objects.size();
-			for(int iObj = 0 ; iObj < count ; ++iObj){
-				m_Objects[iObj]->Draw(*this);
+		if (m_Mode == DEFERRED){
+			m_DeferredRenderer.Render(*this, m_Objects);
+		}else if (m_Mode == FORWARD){
+			if(m_iPostProcess){
+				glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+				glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				glEnable(GL_DEPTH_TEST);
+				glEnable( GL_BLEND );
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				//--
+	#ifdef _DEBUG
+				World.DebugDraw(*this);
+	#endif
+				//--
+				//Render objects
+				AT::I32 count = m_Objects.size();
+				for(int iObj = 0 ; iObj < count ; ++iObj){
+					m_Objects[iObj]->Draw(*this);
+				}
+				//--
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				glDisable(GL_BLEND);
+				if(m_iPostProcess==1)
+					m_BlurShader.ApplyPostProcess(*this);
+				else
+					m_FXAAShader.ApplyPostProcess(*this);
+			}else{
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				glEnable(GL_DEPTH_TEST);
+				glEnable( GL_BLEND );
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				//--
+	#ifdef _DEBUG
+				World.DebugDraw(*this);
+	#endif
+				//--
+				//Render objects
+				AT::I32 count = m_Objects.size();
+				for(int iObj = 0 ; iObj < count ; ++iObj){
+					m_Objects[iObj]->Draw(*this);
+				}
+				//--
 			}
-			//--
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			glDisable(GL_BLEND);
-			if(m_iPostProcess==1)
-				m_BlurShader.ApplyPostProcess(*this);
-			else
-				m_FXAAShader.ApplyPostProcess(*this);
-		}else{
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glEnable(GL_DEPTH_TEST);
-			glEnable( GL_BLEND );
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			//--
-#ifdef _DEBUG
-			World.DebugDraw(*this);
-#endif
-			//--
-			//Render objects
-			AT::I32 count = m_Objects.size();
-			for(int iObj = 0 ; iObj < count ; ++iObj){
-				m_Objects[iObj]->Draw(*this);
-			}
-			//--
-		}
+		}else
+			Break();
 		//-----------------------------
 #ifdef _DEBUG	
 		g_Profiler.StartSubTimer("GUI");
@@ -193,14 +198,16 @@ namespace AE{
 			m_ShadersAttached[m_ShaderAttachedCount] = &m_FXAAShader;
 			m_ShaderAttachedCount++;
 		}
+		if (m_DeferredRenderer.m_TexShader.Load(*this, "../DeferredRendering/GLSL/GeometryPass.vs", "../DeferredRendering/GLSL/GeometryPass.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_TexShader;
+			m_ShaderAttachedCount++;
+		}
+		if (m_DeferredRenderer.m_LightShaderSpot.Load(*this, "../DeferredRendering/GLSL/LightPass_Spot.vs", "../DeferredRendering/GLSL/LightPass_Spot.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_LightShaderSpot;
+			m_ShaderAttachedCount++;
+		}
 		//Enable test
 		glEnable( GL_DEPTH_TEST );
-		//Build obj
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_ColorShader;						m_ShaderAttachedCount++;
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_TextureShader;					m_ShaderAttachedCount++;
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_BlurShader;							m_ShaderAttachedCount++;
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_FXAAShader;							m_ShaderAttachedCount++;
-		m_ShadersAttached[m_ShaderAttachedCount] = &m_ThickLinesColorShader;	m_ShaderAttachedCount++;
 		//Camera
 		m_pCurrentCamera->BuildProjMatrix( 45.0f, (float)OPENGL_RENDERER::WIDTH / (float)OPENGL_RENDERER::HEIGHT, 0.01f, 100.0f );
 		m_pCurrentCamera->LookAt(Eye, Target, Up);
@@ -238,6 +245,11 @@ namespace AE{
 			m_Status = OPENGL_RENDERER::READY;
 		else
 			m_Status = OPENGL_RENDERER::BUILD_ERROR;
+		//--
+		if (m_Mode == DEFERRED)
+			m_DeferredRenderer.Init();
+		//--
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_SPOT, AT::VEC3Df(0, 4.f, 0), 5.f);
 		//--
 		return m_Status != OPENGL_RENDERER::BUILD_ERROR;
 	}
@@ -285,13 +297,13 @@ namespace AE{
 		AT::I32 pixelInformationLength;
 		SHADER_ABC::SHADERS_ID Shader;
 		if(nUV==1){
-			pixelInformationLength = 5;	//vertex 3d position + uv 
-			Shader = SHADER_ABC::TEXTURE_3D_SHADER;
+			pixelInformationLength = 8;	//vertex 3d position + uv + normal
+			Shader = m_Mode == FORWARD ? SHADER_ABC::TEXTURE_3D_SHADER : SHADER_ABC::DEFERRED_TEXTURE_3D_SHADER;
 		}else if(nUV!=0){
 			assert(false);				//multiple uv channels, not handled
 			return NULL;
 		}else{
-			pixelInformationLength = 7; //vertex 3d position + 4d color vector
+			pixelInformationLength = 7; //vertex 3d position + 4d color vector + normal
 			Shader = SHADER_ABC::COLOR_3D_SHADER;
 		}
 		//Load Vertices
@@ -312,12 +324,12 @@ namespace AE{
 			ptr += sizeof(AT::I32);
 			AT::I32 pixelInformationLength;
 			if(nUV==1){
-				pixelInformationLength = 5;	//vertex 3d position + uv 
+				pixelInformationLength = 8;	//vertex 3d position + uv + normal
 			}else if(nUV!=0){
 				assert(false);				//multiple uv channels, not handled
 				return NULL;
 			}else{
-				pixelInformationLength = 7; //vertex 3d position + 4d color vector
+				pixelInformationLength = 10; //vertex 3d position + 4d color vector + normal
 			}
 			//Load Vertices
 			AT::I32 VerticeCount = *(AT::I32*)ptr;
@@ -349,7 +361,7 @@ namespace AE{
 		pRObject = new(pRObject) R_OBJECT();
 		m_Objects.push_back(pRObject);
 		pRObject->m_UVOffset = UVOffset;
-		pRObject->Build(pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, TextureFilename);
+		pRObject->Build(pixelInformationLength, pVerticesBuffer, VerticeCount, pIndicesBuffer, IndicesCount, GL_STATIC_DRAW, TextureFilename);
 		//--
 		pRObject->m_GLDisplayMode = GL_TRIANGLES;
 		InitRObject(*pRObject, Shader);

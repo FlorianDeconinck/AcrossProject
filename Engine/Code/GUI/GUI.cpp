@@ -11,7 +11,7 @@
 namespace AE{
 	GUI::GUI_PERF_LOG	GUI::m_PerfLogContent[GUI::GUI_PERF_LOG::GUI_PERF_LOG_INDEX_COUNT];
 	//-----------------------------------------------------------------------------
-	GUI::GUI():m_bDraw(true){
+	GUI::GUI():m_bDraw(false){
 
 	}
 	//-----------------------------------------------------------------------------
