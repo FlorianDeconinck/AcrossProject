@@ -11,7 +11,7 @@ namespace AE{
 																 1.f,  1.f, 0.f,
 																 1.f, -1.f, 0.f
 															};
-	const GLuint  DIRECTIONAL_LIGHT::m_QuadIndices[6] =		{ 0, 1, 2, 2, 3, 0 };
+	const GLuint  DIRECTIONAL_LIGHT::m_QuadIndices[6] =		{ 0, 3, 2, 2, 1, 0 };
 	//-----------------------------------------------------------------------------
 	void DIRECTIONAL_LIGHT::BuildLight(RENDERER_ABC& Renderer, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df Direction){
 		//--

@@ -13,15 +13,15 @@ namespace AE{
 	//-------------------------------------------------------------------------
 	class RENDERER_ABC;
 	class SHADER_ABC;
-	class SPOT_LIGHT:public LIGHT{
+	class POINT_LIGHT:public LIGHT{
 	public:
-		SPOT_LIGHT();
+		POINT_LIGHT();
 		void BuildLight(RENDERER_ABC& Renderer, GLfloat	Diffuse[3], GLfloat Specular[3], AT::VEC3Df Position, AT::I32F Radius);
 	protected:
 		void SolidSphere(AT::I32F radius, AT::U32 rings, AT::U32 sectors);
 		//--
 		AT::I32F				m_Radius;
-		std::vector<GLfloat> 	m_SphereVectices;
+		std::vector<AT::VEC3Df>	m_SphereVertices;
 		std::vector<GLuint> 	m_SphereIndices;
 	};
 	//-------------------------------------------------------------------------

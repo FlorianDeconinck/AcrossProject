@@ -202,7 +202,7 @@ namespace AE{
 			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_TexShader;
 			m_ShaderAttachedCount++;
 		}
-		if (m_DeferredRenderer.m_LightShaderSpot.Load(*this, "../DeferredRendering/GLSL/LightPass_Spot.vs", "../DeferredRendering/GLSL/LightPass_Spot.fs")){
+		if (m_DeferredRenderer.m_LightShaderSpot.Load(*this, "../DeferredRendering/GLSL/LightPass_Point.vs", "../DeferredRendering/GLSL/LightPass_Point.fs")){
 			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_LightShaderSpot;
 			m_ShaderAttachedCount++;
 		}
@@ -255,10 +255,10 @@ namespace AE{
 		//--
 		GLfloat Diffuse_Sun[4]	= { 1.f, 1.f, 1.f, 0.7f };
 		GLfloat Specular_Sun[4] = { 1.0f, 0.54f, 0.23f, 5.0f };
-		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFFERED_RENDERER_LIGHT_DIRECTIONAL, Diffuse_Sun, Specular_Sun, AT::VEC3Df(1, -1, 1), 0.1);
-		GLfloat Diffuse_Spot_A[3] = { 1.f, 0.f, 0.f };
-		GLfloat Specular_Spot_A[3] = { 1.f, 0.f, 0.f };
-		//m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_SPOT, Diffuse_Spot_A, Specular_Spot_A, AT::VEC3Df(0, -10, 0), 1.2f);
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFFERED_RENDERER_LIGHT_DIRECTIONAL, Diffuse_Sun, Specular_Sun, AT::VEC3Df(1, -1, 1), 0);
+		GLfloat Diffuse_Spot_A[4] = { 0.f, 1.f, 0.f, 0.7f};
+		GLfloat Specular_Spot_A[4] = { 0.f, 1.f, 0.f, 5.f };
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_SPOT, Diffuse_Spot_A, Specular_Spot_A, AT::VEC3Df(0, 1, 0), 2.0f);
 		//--
 		return m_Status != OPENGL_RENDERER::BUILD_ERROR;
 	}

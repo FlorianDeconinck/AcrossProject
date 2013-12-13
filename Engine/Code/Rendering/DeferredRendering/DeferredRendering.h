@@ -44,14 +44,20 @@ namespace AE{
 	public:
 		GLint m_viewUniform;
 		GLint m_projUniform;
-		GLint m_ScreeSizeUniform;
-		GLint m_LightSpecular;
-		GLint m_LightDiffuse;
-		GLint m_LightPosition;
+		//--
+		GLint m_ScreenSizeUniform;
 		//--
 		GLint m_positionMapUniform;
 		GLint m_colorMapUniform;
 		GLint m_NormalMapUniform;
+		//--
+		GLint m_LightSpecular;
+		GLint m_LightSpecularIntensity;
+		GLint m_LightDiffuse;
+		GLint m_LightDiffuseIntensity;
+		GLint m_LightPosition;
+		//--
+		GLint m_EyeWorldPosition;
 		//--
 		/*virtual*/ void Init(RENDERER_ABC& Renderer);
 		/*virtual*/ void InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object);

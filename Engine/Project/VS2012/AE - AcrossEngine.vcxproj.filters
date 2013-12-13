@@ -134,10 +134,10 @@
     <ClInclude Include="..\..\Code\Rendering\DeferredRendering\Light.h">
       <Filter>Rendering\DeferredRendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\SpotLight.h">
+    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\DirectionalLight.h">
       <Filter>Rendering\DeferredRendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\DirectionalLight.h">
+    <ClInclude Include="..\..\Code\Rendering\DeferredRendering\PointLight.h">
       <Filter>Rendering\DeferredRendering</Filter>
     </ClInclude>
   </ItemGroup>
@@ -207,10 +207,10 @@
     <ClCompile Include="..\..\Code\Rendering\DeferredRendering\Light.cpp">
       <Filter>Rendering\DeferredRendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\SpotLight.cpp">
+    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\DirectionalLight.cpp">
       <Filter>Rendering\DeferredRendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\DirectionalLight.cpp">
+    <ClCompile Include="..\..\Code\Rendering\DeferredRendering\PointLight.cpp">
       <Filter>Rendering\DeferredRendering</Filter>
     </ClCompile>
   </ItemGroup>
@@ -251,16 +251,16 @@
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass.vs">
       <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Spot.fs">
-      <Filter>Rendering\DeferredRendering\GLSL</Filter>
-    </None>
-    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Spot.vs">
-      <Filter>Rendering\DeferredRendering\GLSL</Filter>
-    </None>
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Directional.fs">
       <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Directional.vs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Point.fs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Point.vs">
       <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
   </ItemGroup>

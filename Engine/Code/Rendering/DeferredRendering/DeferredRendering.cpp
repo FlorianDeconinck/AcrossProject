@@ -3,7 +3,7 @@
 #include "DeferredRendering.h"
 #include "../RObject.h"
 #include "../../Renderer_Interface.h"
-#include "SpotLight.h"
+#include "PointLight.h"
 #include "DirectionalLight.h"
 #include "Light.h"
 //Tool
@@ -66,24 +66,36 @@ namespace AE{
 		//--
 		m_posAttrib = glGetAttribLocation(m_Program, "in_position");
 		GL_TOOL::CheckGLError();
+		//--
 		m_viewUniform = glGetUniformLocation(m_Program, "in_view");
 		GL_TOOL::CheckGLError();
 		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
 		GL_TOOL::CheckGLError();
-		m_ScreeSizeUniform = glGetUniformLocation(m_Program, "uScreenSize");
+		//--
+		m_ScreenSizeUniform = glGetUniformLocation(m_Program, "uScreenSize");
 		GL_TOOL::CheckGLError();
-		m_LightSpecular = glGetUniformLocation(m_Program, "light_specular");
-		GL_TOOL::CheckGLError();
-		m_LightDiffuse = glGetUniformLocation(m_Program, "light_diffuse");
-		GL_TOOL::CheckGLError();
-		m_LightPosition = glGetUniformLocation(m_Program, "light_position");
-		GL_TOOL::CheckGLError();
+		//--
 		m_positionMapUniform = glGetUniformLocation(m_Program, "uPositionMap");
 		GL_TOOL::CheckGLError();
 		m_colorMapUniform = glGetUniformLocation(m_Program, "uColorMap");
 		GL_TOOL::CheckGLError();
 		m_NormalMapUniform = glGetUniformLocation(m_Program, "uNormalMap");
 		GL_TOOL::CheckGLError();
+		//--
+		m_LightSpecular = glGetUniformLocation(m_Program, "light_specular");
+		GL_TOOL::CheckGLError();
+		m_LightSpecularIntensity = glGetUniformLocation(m_Program, "light_specular_intensity");
+		GL_TOOL::CheckGLError();
+		m_LightDiffuse = glGetUniformLocation(m_Program, "light_diffuse");
+		GL_TOOL::CheckGLError();
+		m_LightDiffuseIntensity = glGetUniformLocation(m_Program, "light_diffuse_intensity");
+		GL_TOOL::CheckGLError();
+		m_LightPosition = glGetUniformLocation(m_Program, "light_position");
+		GL_TOOL::CheckGLError();
+		//--
+		m_EyeWorldPosition = glGetUniformLocation(m_Program, "eye_world_position");
+		GL_TOOL::CheckGLError();
+		//--
 	}
 	//-----------------------------------------------------------------------------
 	void DEFERRED_LIGHT_SPOT_SHADER::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
@@ -96,20 +108,21 @@ namespace AE{
 	}
 	//-----------------------------------------------------------------------------
 	void DEFERRED_LIGHT_SPOT_SHADER::BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject){
+		//--
 		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_View.ToGL());
 		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_Proj.ToGL());
 		glUniformMatrix4fv(RObject.m_uniformModel, 1, GL_FALSE, (GLfloat*)RObject.m_trfModel.ToGL());
 		//--
 		const GLfloat ScreenSize[2] = { RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT };
-		glUniform2fv(m_ScreeSizeUniform, 1, ScreenSize);
+		glUniform2fv(m_ScreenSizeUniform, 1, ScreenSize);
 		//--
-		glUniform3fv(m_LightSpecular, 1, RObject.m_pLight->m_Specular);
 		glUniform3fv(m_LightDiffuse, 1, RObject.m_pLight->m_Diffuse);
+		glUniform1f(m_LightDiffuseIntensity, RObject.m_pLight->m_DiffuseIntensity);
+		glUniform3fv(m_LightSpecular, 1, RObject.m_pLight->m_Specular);
+		glUniform1f(m_LightSpecularIntensity, RObject.m_pLight->m_SpecularIntensity);
 		glUniform3fv(m_LightPosition, 1, (GLfloat*)&RObject.m_pLight->m_PositionOrDirection);
 		//--
-		glUniform1i(m_positionMapUniform, 0);
-		glUniform1i(m_colorMapUniform, 1);
-		glUniform1i(m_NormalMapUniform, 2);
+		glUniform3fv(m_EyeWorldPosition, 1, (GLfloat*)&Renderer.m_pCurrentCamera->m_Eye);
 		//--
 		GL_TOOL::CheckGLError();
 	}
@@ -215,6 +228,8 @@ namespace AE{
 		glBlendFunc(GL_ONE, GL_ONE);
 		m_GBuffer.BindToRead();
 		//glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 		glClear(GL_COLOR_BUFFER_BIT);
 		GL_TOOL::CheckGLError();
 		//--
@@ -222,6 +237,7 @@ namespace AE{
 		for (int iLight = 0; iLight < count; ++iLight){
 			m_Lights[iLight]->m_Mesh.Draw(Renderer);
 		}
+		glDisable(GL_CULL_FACE);
 #endif
 	}
 	//-----------------------------------------------------------------------------
@@ -254,7 +270,7 @@ namespace AE{
 	void DEFERRED_RENDERER::AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius){
 		switch (Type){
 			case DEFERRED_RENDERER_LIGHT_SPOT:{
-				SPOT_LIGHT* SL = new SPOT_LIGHT();
+				POINT_LIGHT* SL = new POINT_LIGHT();
 				SL->BuildLight(Renderer, Diffuse, Specular, PositionOrDirection, Radius);
 				m_Lights.push_back(SL);
 				break;
