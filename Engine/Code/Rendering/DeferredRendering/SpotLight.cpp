@@ -19,7 +19,7 @@ namespace AE{
 		//--
 		SolidSphere(Radius, 10, 10);
 		m_Mesh.Build(3, (AT::I32F*)m_SphereVectices.data(), (AT::I32)m_SphereVectices.size(), (GLuint*)m_SphereIndices.data(), (AT::I32)m_SphereVectices.size(), GL_STATIC_DRAW);
-		m_Position = Position;
+		m_PositionOrDirection = Position;
 		//--
 		m_Mesh.m_GLDisplayMode = GL_TRIANGLE_FAN;
 		Renderer.InitRObject(m_Mesh, SHADER_ABC::DEFERRED_LIGHT_SPOT_SHADER);

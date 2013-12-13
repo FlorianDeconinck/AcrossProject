@@ -16,7 +16,7 @@ namespace AE{
 	class DIRECTIONAL_LIGHT :public LIGHT{
 	public:
 		DIRECTIONAL_LIGHT(){}
-		void BuildLight(RENDERER_ABC& Renderer, GLfloat Diffuse[3], GLfloat Specular[3], AT::VEC3Df Position);
+		void BuildLight(RENDERER_ABC& Renderer, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df Position);
 	protected:
 		//--
 		static const GLfloat m_QuadVectices[12];

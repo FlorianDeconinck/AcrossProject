@@ -63,12 +63,13 @@ namespace AE{
 	protected:
 		GLint m_posAttrib;
 	public:
-		GLint m_viewUniform;
-		GLint m_projUniform;
-		GLint m_ScreeSizeUniform;
+		GLint m_ScreenSizeUniform;
 		GLint m_LightSpecular;
+		GLint m_LightSpecularIntensity;
 		GLint m_LightDiffuse;
-		GLint m_LightPosition;
+		GLint m_LightDiffuseIntensity;
+		GLint m_LightDirection;
+		GLint m_EyeWorldPositionUniform;
 		//--
 		GLint m_positionMapUniform;
 		GLint m_colorMapUniform;
@@ -96,7 +97,7 @@ namespace AE{
 		//-------------------------------------------------------------------------
 		void Init();
 		void Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects);
-		void AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, GLfloat Diffuse[3], GLfloat Specular[3], AT::VEC3Df Position, AT::I32F Radius);
+		void AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df Position, AT::I32F Radius);
 		//-------------------------------------------------------------------------
 		DEFERRED_TEXTURE_SHADER			m_TexShader;
 		DEFERRED_LIGHT_SPOT_SHADER      m_LightShaderSpot;

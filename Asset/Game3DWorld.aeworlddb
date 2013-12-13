@@ -10,8 +10,8 @@
 				<resource path="CompanionCube/CompanionCube.aeasset"/>
 			</gameobject>
 			<gameobject>
-				<position x="1" y="0" z="0"/>
-				<resource path="CompanionCube/CompanionCube.aeasset"/>
+				<position x="4" y="0" z="0"/>
+				<resource path="Shape/Shape.aeasset"/>
 			</gameobject>
 		</level>
 	</levels>

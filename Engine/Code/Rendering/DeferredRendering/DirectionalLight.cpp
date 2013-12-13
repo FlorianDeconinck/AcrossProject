@@ -13,13 +13,16 @@ namespace AE{
 															};
 	const GLuint  DIRECTIONAL_LIGHT::m_QuadIndices[6] =		{ 0, 1, 2, 2, 3, 0 };
 	//-----------------------------------------------------------------------------
-	void DIRECTIONAL_LIGHT::BuildLight(RENDERER_ABC& Renderer, GLfloat Diffuse[3], GLfloat Specular[3], AT::VEC3Df Position){
+	void DIRECTIONAL_LIGHT::BuildLight(RENDERER_ABC& Renderer, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df Direction){
 		//--
 		memcpy(m_Diffuse, Diffuse, 3*sizeof(Diffuse));
+		m_DiffuseIntensity = Diffuse[3];
 		memcpy(m_Specular, Specular, 3*sizeof(Specular));
+		m_SpecularIntensity = Specular[3];
 		//--
 		m_Mesh.Build(3, (AT::I32F*)m_QuadVectices, 12, (GLuint*)m_QuadIndices, 6, GL_STATIC_DRAW);
-		m_Position = Position;
+		m_PositionOrDirection = Direction;
+		m_PositionOrDirection.Normalize();
 		//--
 		m_Mesh.m_GLDisplayMode = GL_TRIANGLES;
 		Renderer.InitRObject(m_Mesh, SHADER_ABC::DEFERRED_LIGHT_DIRECTIONAL_SHADER);

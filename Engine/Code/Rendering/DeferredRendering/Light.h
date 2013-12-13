@@ -24,8 +24,10 @@ namespace AE{
 			m_Specular[2] = Specular[2];
 		}
 		GLfloat		m_Diffuse[3];
+		GLfloat		m_DiffuseIntensity;
 		GLfloat		m_Specular[3];
-		AT::VEC3Df	m_Position;
+		GLfloat		m_SpecularIntensity;
+		AT::VEC3Df	m_PositionOrDirection;
 		R_OBJECT	m_Mesh;
 	};
 	//-------------------------------------------------------------------------
