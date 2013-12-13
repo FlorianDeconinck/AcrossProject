@@ -28,7 +28,7 @@ namespace AE{
 		~RENDERER_ABC(){}
 		//---
 		virtual AT::I8		Init()=0;
-		virtual void		Update(GUI& Gui, CONTROLLER& C, WORLD_ABC& W)=0;
+		virtual void		Update(AT::I64F elapsedTime_ms, GUI& Gui, CONTROLLER& C, WORLD_ABC& W) = 0;
 		virtual void		SwapDrawBuffers()=0;
 		//---
 		virtual R_OBJECT*	CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax)=0;

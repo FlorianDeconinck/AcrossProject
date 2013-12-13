@@ -22,6 +22,7 @@ namespace AE{
 		//--
 		GAME_OBJECT();
 		void Init(AT::VEC3Di InitialPos);
+		void Update();
 		AT::I8 LoadFromResource(RENDERER_ABC& Renderer, RESOURCE_MANAGER_ABC& Manager, const AT::I8* sResourceName);
 		//--
 		inline AT::VEC2Df GetUVOffset()							const	{ return m_pRObject->m_UVOffset; }

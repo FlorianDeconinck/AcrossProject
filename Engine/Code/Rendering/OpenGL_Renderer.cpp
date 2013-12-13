@@ -27,13 +27,13 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//---------------------------------------------------------------------------
-	void OPENGL_RENDERER::Update(GUI& Gui, CONTROLLER& C, WORLD_ABC& World){
+	void OPENGL_RENDERER::Update(AT::I64F elapsedTime_ms, GUI& Gui, CONTROLLER& C, WORLD_ABC& World){
 		//-----------------------------
 		World.UpdatePreRender();
 		m_pCurrentCamera->Update(World);
 		//-----------------------------
 		if (m_Mode == DEFERRED){
-			m_DeferredRenderer.Render(*this, m_Objects);
+			m_DeferredRenderer.Render(elapsedTime_ms, *this, m_Objects);
 		}else if (m_Mode == FORWARD){
 			if(m_iPostProcess){
 				glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
@@ -206,6 +206,10 @@ namespace AE{
 			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_LightShaderSpot;
 			m_ShaderAttachedCount++;
 		}
+		if (m_DeferredRenderer.m_LightShaderDirectional.Load(*this, "../DeferredRendering/GLSL/LightPass_Directional.vs", "../DeferredRendering/GLSL/LightPass_Directional.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_LightShaderDirectional;
+			m_ShaderAttachedCount++;
+		}
 		//Enable test
 		glEnable( GL_DEPTH_TEST );
 		//Camera
@@ -249,7 +253,12 @@ namespace AE{
 		if (m_Mode == DEFERRED)
 			m_DeferredRenderer.Init();
 		//--
-		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_SPOT, AT::VEC3Df(0, 4.f, 0), 5.f);
+		GLfloat Diffuse_Sun[3]	 = { 1.f, 1.f, 1.f };
+		GLfloat Specular_Sun[3] = { 1.f, 1.f, 1.f };
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFFERED_RENDERER_LIGHT_DIRECTIONAL, Diffuse_Sun, Specular_Sun, AT::VEC3Df(0, 0, -10), 0);
+		GLfloat Diffuse_Spot_A[3] = { 1.f, 0.f, 0.f };
+		GLfloat Specular_Spot_A[3] = { 1.f, 0.f, 0.f };
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_SPOT, Diffuse_Spot_A, Specular_Spot_A, AT::VEC3Df(0, -10, 0), 1.2f);
 		//--
 		return m_Status != OPENGL_RENDERER::BUILD_ERROR;
 	}

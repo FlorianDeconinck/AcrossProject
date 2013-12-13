@@ -57,7 +57,7 @@ namespace AE{
 		FXAA_SHADER			m_FXAAShader;
 		//----
 		/*virtual*/ AT::I8		Init();
-		/*virtual*/ void		Update(GUI& Gui, CONTROLLER& C, WORLD_ABC& W);
+		/*virtual*/ void		Update(AT::I64F elapsedTime_ms, GUI& Gui, CONTROLLER& C, WORLD_ABC& W);
 		/*virtual*/ void		SwapDrawBuffers();
 		/*virtual*/ R_OBJECT*	CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax);
 		/*virtual*/ void		InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID);

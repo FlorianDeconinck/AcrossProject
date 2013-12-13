@@ -1,6 +1,8 @@
 //-----------------------------------------------------------------------------
 //Engine
 #include "GBuffer.h"
+//Tools
+#include <CodeTools.h>
 //STD
 #include <iostream>
 //-----------------------------------------------------------------------------
@@ -28,10 +30,10 @@ namespace AE{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, WinWidth, WinHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 		glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTexture, 0);
 		//Drawbuffers
-		GLenum DrawBuffers[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3};
+		GLenum DrawBuffers[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
 		glDrawBuffers(GBUFFER_TEXTURES_COUNT, DrawBuffers);
 		//Check status
-		GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		GLenum Status = glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER);
 		if(Status != GL_FRAMEBUFFER_COMPLETE){
 			std::cout << "GBUFFER init : framebuffer error status" << Status << std::endl;
 			return false;
@@ -50,9 +52,10 @@ namespace AE{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_fbo);
 #else
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		for (AT::U32 i = 0; i < GBUFFER_TEXTURES_COUNT-1; i++) {
+		for (AT::U32 i = 0; i < GBUFFER_TEXTURES_COUNT; i++) {
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, m_textures[GBUFFER_TEXTURES_POSITION + i]);
+			GL_TOOL::CheckGLError();
 		}
 #endif
 	}

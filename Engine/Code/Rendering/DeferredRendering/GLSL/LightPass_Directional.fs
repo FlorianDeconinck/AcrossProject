@@ -15,12 +15,13 @@ uniform vec3 light_position;
 
 uniform mat4 in_view;
 
-const vec3 kd = vec3 (1.0, 1.0, 1.0);
+const vec3 kd = vec3 (0.7, 0.7, 0.7);
 const vec3 ks = vec3 (1.0, 1.0, 1.0);
-const float specular_exponent = 100.0;
+const float specular_exponent = 1.0;
 
 vec3 phong (in vec3 p_eye, in vec3 n_eye) {
-  vec3 light_position_eye = vec3 (in_view * vec4 (light_position, 1.0));
+  //vec3 light_position_eye = vec3 (in_view * vec4 (light_position, 1.0));
+  vec3 light_position_eye = light_position;
   vec3 dist_to_light_eye = light_position_eye - p_eye;
   vec3 direction_to_light_eye = normalize (dist_to_light_eye);
   
@@ -35,12 +36,8 @@ vec3 phong (in vec3 p_eye, in vec3 n_eye) {
   dot_prod_specular = max (dot_prod_specular, 0.0);
   float specular_factor = pow (dot_prod_specular, specular_exponent);
   vec3 Is = light_specular * ks * specular_factor; // final specular intensity
-  
-  // attenuation (fade out to sphere edges)
-  float dist_2d = distance (light_position_eye, p_eye);
-  float atten_factor = -log (min (1.0, dist_2d / 5.0));
-  
-  return (Id + Is) * atten_factor;
+
+  return (Id + Is);
 }
 
 void main(){

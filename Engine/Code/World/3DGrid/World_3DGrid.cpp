@@ -22,7 +22,10 @@ namespace AE{
 	}
 	//-----------------------------------------------------------------------------
 	void WORLD_3DGRID::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
-	
+		AT::I32 Count = m_GameObjectPtrs.size();
+		for (AT::I32 iGameObj=0 ; iGameObj < Count ; ++iGameObj){
+			m_GameObjectPtrs[iGameObj]->Update();
+		}
 	}
 	//-----------------------------------------------------------------------------
 	void WORLD_3DGRID::UpdatePreRender(){

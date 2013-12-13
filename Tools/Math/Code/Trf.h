@@ -15,6 +15,7 @@ namespace AT{
 		unit*				ToGL();
 		void				Identity();
 		void				SetT(unit x, unit y, unit z);
+		void				SetT(VEC3Df p);
 		VEC3D<unit>			GetT() const;
 		VEC3D<unit>			operator=(const VEC3D<unit>& T);
 		//---
@@ -80,6 +81,11 @@ namespace AT{
 		m_T.y = y;
 		m_T.z = z;
 		m_bDirty=true;
+	}
+	//---------------------------------------------------------------------------
+	template <typename unit> void TRF<unit>::SetT(VEC3Df p){
+		m_T = p;
+		m_bDirty = true;
 	}
 	//---------------------------------------------------------------------------
 	template <typename unit> VEC3D<unit> TRF<unit>::GetT() const{

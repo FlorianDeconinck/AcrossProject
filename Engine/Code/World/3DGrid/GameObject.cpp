@@ -15,6 +15,10 @@ namespace AE{
 		m_InnerTilePosition.Set(0.5f, 0.5f, 0.5f);
 	}
 	//-----------------------------------------------------------------------------
+	void GAME_OBJECT::Update(){
+		m_pRObject->m_trfModel.SetT(m_GridPosition);
+	}
+	//-----------------------------------------------------------------------------
 	AT::I8 GAME_OBJECT::LoadFromResource(RENDERER_ABC& Renderer, RESOURCE_MANAGER_ABC& Manager, const AT::I8* sResourceName){
 		m_pRObject = Renderer.CreateRObject(Manager, sResourceName, m_BBox.m_Min, m_BBox.m_Max);
 		return m_pRObject != NULL;

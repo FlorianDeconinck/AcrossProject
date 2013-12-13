@@ -6,8 +6,12 @@
 	<levels>
 		<level name="Test Bed #1">
 			<gameobject>
-				<position x="0" y="0" z="0"/>
-				<resource path="Shape/shape.aeasset"/>
+				<position x="-1" y="0" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="1" y="0" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
 			</gameobject>
 		</level>
 	</levels>

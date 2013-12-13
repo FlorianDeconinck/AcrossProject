@@ -12,9 +12,14 @@ namespace AE{
 		
 	}
 	//-------------------------------------------------------------------------
-	void SPOT_LIGHT::BuildLight(RENDERER_ABC& Renderer, AT::VEC3Df Position, AT::I32F Radius){
+	void SPOT_LIGHT::BuildLight(RENDERER_ABC& Renderer, GLfloat	Diffuse[3], GLfloat Specular[3], AT::VEC3Df Position, AT::I32F Radius){
+		//--
+		memcpy(m_Diffuse, Diffuse, 3*sizeof(Diffuse));
+		memcpy(m_Specular, Specular, 3*sizeof(Specular));
+		//--
 		SolidSphere(Radius, 10, 10);
 		m_Mesh.Build(3, (AT::I32F*)m_SphereVectices.data(), (AT::I32)m_SphereVectices.size(), (GLuint*)m_SphereIndices.data(), (AT::I32)m_SphereVectices.size(), GL_STATIC_DRAW);
+		m_Position = Position;
 		//--
 		m_Mesh.m_GLDisplayMode = GL_TRIANGLE_FAN;
 		Renderer.InitRObject(m_Mesh, SHADER_ABC::DEFERRED_LIGHT_SPOT_SHADER);

@@ -114,7 +114,7 @@ namespace AE{
 #ifdef _DEBUG			
 			g_Profiler.StartSubTimer("Renderer");
 #endif
-			m_pRenderer->Update(m_Gui, m_Controller, *m_pWorld);
+			m_pRenderer->Update(elapsedTime_ms>FPS_hertz_ms ? FPS_hertz_ms : elapsedTime_ms, m_Gui, m_Controller, *m_pWorld);
 			pEntryPoints->RenderCallback(*this, *m_pWorld, m_Controller);
 			m_pRenderer->SwapDrawBuffers();
 			//--
