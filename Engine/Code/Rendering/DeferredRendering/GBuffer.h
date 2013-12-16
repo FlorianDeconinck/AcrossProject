@@ -23,7 +23,7 @@ namespace AE{
 		//-------------------------------------------------------------------------
 		AT::I8 Init(AT::U32 WinWidth, AT::U32 WinHeight);
 		void BindToWrite();
-		void BindToRead();
+		void BindToRead(GLuint postProcessFBO);
 		void Read(GBUFFER_TEXTURES TexID);
 		//-------------------------------------------------------------------------
 		GLuint m_fbo;

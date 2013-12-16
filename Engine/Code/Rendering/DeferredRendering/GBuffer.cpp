@@ -47,11 +47,11 @@ namespace AE{
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fbo);
 	}
 	//-----------------------------------------------------------------------------
-	void GBUFFER::BindToRead(){
+	void GBUFFER::BindToRead(GLuint postProcessFBO){
 #if CHECK_GEOMETRY_PASS()
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_fbo);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, postProcessFBO);
 #else
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postProcessFBO);
 		for (AT::U32 i = 0; i < GBUFFER_TEXTURES_COUNT; i++) {
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, m_textures[GBUFFER_TEXTURES_POSITION + i]);

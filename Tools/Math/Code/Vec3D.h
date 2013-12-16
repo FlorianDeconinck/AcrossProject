@@ -11,6 +11,7 @@ namespace AT{
 		inline void					Set(unit _x, unit _y, unit _z)	{ x=_x; y=_y; z=_z; }
 		inline void					Zero()							{ x=y=z=0; }
 		inline void					Normalize()						{ unit n = sqrt(x*x + y*y + z*z); x/=n ; y/=n; z/=n; }
+		inline unit					LenghtSquared()					const { return x*x + y*y + z*z; }
 		inline VEC3D<unit>			Cross(const VEC3D<unit>& V)		const { VEC3D<unit> Vr; Vr.x = this->y*V.z - this->z*V.y;  Vr.y = this->z*V.x - this->x*V.z; Vr.z = this->x*V.y - this->y*V.x; return Vr; }
 		inline VEC3D<unit>			operator-(const VEC3D& V)		const { VEC3D<unit> Vr; Vr.x = V.x - this->x; Vr.y = V.y - this->y; Vr.z = V.z - this->z; return Vr; }
 		inline VEC3D<unit>			operator+(const VEC3D& V)		const { VEC3D<unit> Vr; Vr.x = V.x + this->x; Vr.y = V.y + this->y; Vr.z = V.z + this->z; return Vr; }

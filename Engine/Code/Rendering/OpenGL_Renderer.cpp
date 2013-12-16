@@ -33,8 +33,19 @@ namespace AE{
 		m_pCurrentCamera->Update(World);
 		//-----------------------------
 		if (m_Mode == DEFERRED){
-			m_DeferredRenderer.Render(elapsedTime_ms, *this, m_Objects);
-		}else if (m_Mode == FORWARD){
+			glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+			m_DeferredRenderer.Render(elapsedTime_ms, *this, m_Objects, m_iPostProcess?m_frameBuffer:0);
+			//--
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glDisable(GL_BLEND);
+			if(m_iPostProcess){
+				if (m_iPostProcess == 1)
+					m_BlurShader.ApplyPostProcess(*this);
+				else
+					m_FXAAShader.ApplyPostProcess(*this);
+			}
+		}
+		else if (m_Mode == FORWARD){
 			if(m_iPostProcess){
 				glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 				glClearColor(0.8f, 0.8f, 0.8f, 1.0f);

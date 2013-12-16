@@ -125,7 +125,7 @@ namespace AE{
 		DEFERRED_RENDERER() :m_movAngle(0){}
 		//-------------------------------------------------------------------------
 		void Init();
-		void Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects);
+		void Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects, GLuint postProcessFBO);
 		void AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df Position, AT::I32F Radius);
 		//-------------------------------------------------------------------------
 		DEFERRED_TEXTURE_SHADER				m_TexShader;
@@ -139,7 +139,7 @@ namespace AE{
 		AT::I32F						m_movAngle;
 		//-------------------------------------------------------------------------
 		void GeometryPass(RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects);
-		void LightingPass(RENDERER_ABC& Renderer);
+		void LightingPass(RENDERER_ABC& Renderer, GLuint postProcessFBO);
 		void UpdateLight(AT::I64F elapsedTime_ms);
 	};
 	//-----------------------------------------------------------------------------

@@ -255,7 +255,7 @@ namespace AE{
 	//-----------------------------------------------------------------------------
 	// DEFERRED_RENDERER
 	//-----------------------------------------------------------------------------
-	void DEFERRED_RENDERER::LightingPass(RENDERER_ABC& Renderer){
+	void DEFERRED_RENDERER::LightingPass(RENDERER_ABC& Renderer, GLuint postProcessFBO){
 #if CHECK_GEOMETRY_PASS()
 		//Bind default frame buffer
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -281,8 +281,7 @@ namespace AE{
 		glEnable(GL_BLEND);
 		glBlendEquation(GL_FUNC_ADD);
 		glBlendFunc(GL_ONE, GL_ONE);
-		m_GBuffer.BindToRead();
-		//glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+		m_GBuffer.BindToRead(postProcessFBO);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -291,7 +290,13 @@ namespace AE{
 		//Point light pass
 		AT::I32 count = m_PointLights.size();
 		for (int iLight = 0; iLight < count; ++iLight){
+			AT::I8 bCull = (m_PointLights[iLight]->m_PositionOrDirection - Renderer.m_pCurrentCamera->m_Eye).LenghtSquared() < m_PointLights[iLight]->GetRadiusSquared();
+			if (!bCull)
+				glCullFace(GL_FRONT);
 			m_PointLights[iLight]->m_Mesh.Draw(Renderer);
+			if (!bCull)
+				glCullFace(GL_FRONT);
+
 		}
 		glDisable(GL_CULL_FACE);
 		//--
@@ -323,10 +328,10 @@ namespace AE{
 		m_GBuffer.Init(RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT);
 	}
 	//-----------------------------------------------------------------------------
-	void DEFERRED_RENDERER::Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects){
+	void DEFERRED_RENDERER::Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects, GLuint postProcessFBO){
 		GeometryPass(Renderer, Objects);
 		UpdateLight(elapsedTime_ms);
-		LightingPass(Renderer);
+		LightingPass(Renderer, postProcessFBO);
 	}
 	//----------------------------------------------------------------------------
 	void DEFERRED_RENDERER::AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius){
