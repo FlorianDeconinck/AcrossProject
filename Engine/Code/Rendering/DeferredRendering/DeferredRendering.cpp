@@ -6,6 +6,7 @@
 #include "PointLight.h"
 #include "DirectionalLight.h"
 #include "Light.h"
+#include "../../GlobalDebug.h"
 //Tool
 #include <CodeTools.h>
 //STD
@@ -59,6 +60,47 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
+	// DEFERRED_COLOR_SHADER
+	//-----------------------------------------------------------------------------
+	void DEFERRED_COLOR_SHADER::Init(RENDERER_ABC& Renderer){
+		m_ID = DEFERRED_COLOR_3D_SHADER;
+		//--
+		m_posAttrib = glGetAttribLocation(m_Program, "in_position");
+		GL_TOOL::CheckGLError();
+		m_colAttrib = glGetAttribLocation(m_Program, "in_color");
+		GL_TOOL::CheckGLError();
+		m_norAttrib = glGetAttribLocation(m_Program, "in_normal");
+		GL_TOOL::CheckGLError();
+		m_viewUniform = glGetUniformLocation(m_Program, "in_view");
+		GL_TOOL::CheckGLError();
+		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void DEFERRED_COLOR_SHADER::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
+		Use();
+		glBindVertexArray(Object.m_vao);
+		glEnableVertexAttribArray(m_posAttrib);
+		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(AT::I32F), (void*)(0 * sizeof(AT::I32F)));
+		glEnableVertexAttribArray(m_colAttrib);
+		glVertexAttribPointer(m_colAttrib, 2, GL_FLOAT, GL_FALSE, 10 * sizeof(AT::I32F), (void*)(3 * sizeof(AT::I32F)));
+		glEnableVertexAttribArray(m_norAttrib);
+		glVertexAttribPointer(m_norAttrib, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(AT::I32F), (void*)(7 * sizeof(AT::I32F)));
+		Object.m_uniformModel = glGetUniformLocation(m_Program, "in_model");
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void DEFERRED_COLOR_SHADER::BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject){
+		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_View.ToGL());
+		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_Proj.ToGL());
+		glUniformMatrix4fv(RObject.m_uniformModel, 1, GL_FALSE, (GLfloat*)RObject.m_trfModel.ToGL());
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void DEFERRED_COLOR_SHADER::BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject/*=NULL*/){
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
 	// DEFERRED_LIGHT_SPOT_SHADER
 	//-----------------------------------------------------------------------------
 	void DEFERRED_LIGHT_SPOT_SHADER::Init(RENDERER_ABC& Renderer){
@@ -92,6 +134,8 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 		m_LightPosition = glGetUniformLocation(m_Program, "light_position");
 		GL_TOOL::CheckGLError();
+		m_LightRadius = glGetUniformLocation(m_Program, "light_radius");
+		GL_TOOL::CheckGLError();
 		//--
 		m_EyeWorldPosition = glGetUniformLocation(m_Program, "eye_world_position");
 		GL_TOOL::CheckGLError();
@@ -116,13 +160,20 @@ namespace AE{
 		const GLfloat ScreenSize[2] = { RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT };
 		glUniform2fv(m_ScreenSizeUniform, 1, ScreenSize);
 		//--
+		POINT_LIGHT* pPointLight = (POINT_LIGHT*)RObject.m_pLight;
+		//--
 		glUniform3fv(m_LightDiffuse, 1, RObject.m_pLight->m_Diffuse);
 		glUniform1f(m_LightDiffuseIntensity, RObject.m_pLight->m_DiffuseIntensity);
 		glUniform3fv(m_LightSpecular, 1, RObject.m_pLight->m_Specular);
 		glUniform1f(m_LightSpecularIntensity, RObject.m_pLight->m_SpecularIntensity);
 		glUniform3fv(m_LightPosition, 1, (GLfloat*)&RObject.m_pLight->m_PositionOrDirection);
+		glUniform1f(m_LightRadius, pPointLight->GetRadius());
 		//--
 		glUniform3fv(m_EyeWorldPosition, 1, (GLfloat*)&Renderer.m_pCurrentCamera->m_Eye);
+		//--
+		glUniform1i(m_colorMapUniform, GBUFFER::GBUFFER_TEXTURES_DIFFUSE);
+		glUniform1i(m_positionMapUniform, GBUFFER::GBUFFER_TEXTURES_POSITION);
+		glUniform1i(m_NormalMapUniform, GBUFFER::GBUFFER_TEXTURES_NORMAL);
 		//--
 		GL_TOOL::CheckGLError();
 	}
@@ -191,6 +242,10 @@ namespace AE{
 		//--
 		glUniform3fv(m_EyeWorldPositionUniform, 1, (GLfloat*)&Renderer.m_pCurrentCamera->m_Eye);
 		//--
+		glUniform1i(m_colorMapUniform, GBUFFER::GBUFFER_TEXTURES_DIFFUSE);
+		glUniform1i(m_positionMapUniform, GBUFFER::GBUFFER_TEXTURES_POSITION);
+		glUniform1i(m_NormalMapUniform, GBUFFER::GBUFFER_TEXTURES_NORMAL);
+		//--
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
@@ -233,11 +288,18 @@ namespace AE{
 		glClear(GL_COLOR_BUFFER_BIT);
 		GL_TOOL::CheckGLError();
 		//--
-		AT::I32 count = m_Lights.size();
+		//Point light pass
+		AT::I32 count = m_PointLights.size();
 		for (int iLight = 0; iLight < count; ++iLight){
-			m_Lights[iLight]->m_Mesh.Draw(Renderer);
+			m_PointLights[iLight]->m_Mesh.Draw(Renderer);
 		}
 		glDisable(GL_CULL_FACE);
+		//--
+		//Directional light pass
+		count = m_DirectionalLights.size();
+		for (int iLight = 0; iLight < count; ++iLight){
+			m_DirectionalLights[iLight]->m_Mesh.Draw(Renderer);
+		}
 #endif
 	}
 	//-----------------------------------------------------------------------------
@@ -269,16 +331,16 @@ namespace AE{
 	//----------------------------------------------------------------------------
 	void DEFERRED_RENDERER::AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius){
 		switch (Type){
-			case DEFERRED_RENDERER_LIGHT_SPOT:{
+			case DEFERRED_RENDERER_LIGHT_POINT:{
 				POINT_LIGHT* SL = new POINT_LIGHT();
 				SL->BuildLight(Renderer, Diffuse, Specular, PositionOrDirection, Radius);
-				m_Lights.push_back(SL);
+				m_PointLights.push_back(SL);
 				break;
 			}
 			case DEFFERED_RENDERER_LIGHT_DIRECTIONAL:{
 				DIRECTIONAL_LIGHT* DL = new DIRECTIONAL_LIGHT();
 				DL->BuildLight(Renderer, Diffuse, Specular, PositionOrDirection);
-				m_Lights.push_back(DL);
+				m_DirectionalLights.push_back(DL);
 				break;
 			}
 			case DEFERRED_RENDERER_LIGHT_TYPE_COUNT:
@@ -288,13 +350,31 @@ namespace AE{
 	}
 	//----------------------------------------------------------------------------
 	void DEFERRED_RENDERER::UpdateLight(AT::I64F elapsedTime_ms){
-		m_Angle += 0.01f;
-		AT::I32 count = m_Lights.size();
+		//--
+		//Point lights update
+		AT::I32 count = m_PointLights.size();
 		for (int iLight = 0; iLight < count; ++iLight){
-			LIGHT* pLight = m_Lights[iLight];
+			POINT_LIGHT* pLight = m_PointLights[iLight];
 			//--
-			//pLight->m_Position.x = pLight->m_Position.x*cos(m_Angle) - pLight->m_Position.y*sin(m_Angle);
-			//pLight->m_Position.y = pLight->m_Position.x*sin(m_Angle) + pLight->m_Position.y*cos(m_Angle);
+			AT::I32F x = pLight->m_PositionOrDirection.x;
+			AT::I32F z = pLight->m_PositionOrDirection.z;
+			static const AT::I32F angularspeed = 1.f;
+			m_movAngle = ((AT::I32F)elapsedTime_ms / 1000.f)*angularspeed;
+			//--
+			AT::I32F c = cos(m_movAngle);
+			AT::I32F s = sin(m_movAngle);
+			pLight->m_PositionOrDirection.x = x*c -z*s;
+			pLight->m_PositionOrDirection.z = x*s +z*c;
+			//--
+			pLight->m_Mesh.m_trfModel.SetT(pLight->m_PositionOrDirection);
+		}
+		//--
+		//Directional lights update
+		count = m_DirectionalLights.size();
+		for (int iLight = 0; iLight < count; ++iLight){
+			DIRECTIONAL_LIGHT* pLight = m_DirectionalLights[iLight];
+			//--
+			//pLight->m_PositionOrDirection.x += (AT::I32F)elapsedTime_ms / 1000.f*1.f;
 			//--
 			pLight->m_Mesh.m_trfModel.SetT(pLight->m_PositionOrDirection);
 		}

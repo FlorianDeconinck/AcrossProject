@@ -6,12 +6,20 @@
 	<levels>
 		<level name="Test Bed #1">
 			<gameobject>
-				<position x="-2" y="0" z="0"/>
+				<position x="-2" y="2" z="0"/>
 				<resource path="CompanionCube/CompanionCube.aeasset"/>
 			</gameobject>
 			<gameobject>
-				<position x="2" y="0" z="0"/>
+				<position x="2" y="1" z="0"/>
 				<resource path="Shape/Shape.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="0" z="0"/>
+				<resource path="Floor/floor.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="1.0" z="-5"/>
+				<resource path="StandfordDragon/dragon.aeasset"/>
 			</gameobject>
 		</level>
 	</levels>

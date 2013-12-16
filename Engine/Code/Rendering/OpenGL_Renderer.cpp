@@ -198,8 +198,12 @@ namespace AE{
 			m_ShadersAttached[m_ShaderAttachedCount] = &m_FXAAShader;
 			m_ShaderAttachedCount++;
 		}
-		if (m_DeferredRenderer.m_TexShader.Load(*this, "../DeferredRendering/GLSL/GeometryPass.vs", "../DeferredRendering/GLSL/GeometryPass.fs")){
+		if (m_DeferredRenderer.m_TexShader.Load(*this, "../DeferredRendering/GLSL/GeometryPass_texture.vs", "../DeferredRendering/GLSL/GeometryPass_texture.fs")){
 			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_TexShader;
+			m_ShaderAttachedCount++;
+		}
+		if (m_DeferredRenderer.m_ColShader.Load(*this, "../DeferredRendering/GLSL/GeometryPass_color.vs", "../DeferredRendering/GLSL/GeometryPass_color.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_ColShader;
 			m_ShaderAttachedCount++;
 		}
 		if (m_DeferredRenderer.m_LightShaderSpot.Load(*this, "../DeferredRendering/GLSL/LightPass_Point.vs", "../DeferredRendering/GLSL/LightPass_Point.fs")){
@@ -257,8 +261,17 @@ namespace AE{
 		GLfloat Specular_Sun[4] = { 1.0f, 0.54f, 0.23f, 5.0f };
 		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFFERED_RENDERER_LIGHT_DIRECTIONAL, Diffuse_Sun, Specular_Sun, AT::VEC3Df(1, -1, 1), 0);
 		GLfloat Diffuse_Spot_A[4] = { 0.f, 1.f, 0.f, 0.7f};
-		GLfloat Specular_Spot_A[4] = { 0.f, 1.f, 0.f, 5.f };
-		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_SPOT, Diffuse_Spot_A, Specular_Spot_A, AT::VEC3Df(0, 1, 0), 2.0f);
+		GLfloat Specular_Spot_A[4] = { 1.f, 1.f, 1.f, 5.f };
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse_Spot_A, Specular_Spot_A, AT::VEC3Df(0, 1, 5), 4.f);
+		GLfloat Diffuse_Spot_B[4] = { 1.f, 0.f, 0.f, 0.7f };
+		GLfloat Specular_Spot_B[4] = { 1.f, 1.f, 1.f, 5.f };
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse_Spot_B, Specular_Spot_B, AT::VEC3Df(0, 1, -5), 4.f);
+		GLfloat Diffuse_Spot_C[4] = { 1.f, 0.f, 1.f, 0.7f };
+		GLfloat Specular_Spot_C[4] = { 1.f, 1.f, 1.f, 5.f };
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse_Spot_C, Specular_Spot_C, AT::VEC3Df(5, 1, 0), 4.f);
+		GLfloat Diffuse_Spot_D[4] = { 1.f, 1.f, 1.f, 0.7f };
+		GLfloat Specular_Spot_D[4] = { 1.f, 1.f, 1.f, 5.f };
+		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse_Spot_D, Specular_Spot_D, AT::VEC3Df(-5, 1, 0), 4.f);
 		//--
 		return m_Status != OPENGL_RENDERER::BUILD_ERROR;
 	}
@@ -312,8 +325,8 @@ namespace AE{
 			assert(false);				//multiple uv channels, not handled
 			return NULL;
 		}else{
-			pixelInformationLength = 7; //vertex 3d position + 4d color vector + normal
-			Shader = SHADER_ABC::COLOR_3D_SHADER;
+			pixelInformationLength = 10; //vertex 3d position + 4d color vector + normal
+			Shader = m_Mode == FORWARD ? SHADER_ABC::COLOR_3D_SHADER : SHADER_ABC::DEFERRED_COLOR_3D_SHADER;
 		}
 		//Load Vertices
 		AT::I32 VerticeCount = *(AT::I32*)ptr;
@@ -350,22 +363,23 @@ namespace AE{
 			ptr += IndicesCount*sizeof(GLuint);
 		}
 		//!!!!!!TMP
-		//Load Texture
-		AT::I8*		TextureFilename;
 		AT::VEC2Df	UVOffset;
-		size_t len = *(size_t*)ptr;
-		ptr += sizeof(size_t);
 		AT::I8 DefaultNoTexture[22];
 		sprintf_s(DefaultNoTexture, "DefaultNoTexture.png\0");
-		if(len > 0){
-			TextureFilename = (AT::I8*)ptr;
-			ptr += len*sizeof(AT::I8);
-			UVOffset.Set(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1]);
-			ptr += 2*sizeof(AT::I32F);
-		}else{
-			TextureFilename = DefaultNoTexture;
+		AT::I8*		TextureFilename;
+		TextureFilename = DefaultNoTexture;
+		if (nUV > 0){
+			//Load Texture
+			size_t len = *(size_t*)ptr;
+			ptr += sizeof(size_t);
+			if(len > 0){
+				TextureFilename = (AT::I8*)ptr;
+				ptr += len*sizeof(AT::I8);
+				UVOffset.Set(((AT::I32F*)ptr)[0], ((AT::I32F*)ptr)[1]);
+				ptr += 2*sizeof(AT::I32F);
+			}
+			//---
 		}
-		//---
 		R_OBJECT* pRObject = (R_OBJECT*)m_DynamicAllocator.alloc(sizeof(R_OBJECT));
 		pRObject = new(pRObject) R_OBJECT();
 		m_Objects.push_back(pRObject);

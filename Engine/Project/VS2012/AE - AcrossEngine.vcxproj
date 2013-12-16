@@ -155,8 +155,10 @@
     <ClCompile Include="..\..\External\pugixml.1.2\src\pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass.fs" />
-    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass.vs" />
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass_color.fs" />
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass_color.vs" />
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass_texture.fs" />
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass_texture.vs" />
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Directional.fs" />
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Directional.vs" />
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Point.fs" />

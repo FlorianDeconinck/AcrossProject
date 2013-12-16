@@ -28,12 +28,16 @@ namespace AE{
 	void COLOR_SHADER::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
 		Use();
 		glBindVertexArray(Object.m_vao);
+		GL_TOOL::CheckGLError();
 		glEnableVertexAttribArray(m_posAttrib);
-		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, 10*sizeof(AT::I32F), (void*)(0*sizeof(AT::I32F)));
+		GL_TOOL::CheckGLError();
+		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(AT::I32F), (void*)(0 * sizeof(AT::I32F)));
 		glEnableVertexAttribArray(m_colAttrib);
-		glVertexAttribPointer(m_colAttrib, 4, GL_FLOAT, GL_FALSE, 10*sizeof(AT::I32F), (void*)(3*sizeof(AT::I32F)));
+		GL_TOOL::CheckGLError();
+		glVertexAttribPointer(m_colAttrib, 4, GL_FLOAT, GL_FALSE, 10 * sizeof(AT::I32F), (void*)(3 * sizeof(AT::I32F)));
 		glEnableVertexAttribArray(m_posAttrib);
-		glVertexAttribPointer(m_norAttrib, 3, GL_FLOAT, GL_FALSE, 10*sizeof(AT::I32F), (void*)(7*sizeof(AT::I32F)));
+		GL_TOOL::CheckGLError();
+		glVertexAttribPointer(m_norAttrib, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(AT::I32F), (void*)(7 * sizeof(AT::I32F)));
 		glEnableVertexAttribArray(m_norAttrib);
 		Object.m_uniformModel = glGetUniformLocation(m_Program, "in_model");
 		GL_TOOL::CheckGLError();

@@ -245,12 +245,6 @@
     <None Include="..\..\Code\Rendering\Shaders_GLSL\thickLines.vs">
       <Filter>Rendering\Shaders_GLSL</Filter>
     </None>
-    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass.fs">
-      <Filter>Rendering\DeferredRendering\GLSL</Filter>
-    </None>
-    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass.vs">
-      <Filter>Rendering\DeferredRendering\GLSL</Filter>
-    </None>
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Directional.fs">
       <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
@@ -261,6 +255,18 @@
       <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
     <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\LightPass_Point.vs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass_texture.vs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass_texture.fs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass_color.fs">
+      <Filter>Rendering\DeferredRendering\GLSL</Filter>
+    </None>
+    <None Include="..\..\Code\Rendering\DeferredRendering\GLSL\GeometryPass_color.vs">
       <Filter>Rendering\DeferredRendering\GLSL</Filter>
     </None>
   </ItemGroup>

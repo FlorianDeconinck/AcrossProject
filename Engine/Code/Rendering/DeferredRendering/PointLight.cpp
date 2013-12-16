@@ -22,6 +22,7 @@ namespace AE{
 		SolidSphere(Radius, 20, 20);
 		m_Mesh.Build(3, (AT::I32F*)m_SphereVertices.data(), (AT::I32)m_SphereVertices.size(), (GLuint*)m_SphereIndices.data(), (AT::I32)m_SphereIndices.size(), GL_STATIC_DRAW);
 		m_PositionOrDirection = Position;
+		m_Radius = Radius;
 		//--
 		m_Mesh.m_GLDisplayMode = GL_TRIANGLES;
 		Renderer.InitRObject(m_Mesh, SHADER_ABC::DEFERRED_LIGHT_SPOT_SHADER);

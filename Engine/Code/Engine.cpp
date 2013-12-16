@@ -74,7 +74,7 @@ namespace AE{
 		AT::I8 title[64];
 		AT::I8 rendererTitle[64];
 		AT::I64F elapsedTime_ms = 0;
-		AT::I64F Time = 0;
+		AT::I64F Time = m_Timer.GetTime();
 		AT::I64F FPS_hertz_ms = 1000.0/60.0;
 		//--
 		while(!m_Controller.m_bQuit){

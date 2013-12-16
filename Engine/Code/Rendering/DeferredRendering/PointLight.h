@@ -17,6 +17,7 @@ namespace AE{
 	public:
 		POINT_LIGHT();
 		void BuildLight(RENDERER_ABC& Renderer, GLfloat	Diffuse[3], GLfloat Specular[3], AT::VEC3Df Position, AT::I32F Radius);
+		inline AT::I32F GetRadius(){ return m_Radius; }
 	protected:
 		void SolidSphere(AT::I32F radius, AT::U32 rings, AT::U32 sectors);
 		//--

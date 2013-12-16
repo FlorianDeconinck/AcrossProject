@@ -13,45 +13,24 @@ uniform float light_specular_intensity;
 uniform vec3 light_diffuse;
 uniform float light_diffuse_intensity;
 uniform vec3 light_position;
+uniform float light_radius;
 
 uniform vec3 eye_world_position;
 
 vec4 Phong(vec3 WorldPos, vec3 Normal){
-    float MatSpecular = 1.f;
-    vec3 light_direction = normalize(light_position - WorldPos);
-
-    //vec4 AmbientColor = vec4(light_diffuse, 1.0f) * light_diffuse_intensity;
-    float DiffuseFactor = dot(Normal, -light_direction);
-
-    vec4 DiffuseColor  = vec4(0, 0, 0, 0);
-    vec4 SpecularColor = vec4(0, 0, 0, 0);
-
-    if (DiffuseFactor > 0) {
-        DiffuseColor = vec4(light_diffuse, 1.0f) * light_diffuse_intensity * DiffuseFactor;
-
-        vec3 VertexToEye = normalize(eye_world_position - WorldPos);
-        vec3 LightReflect = normalize(reflect(light_direction, Normal));
-        float SpecularFactor = dot(VertexToEye, LightReflect);
-        SpecularFactor = pow(SpecularFactor, light_specular_intensity);
-        if (SpecularFactor > 0) {
-            SpecularColor = vec4(light_specular, 1.0f) * MatSpecular * SpecularFactor;
-        }
-    }
-    //return AmbientColor + DiffuseColor + SpecularColor;    
-    return DiffuseColor + SpecularColor;    
+    vec3 L = light_position - WorldPos;
+    float dot = max(dot(L, Normal), 0);
+    return vec4(light_diffuse * dot, 1.0);
 }
 
+//   Attenuation
 float Attenuation(vec3 WorldPos){
-
-    float Constant = 0.f;
-    float Linear = 1.f;
-    float Exp = 5.0f;
-
-    float Distance = length(light_position - WorldPos);
-    return max(1.0,
-               Constant + 
-               Linear * Distance + 
-               Exp * Distance * Distance);
+    vec3 lightToVertex = light_position - WorldPos;
+    float sqrDist = dot (lightToVertex, lightToVertex);
+    float OneOverLightRangeSqr = 1  / (light_radius*light_radius);//to get ou of the shader
+    float atten = max (0, 1 - sqrDist * OneOverLightRangeSqr);
+    atten *= atten;     
+    return atten;
 }
 
 void main(){
@@ -61,5 +40,5 @@ void main(){
     vec3 Normal     = texture(uNormalMap, TexCoord).xyz;
     Normal = normalize(Normal);
 
-    outColor = vec4(Color,1.0) * (Phong(WorldPos, Normal) / Attenuation(WorldPos));
+    outColor = vec4(Color,1.0) * (Phong(WorldPos, Normal) * Attenuation(WorldPos));
 }

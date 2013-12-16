@@ -33,7 +33,7 @@ namespace AT{
 			AT::I32 TimePos = var.find("_TIME_");
 			std::string str1 = var.substr(0, TimePos);
 			std::string str2 = var.substr(TimePos+6);
-			m_logFileStream << str1.c_str() << m_TimeSum << str2.c_str();
+			m_logFileStream << str1.c_str() << m_TimeSum << str2.c_str() << std::endl;
 			AT::I64F Time = m_TimeSum;
 			m_TimeSum=0;
 			return Time;
