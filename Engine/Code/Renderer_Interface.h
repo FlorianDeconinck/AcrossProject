@@ -27,6 +27,13 @@ namespace AE{
 		}
 		~RENDERER_ABC(){}
 		//---
+		enum LIGHT_TYPE{
+			RENDERER_LIGHT_POINT = 0,
+			RENDERER_LIGHT_DIRECTIONAL = 1,
+			//--
+			RENDERER_LIGHT_TYPE_COUNT,
+		};
+		//---
 		virtual AT::I8		Init()=0;
 		virtual void		Update(AT::I64F elapsedTime_ms, GUI& Gui, CONTROLLER& C, WORLD_ABC& W) = 0;
 		virtual void		SwapDrawBuffers()=0;
@@ -36,6 +43,8 @@ namespace AE{
 		//---
 		virtual void		KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown){}
 		virtual void		WindowTextTitle(AT::I8* Title){}
+		//---
+		virtual void		AddLight(LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius=0.f)=0;
 		//---
 		inline void			SetDependancies(CONTROLLER* _pC){m_pController=_pC;}
 		inline void			SetMainWindowSettings(HDC _hDC, HWND _hWnd){m_hDC = _hDC; m_hMainWnd = _hWnd;}

@@ -3,6 +3,7 @@
 #include "World_3DGrid.h"
 #include "GameObject.h"
 #include "../../Manager_Interface.h"
+#include "../../Renderer_Interface.h"
 //Tool
 #include <pugixml.hpp>
 //std
@@ -79,6 +80,42 @@ namespace AE{
 				pugi::xml_node resource = node.child("resource");
 				AddGameObject(resource.attribute("path").value(), AT::VEC3Di(pos.attribute("x").as_int(), pos.attribute("y").as_int(), pos.attribute("z").as_int()));
 				continue;
+			}
+			//-- LIGHT
+			if (!strcmp(node.name(), "light")){
+				GLfloat Diffuse[4];
+				pugi::xml_node diffuseNode = node.child("diffuse");
+				Diffuse[0] = diffuseNode.attribute("r").as_float();
+				Diffuse[1] = diffuseNode.attribute("g").as_float();
+				Diffuse[2] = diffuseNode.attribute("b").as_float();
+				Diffuse[3] = diffuseNode.attribute("i").as_float();
+				GLfloat Specular[4];
+				pugi::xml_node specularNode = node.child("specular");
+				Specular[0] = specularNode.attribute("r").as_float();
+				Specular[1] = specularNode.attribute("g").as_float();
+				Specular[2] = specularNode.attribute("b").as_float();
+				Specular[3] = specularNode.attribute("i").as_float();
+				if (!strcmp(node.attribute("type").value(), "DIRECTIONAL")){
+					AT::VEC3Df Direction;
+					pugi::xml_node directionNode = node.child("direction");
+					Direction.x = directionNode.attribute("x").as_float();
+					Direction.y = directionNode.attribute("y").as_float();
+					Direction.z = directionNode.attribute("z").as_float();
+					//--
+					m_pRenderer->AddLight(RENDERER_ABC::RENDERER_LIGHT_DIRECTIONAL, Diffuse, Specular, Direction);
+				}
+				else if (!strcmp(node.attribute("type").value(), "POINT")){
+					AT::VEC3Df Position;
+					pugi::xml_node positionNode = node.child("position");
+					Position.x = positionNode.attribute("x").as_float();
+					Position.y = positionNode.attribute("y").as_float();
+					Position.z = positionNode.attribute("z").as_float();
+					pugi::xml_node radiusNode = node.child("radius");
+					AT::I32F Radius = radiusNode.text().as_float();
+					//--
+					m_pRenderer->AddLight(RENDERER_ABC::RENDERER_LIGHT_POINT, Diffuse, Specular, Position, Radius);
+				}
+
 			}
 		}
 		stream.close();

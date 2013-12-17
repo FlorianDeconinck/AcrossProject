@@ -117,7 +117,7 @@ namespace AE{
 	public :
 		enum DEFERRED_RENDERER_LIGHT_TYPE{
 			DEFERRED_RENDERER_LIGHT_POINT = 0,
-			DEFFERED_RENDERER_LIGHT_DIRECTIONAL=1,
+			DEFERED_RENDERER_LIGHT_DIRECTIONAL=1,
 			//--
 			DEFERRED_RENDERER_LIGHT_TYPE_COUNT,
 		};
@@ -133,10 +133,10 @@ namespace AE{
 		DEFERRED_LIGHT_SPOT_SHADER			m_LightShaderSpot;
 		DEFERRED_LIGHT_DIRECTIONAL_SHADER	m_LightShaderDirectional;
 	private:
-		GBUFFER							m_GBuffer;
-		std::vector<POINT_LIGHT*>		m_PointLights;
-		std::vector<DIRECTIONAL_LIGHT*> m_DirectionalLights;
-		AT::I32F						m_movAngle;
+		GBUFFER								m_GBuffer;
+		std::vector<POINT_LIGHT*>			m_PointLights;
+		std::vector<DIRECTIONAL_LIGHT*>		m_DirectionalLights;
+		AT::I32F							m_movAngle;
 		//-------------------------------------------------------------------------
 		void GeometryPass(RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects);
 		void LightingPass(RENDERER_ABC& Renderer, GLuint postProcessFBO);

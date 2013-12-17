@@ -43,12 +43,12 @@ namespace AE{
 		GLuint				m_frameBuffer;
 		GLuint				m_rboDepthStencil;
 		AT::I8				m_bVSync;
-		DEFERRED_RENDERER	m_DeferredRenderer;
 	public:
 		STATUS				m_Status;
 		GLuint				m_texScreenShaderColorBuffer;
 		AT::I32				m_iPostProcess; //0 : nothin - 1 : blur - 2 :fxaa
 		MODE				m_Mode;
+		DEFERRED_RENDERER	m_DeferredRenderer;
 		//--
 		COLOR_SHADER		m_ColorShader;
 		TEXTURE_SHADER		m_TextureShader;
@@ -59,6 +59,7 @@ namespace AE{
 		/*virtual*/ AT::I8		Init();
 		/*virtual*/ void		Update(AT::I64F elapsedTime_ms, GUI& Gui, CONTROLLER& C, WORLD_ABC& W);
 		/*virtual*/ void		SwapDrawBuffers();
+		/*virtual*/ void		AddLight(LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius = 0.f);
 		/*virtual*/ R_OBJECT*	CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax);
 		/*virtual*/ void		InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID);
 		//----

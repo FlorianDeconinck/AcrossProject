@@ -5,6 +5,37 @@
 	</desc>
 	<levels>
 		<level name="Test Bed #1">
+			<!-- LIGHT -->
+			<light type="DIRECTIONAL">
+				<direction x="1" y="-1" z="1"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="0.54" b="0.23" i="5"/>
+			</light>
+			<light type="POINT">
+				<position x="0" y="1" z="5"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<position x="0" y="1" z="-5"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<position x="5" y="1" z="0"/>
+				<diffuse r="0" g="0" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<position x="-5" y="1" z="0"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<!-- GAME OBJECT -->
 			<gameobject>
 				<position x="-2" y="2" z="0"/>
 				<resource path="CompanionCube/CompanionCube.aeasset"/>

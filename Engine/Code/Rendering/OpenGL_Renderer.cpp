@@ -114,6 +114,24 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//---------------------------------------------------------------------------
+	void OPENGL_RENDERER::AddLight(LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius/* = 0.f*/){
+		if(m_Mode == FORWARD){
+			Break();
+		}else if(m_Mode == DEFERRED){
+			switch (Type){
+			case AE::RENDERER_ABC::RENDERER_LIGHT_POINT:
+				m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse, Specular, PositionOrDirection, Radius);
+				break;
+			case AE::RENDERER_ABC::RENDERER_LIGHT_DIRECTIONAL:
+				m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERED_RENDERER_LIGHT_DIRECTIONAL, Diffuse, Specular, PositionOrDirection, 0);
+				break;
+			default:
+				break;
+			}
+		}else
+			Break();
+	}
+	//---------------------------------------------------------------------------
 	AT::I8 OPENGL_RENDERER::CreateGLContext(){
 		PIXELFORMATDESCRIPTOR pfd;
 		memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -267,22 +285,6 @@ namespace AE{
 		//--
 		if (m_Mode == DEFERRED)
 			m_DeferredRenderer.Init();
-		//--
-		GLfloat Diffuse_Sun[4]	= { 1.f, 1.f, 1.f, 0.7f };
-		GLfloat Specular_Sun[4] = { 1.0f, 0.54f, 0.23f, 5.0f };
-		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFFERED_RENDERER_LIGHT_DIRECTIONAL, Diffuse_Sun, Specular_Sun, AT::VEC3Df(1, -1, 1), 0);
-		GLfloat Diffuse_Spot_A[4] = { 0.f, 1.f, 0.f, 0.7f};
-		GLfloat Specular_Spot_A[4] = { 1.f, 1.f, 1.f, 5.f };
-		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse_Spot_A, Specular_Spot_A, AT::VEC3Df(0, 1, 5), 4.f);
-		GLfloat Diffuse_Spot_B[4] = { 1.f, 0.f, 0.f, 0.7f };
-		GLfloat Specular_Spot_B[4] = { 1.f, 1.f, 1.f, 5.f };
-		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse_Spot_B, Specular_Spot_B, AT::VEC3Df(0, 1, -5), 4.f);
-		GLfloat Diffuse_Spot_C[4] = { 1.f, 0.f, 1.f, 0.7f };
-		GLfloat Specular_Spot_C[4] = { 1.f, 1.f, 1.f, 5.f };
-		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse_Spot_C, Specular_Spot_C, AT::VEC3Df(5, 1, 0), 4.f);
-		GLfloat Diffuse_Spot_D[4] = { 1.f, 1.f, 1.f, 0.7f };
-		GLfloat Specular_Spot_D[4] = { 1.f, 1.f, 1.f, 5.f };
-		m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse_Spot_D, Specular_Spot_D, AT::VEC3Df(-5, 1, 0), 4.f);
 		//--
 		return m_Status != OPENGL_RENDERER::BUILD_ERROR;
 	}

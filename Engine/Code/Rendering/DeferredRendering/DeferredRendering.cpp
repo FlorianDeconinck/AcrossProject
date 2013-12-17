@@ -342,7 +342,7 @@ namespace AE{
 				m_PointLights.push_back(SL);
 				break;
 			}
-			case DEFFERED_RENDERER_LIGHT_DIRECTIONAL:{
+			case DEFERED_RENDERER_LIGHT_DIRECTIONAL:{
 				DIRECTIONAL_LIGHT* DL = new DIRECTIONAL_LIGHT();
 				DL->BuildLight(Renderer, Diffuse, Specular, PositionOrDirection);
 				m_DirectionalLights.push_back(DL);
