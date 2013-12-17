@@ -23,16 +23,18 @@ This work is based on several reads :
 * For 3D mesh/animation translation from several modelers (MAYA being the one I use mostly) to the engine format : [AssImp](http://assimp.sourceforge.net/)
 
 ##Project implemented list
-* Grid-based environment
+* Environment
+  * 2.5D grid based
+  * 3D grid based
 * Basic rendering OpenGL dependant structure
-  * ThickLines geometry shader
-  * FXAA shader
-  * Basic texture shader
+  * Thick lines geometry shader
+  * Anti - Aliasing : FXAA shader
+  * Deferred Rendering (Directional & Point lights)
 * XML base resource manager
 * Small editor
 * Animation
  * Messy sprites animation
-* A* pathfinder
+* A* pathfinder - 2D
   * Pruning acceleration : JPS
 * Memory
   * Stack allocator (for pre-allocated memory usage) 
