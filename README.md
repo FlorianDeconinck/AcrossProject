@@ -5,6 +5,10 @@ Even if speed and optimization isn't the primary goal here, they'll be sacrifice
 
 I'll try to write down some thoughts and technical details on how I implement the system as I go in the [project wiki](https://github.com/FlorianDeconinck/AcrossProject/wiki).
 
+##Demos
+
+[Deferred Rendering](http://www.youtube.com/watch?v=VG5u4h1CPLY) (the video forgot to mention that FXAA is on...)
+
 ##Sources
 
 ###Reads
@@ -29,7 +33,7 @@ This work is based on several reads :
 * Basic rendering OpenGL dependant structure
   * Thick lines geometry shader
   * Anti - Aliasing : FXAA shader
-  * Deferred Rendering (Directional & Point lights)
+  * Deferred Rendering (Directional & Point lights) - DEMO #1
 * XML base resource manager
 * Small editor
 * Animation
