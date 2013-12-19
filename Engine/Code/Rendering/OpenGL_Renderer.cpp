@@ -114,22 +114,21 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//---------------------------------------------------------------------------
-	void OPENGL_RENDERER::AddLight(LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius/* = 0.f*/){
+	LIGHT* OPENGL_RENDERER::AddLight(LIGHT_TYPE Type, const GLfloat Diffuse[4], const GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius/* = 0.f*/){
 		if(m_Mode == FORWARD){
 			Break();
 		}else if(m_Mode == DEFERRED){
 			switch (Type){
 			case AE::RENDERER_ABC::RENDERER_LIGHT_POINT:
-				m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse, Specular, PositionOrDirection, Radius);
-				break;
+				return m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERRED_RENDERER_LIGHT_POINT, Diffuse, Specular, PositionOrDirection, Radius);
 			case AE::RENDERER_ABC::RENDERER_LIGHT_DIRECTIONAL:
-				m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERED_RENDERER_LIGHT_DIRECTIONAL, Diffuse, Specular, PositionOrDirection, 0);
-				break;
+				return m_DeferredRenderer.AddLight(*this, DEFERRED_RENDERER::DEFERED_RENDERER_LIGHT_DIRECTIONAL, Diffuse, Specular, PositionOrDirection, 0);
 			default:
-				break;
+				return NULL;
 			}
 		}else
 			Break();
+		return NULL;
 	}
 	//---------------------------------------------------------------------------
 	AT::I8 OPENGL_RENDERER::CreateGLContext(){
@@ -243,6 +242,10 @@ namespace AE{
 			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_LightShaderDirectional;
 			m_ShaderAttachedCount++;
 		}
+		if (m_DeferredRenderer.m_LightShaderFakeEmit.Load(*this, "../DeferredRendering/GLSL/FakeLightEmit_tex.vs", "../DeferredRendering/GLSL/FakeLightEmit_tex.fs")){
+			m_ShadersAttached[m_ShaderAttachedCount] = &m_DeferredRenderer.m_LightShaderFakeEmit;
+			m_ShaderAttachedCount++;
+		}
 		//Enable test
 		glEnable( GL_DEPTH_TEST );
 		//Camera
@@ -308,7 +311,7 @@ namespace AE{
 // 		GL_TOOL::CheckGLError();
 	}
 	//--------------------------------------------------------------------------
-	R_OBJECT* OPENGL_RENDERER::CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax){
+	R_OBJECT* OPENGL_RENDERER::CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax, SHADER_ABC::SHADERS_ID ShaderID/*=SHADER_ABC::NO_SHADERS*/){
 		void* pBuffer = ResourceManager.LoadResource(sResourceName);
 		if(!pBuffer)
 			return NULL;
@@ -333,13 +336,19 @@ namespace AE{
 		SHADER_ABC::SHADERS_ID Shader;
 		if(nUV==1){
 			pixelInformationLength = 8;	//vertex 3d position + uv + normal
-			Shader = m_Mode == FORWARD ? SHADER_ABC::TEXTURE_3D_SHADER : SHADER_ABC::DEFERRED_TEXTURE_3D_SHADER;
+			if (ShaderID == SHADER_ABC::NO_SHADERS)
+				Shader = m_Mode == FORWARD ? SHADER_ABC::TEXTURE_3D_SHADER : SHADER_ABC::DEFERRED_TEXTURE_3D_SHADER;
+			else
+				Shader = ShaderID;
 		}else if(nUV!=0){
 			assert(false);				//multiple uv channels, not handled
 			return NULL;
 		}else{
 			pixelInformationLength = 10; //vertex 3d position + 4d color vector + normal
-			Shader = m_Mode == FORWARD ? SHADER_ABC::COLOR_3D_SHADER : SHADER_ABC::DEFERRED_COLOR_3D_SHADER;
+			if (ShaderID == SHADER_ABC::NO_SHADERS)
+				Shader = m_Mode == FORWARD ? SHADER_ABC::COLOR_3D_SHADER : SHADER_ABC::DEFERRED_COLOR_3D_SHADER;
+			else
+				Shader = ShaderID;
 		}
 		//Load Vertices
 		AT::I32 VerticeCount = *(AT::I32*)ptr;

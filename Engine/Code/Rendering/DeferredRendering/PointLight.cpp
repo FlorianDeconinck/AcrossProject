@@ -12,7 +12,7 @@ namespace AE{
 		
 	}
 	//-------------------------------------------------------------------------
-	void POINT_LIGHT::BuildLight(RENDERER_ABC& Renderer, GLfloat	Diffuse[4], GLfloat Specular[4], AT::VEC3Df Position, AT::I32F Radius){
+	void POINT_LIGHT::BuildLight(RENDERER_ABC& Renderer, const GLfloat Diffuse[4], const GLfloat Specular[4], AT::VEC3Df Position, AT::I32F Radius){
 		//--
 		memcpy(m_Diffuse, Diffuse, 3*sizeof(Diffuse));
 		m_DiffuseIntensity = Diffuse[3];
@@ -23,9 +23,9 @@ namespace AE{
 		m_Mesh.Build(3, (AT::I32F*)m_SphereVertices.data(), (AT::I32)m_SphereVertices.size(), (GLuint*)m_SphereIndices.data(), (AT::I32)m_SphereIndices.size(), GL_STATIC_DRAW);
 		m_PositionOrDirection = Position;
 		m_Radius = Radius;
-		//--
 		m_Mesh.m_GLDisplayMode = GL_TRIANGLES;
 		Renderer.InitRObject(m_Mesh, SHADER_ABC::DEFERRED_LIGHT_SPOT_SHADER);
+		//--
 	}
 	//-------------------------------------------------------------------------
 	void POINT_LIGHT::SolidSphere(AT::I32F radius, AT::U32 stackCount, AT::U32 sliceCount){

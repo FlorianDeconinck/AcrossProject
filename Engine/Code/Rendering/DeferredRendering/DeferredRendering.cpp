@@ -253,9 +253,58 @@ namespace AE{
 		GL_TOOL::CheckGLError();
 	}
 	//-----------------------------------------------------------------------------
+	// DEFERRED_FAKE_EMIT_SHADER
+	//-----------------------------------------------------------------------------
+	void DEFERRED_FAKE_EMIT_SHADER::Init(RENDERER_ABC& Renderer){
+		m_ID = SHADER_ABC::SHADERS_ID::DEFFERED_LIGHT_FAKE_EMIT_SHADER;
+		//--
+		m_posAttrib = glGetAttribLocation(m_Program, "in_position");
+		GL_TOOL::CheckGLError();
+		//--
+		m_viewUniform = glGetUniformLocation(m_Program, "in_view");
+		GL_TOOL::CheckGLError();
+		m_projUniform = glGetUniformLocation(m_Program, "in_proj");
+		GL_TOOL::CheckGLError();
+		//--
+		m_ScreenSizeUniform = glGetUniformLocation(m_Program, "ScreenSize");
+		GL_TOOL::CheckGLError();
+		//--
+		m_LightEmit = glGetUniformLocation(m_Program, "light_emitted");
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void DEFERRED_FAKE_EMIT_SHADER::InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object){
+		Use();
+		glBindVertexArray(Object.m_vao);
+		glEnableVertexAttribArray(m_posAttrib);
+		glVertexAttribPointer(m_posAttrib, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(AT::I32F), (void*)(0 * sizeof(AT::I32F)));
+		Object.m_uniformModel = glGetUniformLocation(m_Program, "in_model");
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void DEFERRED_FAKE_EMIT_SHADER::BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject){
+		//--
+		const GLfloat ScreenSize[2] = { RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT };
+		glUniform2fv(m_ScreenSizeUniform, 1, ScreenSize);
+		//--
+		glUniformMatrix4fv(m_viewUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_View.ToGL());
+		glUniformMatrix4fv(m_projUniform, 1, GL_FALSE, (GLfloat*)Renderer.m_pCurrentCamera->m_Proj.ToGL());
+		glUniformMatrix4fv(RObject.m_uniformModel, 1, GL_FALSE, (GLfloat*)RObject.m_trfModel.ToGL());
+		//--
+		glUniform3fv(m_LightEmit, 1, RObject.m_pLight->m_Diffuse);
+		//--
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
+	void DEFERRED_FAKE_EMIT_SHADER::BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject/*=NULL*/){
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 5);
+		GL_TOOL::CheckGLError();
+	}
+	//-----------------------------------------------------------------------------
 	// DEFERRED_RENDERER
 	//-----------------------------------------------------------------------------
-	void DEFERRED_RENDERER::LightingPass(RENDERER_ABC& Renderer, GLuint postProcessFBO){
+	void DEFERRED_RENDERER::LightingPass(RENDERER_ABC& Renderer, GLuint postProcessFBO, const std::vector<R_OBJECT*>& RObjects){
 #if CHECK_GEOMETRY_PASS()
 		//Bind default frame buffer
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -289,7 +338,7 @@ namespace AE{
 		//--
 		//Point light pass
 		AT::I32 count = m_PointLights.size();
-		for (int iLight = 0; iLight < count; ++iLight){
+		for (AT::I32 iLight = 0; iLight < count; ++iLight){
 			AT::I8 bCull = (m_PointLights[iLight]->m_PositionOrDirection - Renderer.m_pCurrentCamera->m_Eye).LenghtSquared() < m_PointLights[iLight]->GetRadiusSquared();
 			if (!bCull)
 				glCullFace(GL_FRONT);
@@ -302,13 +351,22 @@ namespace AE{
 		//--
 		//Directional light pass
 		count = m_DirectionalLights.size();
-		for (int iLight = 0; iLight < count; ++iLight){
+		for (AT::I32 iLight = 0; iLight < count; ++iLight){
 			m_DirectionalLights[iLight]->m_Mesh.Draw(Renderer);
+		}
+		//--
+		//Non lit object
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE);
+		count = RObjects.size();
+		for (AT::I32 iObj = 0; iObj < count; ++iObj){
+			if (RObjects[iObj]->m_pShader && RObjects[iObj]->m_pShader->m_ID != SHADER_ABC::DEFFERED_LIGHT_FAKE_EMIT_SHADER)
+				continue;
+			RObjects[iObj]->Draw(Renderer);
 		}
 #endif
 	}
 	//-----------------------------------------------------------------------------
-	void DEFERRED_RENDERER::GeometryPass(RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects){
+	void DEFERRED_RENDERER::GeometryPass(RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& RObjects){
 		//Bind fbo (MRT)
 		m_GBuffer.BindToWrite();
 		//Render
@@ -316,9 +374,11 @@ namespace AE{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
-		AT::I32 count = Objects.size();
-		for (int iObj = 0; iObj < count; ++iObj){
-			Objects[iObj]->Draw(Renderer);
+		AT::I32 count = RObjects.size();
+		for (AT::I32 iObj = 0; iObj < count; ++iObj){
+			if (RObjects[iObj]->m_pShader && RObjects[iObj]->m_pShader->m_ID == SHADER_ABC::DEFFERED_LIGHT_FAKE_EMIT_SHADER)
+				continue;
+			RObjects[iObj]->Draw(Renderer);
 		}
 		glDepthMask(GL_FALSE);
 		glDisable(GL_DEPTH_TEST);
@@ -328,29 +388,29 @@ namespace AE{
 		m_GBuffer.Init(RENDERER_ABC::WIDTH, RENDERER_ABC::HEIGHT);
 	}
 	//-----------------------------------------------------------------------------
-	void DEFERRED_RENDERER::Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects, GLuint postProcessFBO){
-		GeometryPass(Renderer, Objects);
+	void DEFERRED_RENDERER::Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& RObjects, GLuint postProcessFBO){
+		GeometryPass(Renderer, RObjects);
 		UpdateLight(elapsedTime_ms);
-		LightingPass(Renderer, postProcessFBO);
+		LightingPass(Renderer, postProcessFBO, RObjects);
 	}
 	//----------------------------------------------------------------------------
-	void DEFERRED_RENDERER::AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius){
+	LIGHT* DEFERRED_RENDERER::AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, const GLfloat Diffuse[4], const GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius){
 		switch (Type){
 			case DEFERRED_RENDERER_LIGHT_POINT:{
 				POINT_LIGHT* SL = new POINT_LIGHT();
 				SL->BuildLight(Renderer, Diffuse, Specular, PositionOrDirection, Radius);
 				m_PointLights.push_back(SL);
-				break;
+				return SL;
 			}
 			case DEFERED_RENDERER_LIGHT_DIRECTIONAL:{
 				DIRECTIONAL_LIGHT* DL = new DIRECTIONAL_LIGHT();
 				DL->BuildLight(Renderer, Diffuse, Specular, PositionOrDirection);
 				m_DirectionalLights.push_back(DL);
-				break;
+				return DL;
 			}
 			case DEFERRED_RENDERER_LIGHT_TYPE_COUNT:
 			default:
-				return;
+				return NULL;
 		}
 	}
 	//----------------------------------------------------------------------------
@@ -361,16 +421,6 @@ namespace AE{
 		for (int iLight = 0; iLight < count; ++iLight){
 			POINT_LIGHT* pLight = m_PointLights[iLight];
 			//--
-			AT::I32F x = pLight->m_PositionOrDirection.x;
-			AT::I32F z = pLight->m_PositionOrDirection.z;
-			static const AT::I32F angularspeed = 1.f;
-			m_movAngle = ((AT::I32F)elapsedTime_ms / 1000.f)*angularspeed;
-			//--
-			AT::I32F c = cos(m_movAngle);
-			AT::I32F s = sin(m_movAngle);
-			pLight->m_PositionOrDirection.x = x*c -z*s;
-			pLight->m_PositionOrDirection.z = x*s +z*c;
-			//--
 			pLight->m_Mesh.m_trfModel.SetT(pLight->m_PositionOrDirection);
 		}
 		//--
@@ -378,9 +428,6 @@ namespace AE{
 		count = m_DirectionalLights.size();
 		for (int iLight = 0; iLight < count; ++iLight){
 			DIRECTIONAL_LIGHT* pLight = m_DirectionalLights[iLight];
-			//--
-			//pLight->m_PositionOrDirection.x += (AT::I32F)elapsedTime_ms / 1000.f*1.f;
-			//--
 			pLight->m_Mesh.m_trfModel.SetT(pLight->m_PositionOrDirection);
 		}
 	}

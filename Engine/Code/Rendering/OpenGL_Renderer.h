@@ -15,6 +15,8 @@ namespace AE{
 	//---------------------------------------------------------------------------
 	typedef void (*GENBUFFERS) ( GLsizei, GLuint* );
 	//---------------------------------------------------------------------------
+	class LIGHT;
+	//---------------------------------------------------------------------------
 	class OPENGL_RENDERER:public RENDERER_ABC, public AT::SINGLETON<OPENGL_RENDERER>{
 		friend class AT::SINGLETON<OPENGL_RENDERER>;
 	protected :
@@ -59,8 +61,8 @@ namespace AE{
 		/*virtual*/ AT::I8		Init();
 		/*virtual*/ void		Update(AT::I64F elapsedTime_ms, GUI& Gui, CONTROLLER& C, WORLD_ABC& W);
 		/*virtual*/ void		SwapDrawBuffers();
-		/*virtual*/ void		AddLight(LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius = 0.f);
-		/*virtual*/ R_OBJECT*	CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax);
+		/*virtual*/ LIGHT*		AddLight(LIGHT_TYPE Type, const GLfloat Diffuse[4], const GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius = 0.f);
+		/*virtual*/ R_OBJECT*	CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax, SHADER_ABC::SHADERS_ID ShaderID=SHADER_ABC::NO_SHADERS);
 		/*virtual*/ void		InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID);
 		//----
 		/*virtual*/ void		KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown);

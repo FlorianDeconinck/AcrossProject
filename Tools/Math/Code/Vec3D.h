@@ -19,9 +19,9 @@ namespace AT{
 		inline VEC3D<unit>			operator*(unit& s)				const { VEC3D<unit> Vr; Vr.x = s*this->x; Vr.y = s*this->y; Vr.z = s*this->z; return Vr; }
 	};
 	//---------------------------------------------------------------------------
-	typedef VEC3D<float> VEC3Di;
-	typedef VEC3D<float> VEC3Df;
-	typedef VEC3D<double> VEC3Dd;
+	typedef VEC3D<int>		VEC3Di;
+	typedef VEC3D<float>	VEC3Df;
+	typedef VEC3D<double>	VEC3Dd;
 	//-------------------------------------------------------------------------
 }//namespace AT
 //-------------------------------------------------------------------------

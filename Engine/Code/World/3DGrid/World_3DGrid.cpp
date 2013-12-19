@@ -2,6 +2,7 @@
 //Engine
 #include "World_3DGrid.h"
 #include "GameObject.h"
+#include "./GameObjects/GO_Light.h"
 #include "../../Manager_Interface.h"
 #include "../../Renderer_Interface.h"
 //Tool
@@ -25,7 +26,8 @@ namespace AE{
 	void WORLD_3DGRID::Update(AT::I64F elapsedTime_ms, const CONTROLLER& C){
 		AT::I32 Count = m_GameObjectPtrs.size();
 		for (AT::I32 iGameObj=0 ; iGameObj < Count ; ++iGameObj){
-			m_GameObjectPtrs[iGameObj]->Update();
+			GAME_OBJECT& GObject = *m_GameObjectPtrs[iGameObj];
+			GObject.Update(elapsedTime_ms);
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -47,9 +49,10 @@ namespace AE{
 	}
 #endif
 	//-----------------------------------------------------------------------------
-	GAME_OBJECT* WORLD_3DGRID::AddGameObject(const AT::I8* sResourceName, AT::VEC3Di InitialPos /*= AT::VEC3Di(0, 0, 0)*/){
-		AT::STACK_ALLOCATOR_UNSAFE::Marker Marker = m_DynamicAllocator.getMarker();
-		GAME_OBJECT* pGameObject = (GAME_OBJECT*)m_DynamicAllocator.alloc(sizeof(GAME_OBJECT));
+	GAME_OBJECT* WORLD_3DGRID::AddGameObject(const AT::I8* sResourceName, AT::VEC3Df InitialPos /*= AT::VEC3Df(0, 0, 0)*/){
+ 		AT::STACK_ALLOCATOR_UNSAFE::Marker Marker = m_DynamicAllocator.getMarker();
+ 		GAME_OBJECT* pGameObject = (GAME_OBJECT*)m_DynamicAllocator.alloc(sizeof(GAME_OBJECT));
+		pGameObject = (GAME_OBJECT*)new(pGameObject)GAME_OBJECT();
 		//--
 		if (!pGameObject->LoadFromResource(*m_pRenderer, *m_pResourceManager, sResourceName)){
 			m_DynamicAllocator.freeToMarker(Marker);
@@ -59,6 +62,23 @@ namespace AE{
 		//--
 		m_GameObjectPtrs.push_back(pGameObject);
 		return pGameObject;
+	}
+	//-----------------------------------------------------------------------------
+	GAME_OBJECT* WORLD_3DGRID::AddGameObject_Light(const AT::I8* sResourceName, AT::VEC3Df InitialPos /*= AT::VEC3Df(0, 0, 0)*/, AT::I32F Radius/* = 1.f*/, const GLfloat Diffuse[4] /*= { 1.f, 1.f, 1.f, 0.7f }*/){
+		AT::STACK_ALLOCATOR_UNSAFE::Marker Marker = m_DynamicAllocator.getMarker();
+		GO_LIGHT* pGameObject = (GO_LIGHT*)m_DynamicAllocator.alloc(sizeof(GO_LIGHT));
+		pGameObject = (GO_LIGHT*)new(pGameObject)GO_LIGHT();
+		//--
+// 		if (!pGameObject->LoadFromResource(*m_pRenderer, *m_pResourceManager, sResourceName)){
+// 			m_DynamicAllocator.freeToMarker(Marker);
+// 			return NULL;
+// 		}
+		pGameObject->Init(*m_pRenderer, *m_pResourceManager, sResourceName, InitialPos, Radius, Diffuse);
+		
+		//--
+		m_GameObjectPtrs.push_back(pGameObject);
+		return pGameObject;
+
 	}
 	//-----------------------------------------------------------------------------
 	void WORLD_3DGRID::LoadLevel(const AT::I8* sLevelName){
@@ -78,17 +98,22 @@ namespace AE{
 			if (!strcmp(node.name(), "gameobject")){
 				pugi::xml_node pos = node.child("position");
 				pugi::xml_node resource = node.child("resource");
-				AddGameObject(resource.attribute("path").value(), AT::VEC3Di(pos.attribute("x").as_int(), pos.attribute("y").as_int(), pos.attribute("z").as_int()));
+				AddGameObject(resource.attribute("path").value(), AT::VEC3Df(pos.attribute("x").as_float(), pos.attribute("y").as_float(), pos.attribute("z").as_float()));
 				continue;
 			}
 			//-- LIGHT
 			if (!strcmp(node.name(), "light")){
+				//--
+				pugi::xml_node resourceNode = node.child("resource");
+				AT::I8 bResourceExist = !resourceNode.empty();
+				//--
 				GLfloat Diffuse[4];
 				pugi::xml_node diffuseNode = node.child("diffuse");
 				Diffuse[0] = diffuseNode.attribute("r").as_float();
 				Diffuse[1] = diffuseNode.attribute("g").as_float();
 				Diffuse[2] = diffuseNode.attribute("b").as_float();
 				Diffuse[3] = diffuseNode.attribute("i").as_float();
+				//--
 				GLfloat Specular[4];
 				pugi::xml_node specularNode = node.child("specular");
 				Specular[0] = specularNode.attribute("r").as_float();
@@ -113,7 +138,10 @@ namespace AE{
 					pugi::xml_node radiusNode = node.child("radius");
 					AT::I32F Radius = radiusNode.text().as_float();
 					//--
-					m_pRenderer->AddLight(RENDERER_ABC::RENDERER_LIGHT_POINT, Diffuse, Specular, Position, Radius);
+					if (bResourceExist)
+						AddGameObject_Light(resourceNode.attribute("path").value(), Position, Radius, Diffuse);
+					else
+						m_pRenderer->AddLight(RENDERER_ABC::RENDERER_LIGHT_POINT, Diffuse, Specular, Position, Radius);
 				}
 
 			}

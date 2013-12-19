@@ -16,7 +16,7 @@ namespace AE{
 	class POINT_LIGHT:public LIGHT{
 	public:
 		POINT_LIGHT();
-		void BuildLight(RENDERER_ABC& Renderer, GLfloat	Diffuse[3], GLfloat Specular[3], AT::VEC3Df Position, AT::I32F Radius);
+		void BuildLight(RENDERER_ABC& Renderer, const GLfloat	Diffuse[3], const GLfloat Specular[3], AT::VEC3Df Position, AT::I32F Radius);
 		inline AT::I32F GetRadius(){ return m_Radius; }
 		inline AT::I32F GetRadiusSquared(){ return m_Radius*m_Radius; }
 	protected:

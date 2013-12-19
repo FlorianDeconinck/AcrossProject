@@ -15,6 +15,7 @@ namespace AE{
 	class CONTROLLER;
 	class GUI;
 	class WORLD_ABC;
+	class LIGHT;
 	class RESOURCE_MANAGER_ABC;
 	class RENDERER_ABC{
 		friend class R_OBJECT;
@@ -38,13 +39,13 @@ namespace AE{
 		virtual void		Update(AT::I64F elapsedTime_ms, GUI& Gui, CONTROLLER& C, WORLD_ABC& W) = 0;
 		virtual void		SwapDrawBuffers()=0;
 		//---
-		virtual R_OBJECT*	CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax)=0;
+		virtual R_OBJECT*	CreateRObject(RESOURCE_MANAGER_ABC& ResourceManager, const char* sResourceName, AT::VEC3Df& BBoxMin, AT::VEC3Df& BBoxMax, SHADER_ABC::SHADERS_ID ShaderID=SHADER_ABC::NO_SHADERS)=0;
 		virtual void		InitRObject(R_OBJECT& R, SHADER_ABC::SHADERS_ID)=0;
 		//---
 		virtual void		KeyboardCB(CONTROLLER::ACROSS_KEY_CODE KC, AT::I8 bDown){}
 		virtual void		WindowTextTitle(AT::I8* Title){}
 		//---
-		virtual void		AddLight(LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius=0.f)=0;
+		virtual LIGHT*		AddLight(LIGHT_TYPE Type, const GLfloat Diffuse[4], const GLfloat Specular[4], AT::VEC3Df PositionOrDirection, AT::I32F Radius = 0.f) = 0;
 		//---
 		inline void			SetDependancies(CONTROLLER* _pC){m_pController=_pC;}
 		inline void			SetMainWindowSettings(HDC _hDC, HWND _hWnd){m_hDC = _hDC; m_hMainWnd = _hWnd;}
@@ -56,6 +57,7 @@ namespace AE{
 														}
 		inline void			SetCameraToDefault(){ SetCamera(&m_DefaultCamera); }
 		inline STATIC_RENDER_OBJECT&		GetScene()			{ return m_Scene; }//UGLY TMP
+		inline AT::STACK_ALLOCATOR_UNSAFE& GetAllocator() { return m_DynamicAllocator; }
 		//---
 		static const	AT::I32 WIDTH = 1280;
 		static const	AT::I32 HEIGHT = 720;

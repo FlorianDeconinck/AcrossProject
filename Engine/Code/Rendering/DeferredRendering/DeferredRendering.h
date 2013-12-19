@@ -109,9 +109,26 @@ namespace AE{
 		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject = NULL);
 	};
 	//-----------------------------------------------------------------------------
+	class DEFERRED_FAKE_EMIT_SHADER :public SHADER_ABC{
+	protected:
+		GLint m_posAttrib;
+	public:
+		//--
+		GLint m_ScreenSizeUniform;
+		GLint m_viewUniform;
+		GLint m_projUniform;
+		GLint m_LightEmit;
+		//--
+		/*virtual*/ void Init(RENDERER_ABC& Renderer);
+		/*virtual*/ void InitObject(const STATIC_RENDER_OBJECT& Scene, R_OBJECT& Object);
+		/*virtual*/ void BindDynamicVertexAttrib(RENDERER_ABC& Renderer, R_OBJECT& RObject);
+		/*virtual*/ void BindDynamicFragmentAttrib(const RENDERER_ABC& Renderer, const R_OBJECT* RObject = NULL);
+	};
+	//-----------------------------------------------------------------------------
 	class R_OBJECT;
 	class POINT_LIGHT;
 	class DIRECTIONAL_LIGHT;
+	class LIGHT;
 	class RENDERER_ABC;
 	class DEFERRED_RENDERER{
 	public :
@@ -125,21 +142,22 @@ namespace AE{
 		DEFERRED_RENDERER() :m_movAngle(0){}
 		//-------------------------------------------------------------------------
 		void Init();
-		void Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects, GLuint postProcessFBO);
-		void AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df Position, AT::I32F Radius);
+		void Render(AT::I64F elapsedTime_ms, RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& RObjects, GLuint postProcessFBO);
+		LIGHT* AddLight(RENDERER_ABC& Renderer, DEFERRED_RENDERER_LIGHT_TYPE Type, const GLfloat Diffuse[4], const GLfloat Specular[4], AT::VEC3Df Position, AT::I32F Radius);
 		//-------------------------------------------------------------------------
 		DEFERRED_TEXTURE_SHADER				m_TexShader;
 		DEFERRED_COLOR_SHADER				m_ColShader;
 		DEFERRED_LIGHT_SPOT_SHADER			m_LightShaderSpot;
 		DEFERRED_LIGHT_DIRECTIONAL_SHADER	m_LightShaderDirectional;
+		DEFERRED_FAKE_EMIT_SHADER			m_LightShaderFakeEmit;
 	private:
 		GBUFFER								m_GBuffer;
 		std::vector<POINT_LIGHT*>			m_PointLights;
 		std::vector<DIRECTIONAL_LIGHT*>		m_DirectionalLights;
 		AT::I32F							m_movAngle;
 		//-------------------------------------------------------------------------
-		void GeometryPass(RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& Objects);
-		void LightingPass(RENDERER_ABC& Renderer, GLuint postProcessFBO);
+		void GeometryPass(RENDERER_ABC& Renderer, const std::vector<R_OBJECT*>& RObjects);
+		void LightingPass(RENDERER_ABC& Renderer, GLuint postProcessFBO, const std::vector<R_OBJECT*>& RObjects);
 		void UpdateLight(AT::I64F elapsedTime_ms);
 	};
 	//-----------------------------------------------------------------------------

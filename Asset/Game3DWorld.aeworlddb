@@ -11,47 +11,776 @@
 				<diffuse r="1" g="1" b="1" i="0.7"/>
 				<specular r="1" g="0.54" b="0.23" i="5"/>
 			</light>
+			<!-- Y = 3 -->
 			<light type="POINT">
-				<position x="0" y="1" z="5"/>
-				<diffuse r="0" g="1" b="0" i="0.7"/>
-				<specular r="1" g="1" b="1" i="5"/>
-				<radius>4.0</radius>
-			</light>
-			<light type="POINT">
-				<position x="0" y="1" z="-5"/>
-				<diffuse r="1" g="0" b="0" i="0.7"/>
-				<specular r="1" g="1" b="1" i="5"/>
-				<radius>4.0</radius>
-			</light>
-			<light type="POINT">
-				<position x="5" y="1" z="0"/>
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="0" y="3" z="5"/>
 				<diffuse r="0" g="0" b="1" i="0.7"/>
 				<specular r="1" g="1" b="1" i="5"/>
 				<radius>4.0</radius>
 			</light>
 			<light type="POINT">
-				<position x="-5" y="1" z="0"/>
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="0" y="3" z="-5"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="5" y="3" z="0"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-5" y="3" z="0"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<!-- Y = 1.5 -->
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="0" y="1.5" z="5"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="0" y="1.5" z="-5"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="5" y="1.5" z="0"/>
+				<diffuse r="0" g="0" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-5" y="1.5" z="0"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<!-- Y = -0.75 -->
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="0" y="-0.75" z="5"/>
+				<diffuse r="0" g="0" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="0" y="-0.75" z="-5"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="5" y="-0.75" z="0"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-5" y="-0.75" z="0"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<!-- Y = -2.25 -->
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="0" y="-2.25" z="5"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="0" y="-2.25" z="-5"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="5" y="-2.25" z="0"/>
+				<diffuse r="0" g="0" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-5" y="-2.25" z="0"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<!-- X = 3 -->
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="3" y="0" z="5"/>
+				<diffuse r="0" g="0" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="3" y="0" z="-5"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="3" y="5" z="0"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-3" y="-5" z="0"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<!-- X = 1.5 -->
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="1.25" y="0" z="5"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="1.25" y="0" z="-5"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="1.25" y="5" z="0"/>
+				<diffuse r="0" g="0" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="1.25" y="-5" z="0"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<!-- X = -0.75 -->
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-1" y="0" z="5"/>
+				<diffuse r="0" g="0" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-1" y="0" z="-5"/>
+				<diffuse r="1" g="1" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-1" y="5" z="0"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-1" y="-5" z="0"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<!-- X = -2.25 -->
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-3" y="0" z="5"/>
+				<diffuse r="0" g="1" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-3" y="0" z="-5"/>
+				<diffuse r="1" g="0" b="0" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-3" y="5" z="0"/>
+				<diffuse r="0" g="0" b="1" i="0.7"/>
+				<specular r="1" g="1" b="1" i="5"/>
+				<radius>4.0</radius>
+			</light>
+			<light type="POINT">			
+				<resource path="Sphere/small_light.aeasset"/>
+				<position x="-3" y="-5" z="0"/>
 				<diffuse r="1" g="1" b="1" i="0.7"/>
 				<specular r="1" g="1" b="1" i="5"/>
 				<radius>4.0</radius>
 			</light>
 			<!-- GAME OBJECT -->
+			<!-- Layer Y = -4-->
+			<gameobject>
+				<position x="-4" y="-4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="-4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="-4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="-4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="-4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- Layer Y = -2-->
+			<gameobject>
+				<position x="-4" y="-2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="-2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="-2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="-2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="-2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="-2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="-2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="-2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="-2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- Layer Y = 0-->
+			<gameobject>
+				<position x="-4" y="0" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="0" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="0" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="0" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="0" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="0" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="0" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="0" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="0" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="0" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="0" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="0" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="0" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="0" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="0" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="0" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="0" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="0" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="0" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="0" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="0" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="0" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="0" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="0" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="0" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- Layer Y = 2-->
+			<gameobject>
+				<position x="-4" y="2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="2" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="2" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
 			<gameobject>
 				<position x="-2" y="2" z="0"/>
 				<resource path="CompanionCube/CompanionCube.aeasset"/>
 			</gameobject>
 			<gameobject>
-				<position x="2" y="1" z="0"/>
-				<resource path="Shape/Shape.aeasset"/>
+				<position x="0" y="2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
 			</gameobject>
 			<gameobject>
-				<position x="0" y="0" z="0"/>
-				<resource path="Floor/floor.aeasset"/>
+				<position x="2" y="2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="2" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="2" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="2" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- Layer Y = 4-->
+			<gameobject>
+				<position x="-4" y="4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="4" z="-4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="4" z="-2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="4" z="0"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="4" z="2"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!-- -->
+			<gameobject>
+				<position x="-4" y="4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="-2" y="4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="0" y="4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="2" y="4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<gameobject>
+				<position x="4" y="4" z="4"/>
+				<resource path="CompanionCube/CompanionCube.aeasset"/>
+			</gameobject>
+			<!--gameobject>
+				<position x="2" y="1" z="0"/>
+				<resource path="Shape/Shape.aeasset"/>
 			</gameobject>
 			<gameobject>
 				<position x="0" y="1.0" z="-5"/>
 				<resource path="StandfordDragon/dragon.aeasset"/>
 			</gameobject>
+			<gameobject>
+				<position x="0" y="0" z="0"/>
+				<resource path="Floor/floor.aeasset"/>
+			</gameobject-->
 		</level>
 	</levels>
 </world>

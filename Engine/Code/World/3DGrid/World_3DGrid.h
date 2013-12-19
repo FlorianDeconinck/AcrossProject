@@ -3,12 +3,16 @@
 //-----------------------------------------------------------------------------
 //Engine
 #include "../../World_Interface.h"
+#include "../../Rendering/DeferredRendering/LightColors.h"
 //Tools
 #include <Singleton.h>
 #include <Vec3D.h>
 #include <StackAllocator.h>
-//stl
+//STL
 #include <vector>
+//GL
+#include <GL/glew.h>
+#include <GL/gl.h>
 //-----------------------------------------------------------------------------
 namespace AE{
 	class GAME_OBJECT;
@@ -30,7 +34,8 @@ namespace AE{
 		/*virtual*/ void		DebugDraw(RENDERER_ABC& R);
 #endif
 		//--
-		GAME_OBJECT*			AddGameObject(const AT::I8* sResourceName, AT::VEC3Di InitialPos = AT::VEC3Di(0, 0, 0));
+		GAME_OBJECT*			AddGameObject(const AT::I8* sResourceName, AT::VEC3Df InitialPos = AT::VEC3Df(0, 0, 0));
+		GAME_OBJECT*			AddGameObject_Light(const AT::I8* sResourceName, AT::VEC3Df InitialPos = AT::VEC3Df(0, 0, 0), AT::I32F Radius = 1.f, const GLfloat Diffuse[4] = DPL::DiffuseWhite);
 		void					LoadLevel(const AT::I8* sLevelName);
 		void					UnloadLevel();
 		//--

@@ -13,7 +13,7 @@ namespace AE{
 															};
 	const GLuint  DIRECTIONAL_LIGHT::m_QuadIndices[6] =		{ 0, 3, 2, 2, 1, 0 };
 	//-----------------------------------------------------------------------------
-	void DIRECTIONAL_LIGHT::BuildLight(RENDERER_ABC& Renderer, GLfloat Diffuse[4], GLfloat Specular[4], AT::VEC3Df Direction){
+	void DIRECTIONAL_LIGHT::BuildLight(RENDERER_ABC& Renderer, const GLfloat Diffuse[4], const GLfloat Specular[4], AT::VEC3Df Direction){
 		//--
 		memcpy(m_Diffuse, Diffuse, 3*sizeof(Diffuse));
 		m_DiffuseIntensity = Diffuse[3];
