@@ -7,7 +7,7 @@ I'll try to write down some thoughts and technical details on how I implement th
 
 ##Demos
 
-[Deferred Rendering](http://www.youtube.com/watch?v=VG5u4h1CPLY) (the video forgot to mention that FXAA is on...)
+[Deferred Rendering](http://www.youtube.com/watch?v=VG5u4h1CPLY) (the video forget to mention that FXAA is on...)
 
 ##Sources
 
