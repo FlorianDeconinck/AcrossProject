@@ -85,7 +85,7 @@ namespace AE{
 		glGetShaderiv(Shader, GL_COMPILE_STATUS, &glCompileStatus);
 		if (glCompileStatus == GL_FALSE){
 			std::cout << "Compilation of " << Name << " fails. See GL's output." << std::endl;
-			Break();
+			// Break();
 		}
 
 		return glCompileStatus == GL_TRUE;
