@@ -85,6 +85,7 @@ namespace AE{
 		glGetShaderiv(Shader, GL_COMPILE_STATUS, &glCompileStatus);
 		if (glCompileStatus == GL_FALSE){
 			std::cout << "Compilation of " << Name << " fails. See GL's output." << std::endl;
+			// Do not break here. Some GPU can't run some shaders but we wanted to launch after all.
 			// Break();
 		}
 
