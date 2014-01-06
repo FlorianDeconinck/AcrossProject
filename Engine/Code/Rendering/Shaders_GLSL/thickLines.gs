@@ -1,4 +1,4 @@
-#version 410
+#version 150
 
 uniform vec2 viewportSize;	//in pixels
 uniform float lineWidth;	//in pixels

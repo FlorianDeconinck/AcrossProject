@@ -1,4 +1,4 @@
-#version 410
+#version 150
 
 in vec3 in_position;
 in vec4 vertex_color;
