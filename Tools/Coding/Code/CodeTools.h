@@ -1,6 +1,7 @@
 #pragma once
 //---------------------------------------------------------------------------
 #include <assert.h>
+#include <iostream>
 //---------------------------------------------------------------------------
 #define TODO(__MSG__) __pragma(message("Warning : "__MSG__))
 //---------------------------------------------------------------------------
@@ -18,8 +19,11 @@ namespace GL_TOOL{
 	static void CheckGLError(){
 #if _DEBUG
 		GLenum err = glGetError();
-		if(err != GL_NO_ERROR)
+		if (err != GL_NO_ERROR)
+		{
+			std::cout << "GLError : " << err << std::endl;
 			Break();
+		}
 #endif
 	}
 }
